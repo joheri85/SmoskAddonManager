@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<config>
+  <Version>2.8.8</Version>
+  <IfaceAddonsFolder>D:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
+  <Splash>.\Resources\Splash.png</Splash>
+  <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
+  <TitleIcon>.\Resources\Title_Icon.ico</TitleIcon>
+  <ElvUI>
+    <CurrentVersion>1.27</CurrentVersion>
+    <DateUpdated>2020-08-21</DateUpdated>
+    <LatestVersion>1.27</LatestVersion>
+  </ElvUI>
+  <Addon>
+    <ID>349130</ID>
+    <Name>(Classic) Maekor Overpower Alert</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2966/216/Maekor-Overpower-Alert.zip</DownloadLink>
+    <Description>Alerts the warrior when overpower is available (regardless of what stance you're in)</Description>
+    <CurrentVersion>Maekor-Overpower-Alert.zip</CurrentVersion>
+    <LatestVersion>Maekor-Overpower-Alert.zip</LatestVersion>
+    <Modules>Maekor-Overpower-Alert</Modules>
+    <Website>https://www.curseforge.com/wow/addons/classic-maekor-overpower-alert</Website>
+  </Addon>
+  <Addon>
+    <ID>325109</ID>
+    <Name>AddOnSkins Classic</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3003/505/AddOnSkins-4.44.zip</DownloadLink>
+    <Description>Collection of Skins for User Interfaces at Tukui.org</Description>
+    <CurrentVersion>4.44</CurrentVersion>
+    <LatestVersion>4.44</LatestVersion>
+    <Modules>AddOnSkins</Modules>
+    <Website>https://www.curseforge.com/wow/addons/addonskins-classic</Website>
+  </Addon>
+  <Addon>
+    <ID>351754</ID>
+    <Name>AdiBags - ClassicItemLevel</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2828/972/AdiBags-ClassicItemLevel-v1.4.zip</DownloadLink>
+    <Description>Adds Classic-compatable item level text to items</Description>
+    <CurrentVersion>v1.4</CurrentVersion>
+    <LatestVersion>v1.4</LatestVersion>
+    <Modules>AdiBags-ClassicItemLevel</Modules>
+    <Website>https://www.curseforge.com/wow/addons/adibags-classicitemlevel</Website>
+  </Addon>
+  <Addon>
+    <ID>390738</ID>
+    <Name>CommunityDKP</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3021/239/CommunityDKP-3.1.3-r52.zip</DownloadLink>
+    <Description>The Premiere DKP Management Tool</Description>
+    <CurrentVersion>3.1.3-r52</CurrentVersion>
+    <LatestVersion>3.2.0-r53</LatestVersion>
+    <Modules>CommunityDKP</Modules>
+    <Website>https://www.curseforge.com/wow/addons/communitydkp</Website>
+  </Addon>
+  <BuffplanningDefault>Nethergarde Keep</BuffplanningDefault>
+  <Addon>
+    <ID>54541</ID>
+    <Name>AddOnSkins</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2916/997/AddOnSkins-4.401.zip</DownloadLink>
+    <Description>Additional skins for AddOns to match the look of ElvUI</Description>
+    <CurrentVersion>4.401</CurrentVersion>
+    <LatestVersion>4.401</LatestVersion>
+    <Modules>AddOnSkins</Modules>
+    <Website>https://www.curseforge.com/wow/addons/addonskins</Website>
+  </Addon>
+</config>

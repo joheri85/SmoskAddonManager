@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<RealmBuffs>
+  <Today>
+    <Buff>
+      <Time>16:30</Time>
+      <Name>Hakkar</Name>
+      <Guild>Helegnaur</Guild>
+      <Reset>No</Reset>
+    </Buff>
+    <Buff>
+      <Time>18:35</Time>
+      <Name>Hakkar</Name>
+      <Guild>Pure</Guild>
+      <Reset>Yes</Reset>
+    </Buff>
+    <Buff>
+      <Time>18:40</Time>
+      <Name>Nefarian</Name>
+      <Guild>Pure</Guild>
+      <Reset>No</Reset>
+    </Buff>
+    <Buff>
+      <Time>19:00</Time>
+      <Name>Onyxia</Name>
+      <Guild>Frostfall</Guild>
+      <Reset>No</Reset>
+    </Buff>
+    <Buff>
+      <Time>19:50</Time>
+      <Name>Hakkar</Name>
+      <Guild>Tankadin</Guild>
+      <Reset>No</Reset>
+    </Buff>
+  </Today>
+</RealmBuffs>
