@@ -1,4 +1,4 @@
-$Version = "2.17.1"
+$Version = "2.17.2"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1795,9 +1795,9 @@ and will open on
     $ResetViewBox.Columns.Add("Instance")
     $ResetViewBox.Columns.Add("Next reset")
     $ResetViewBox.Columns.Add("Date")
-    $ResetViewBox.Columns[0].Width = 100
-    $ResetViewBox.Columns[1].Width = 75
-    $ResetViewBox.Columns[$ResetViewBox.Columns.Count - 1].Width = -2
+    $ResetViewBox.Columns[0].Width = 150
+    $ResetViewBox.Columns[1].Width = 150
+    $ResetViewBox.Columns[2].Width = -2
 
     $i=0
     While ($i -lt 3) {
