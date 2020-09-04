@@ -1,4 +1,4 @@
-$Version = "2.17.2"
+$Version = "2.17.3"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1095,78 +1095,7 @@ Waiting for API response"
 
     })
 
-<#
-    #*** Label Popular addons
-    $LabelPopular = New-Object System.Windows.Forms.Label
-    $LabelPopular.Text = "Popular addons (Click to install)"
-    $LabelPopular.Location  = New-Object System.Drawing.Point(10,540)
-    $LabelPopular.Size = New-Object System.Drawing.Size(320,30)
-    $LabelPopular.TextAlign = "MiddleCenter"
-    $LabelPopular.Anchor = "Bottom,Left"
-    $LabelPopular.BackColor = [System.Drawing.Color]::Transparent
-    $LabelPopular.ForeColor = [System.Drawing.Color]::White
-    $LabelPopular.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
-    $main_form.Controls.Add($LabelPopular)
 
-    #*** Button Popular CommunityDKP
-    $ButtonP1 = New-Object System.Windows.Forms.Button
-    $ButtonP1.Location = New-Object System.Drawing.Size(10,570)
-    $ButtonP1.Size = New-Object System.Drawing.Size(100,40)
-    $ButtonP1.Text = "CommunityDKP"
-    $ButtonP1.FlatStyle = "Popup"
-    $ButtonP1.Anchor = "Bottom,Left"
-    $ButtonP1.ForeColor = $StandardButtonTextColor
-    $ButtonP1.BackColor = $StandardButtonColor
-    $ButtonP1.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
-    $main_form.Controls.Add($ButtonP1)
-
-    $ButtonP1.Add_Click({
-        $LoadSpinner.Visible = $true
-        NewAddon -ID "390738" -ImportOnly $false
-        UpdateAddonsTable
-        $LoadSpinner.Visible = $false
-    })
-
-    #*** Button Popular DBM
-    $ButtonP2 = New-Object System.Windows.Forms.Button
-    $ButtonP2.Location = New-Object System.Drawing.Size(120,570)
-    $ButtonP2.Size = New-Object System.Drawing.Size(100,40)
-    $ButtonP2.Text = "Deadly Boss Mods"
-    $ButtonP2.FlatStyle = "Popup"
-    $ButtonP2.Anchor = "Bottom,Left"
-    $ButtonP2.ForeColor = $StandardButtonTextColor
-    $ButtonP2.BackColor = $StandardButtonColor
-
-    $ButtonP2.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
-    $main_form.Controls.Add($ButtonP2)
-
-    $ButtonP2.Add_Click({
-        $LoadSpinner.Visible = $true
-        NewAddon -ID "3358" -ImportOnly $false
-        UpdateAddonsTable
-        $LoadSpinner.Visible = $false
-    })
-
-    #*** Button Popular Details
-    $ButtonP3 = New-Object System.Windows.Forms.Button
-    $ButtonP3.Location = New-Object System.Drawing.Size(230,570)
-    $ButtonP3.Size = New-Object System.Drawing.Size(100,40)
-    $ButtonP3.Text = "Details! 
-    Damage Meter"
-    $ButtonP3.FlatStyle = "Popup"
-    $ButtonP3.Anchor = "Bottom,Left"
-    $ButtonP3.ForeColor = $StandardButtonTextColor
-    $ButtonP3.BackColor = $StandardButtonColor
-    $ButtonP3.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
-    $main_form.Controls.Add($ButtonP3)
-
-    $ButtonP3.Add_Click({
-        $LoadSpinner.Visible = $true
-        NewAddon -ID "61284" -ImportOnly $false
-        UpdateAddonsTable
-        $LoadSpinner.Visible = $false
-    })
-#>
     #*** ElvUI backdrop
     $LabelElvUIBG = New-Object System.Windows.Forms.Label
     $LabelElvUIBG.Location  = New-Object System.Drawing.Point(10,570)
@@ -1280,64 +1209,7 @@ Waiting for API response"
     $LabelDarkmoonInternal.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelDarkmoonInternal)
     $LabelDarkmoonInternal.BringToFront()
-<#
-    #*** Button Popular WeakAuras2
-    $ButtonP4 = New-Object System.Windows.Forms.Button
-    $ButtonP4.Location = New-Object System.Drawing.Size(10,620)
-    $ButtonP4.Size = New-Object System.Drawing.Size(100,40)
-    $ButtonP4.Text = "WeakAuras 2"
-    $ButtonP4.Anchor = "Bottom,Left"
-    $ButtonP4.FlatStyle = "Popup"
-    $ButtonP4.ForeColor = $StandardButtonTextColor
-    $ButtonP4.BackColor = $StandardButtonColor
-    $ButtonP4.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
-    $main_form.Controls.Add($ButtonP4)
 
-    $ButtonP4.Add_Click({
-        $LoadSpinner.Visible = $true
-        NewAddon -ID "65387" -ImportOnly $false
-        UpdateAddonsTable
-        $LoadSpinner.Visible = $false
-    })
-
-    #*** Button Popular AtlasLoot
-    $ButtonP5 = New-Object System.Windows.Forms.Button
-    $ButtonP5.Location = New-Object System.Drawing.Size(120,620)
-    $ButtonP5.Size = New-Object System.Drawing.Size(100,40)
-    $ButtonP5.Text = "AtlasLootClassic"
-    $ButtonP5.FlatStyle = "Popup"
-    $ButtonP5.Anchor = "Bottom,Left"
-    $ButtonP5.ForeColor = $StandardButtonTextColor
-    $ButtonP5.BackColor = $StandardButtonColor
-    $ButtonP5.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
-    $main_form.Controls.Add($ButtonP5)
-
-    $ButtonP5.Add_Click({
-        $LoadSpinner.Visible = $true
-        NewAddon -ID "326516" -ImportOnly $false
-        UpdateAddonsTable
-        $LoadSpinner.Visible = $false
-    })
-
-    #*** Button Popular Questie
-    $ButtonP6 = New-Object System.Windows.Forms.Button
-    $ButtonP6.Location = New-Object System.Drawing.Size(230,620)
-    $ButtonP6.Size = New-Object System.Drawing.Size(100,40)
-    $ButtonP6.Text = "Questie"
-    $ButtonP6.FlatStyle = "Popup"
-    $ButtonP6.Anchor = "Bottom,Left"
-    $ButtonP6.ForeColor = $StandardButtonTextColor
-    $ButtonP6.BackColor = $StandardButtonColor
-    $ButtonP6.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
-    $main_form.Controls.Add($ButtonP6)
-
-    $ButtonP6.Add_Click({
-        $LoadSpinner.Visible = $true
-        NewAddon -ID "334372" -ImportOnly $false
-        UpdateAddonsTable
-        $LoadSpinner.Visible = $false
-    })
-#>
     #*** Button Import Current addons
     $ButtonImport = New-Object System.Windows.Forms.Button
     $ButtonImport.Location = New-Object System.Drawing.Size(10,755)
@@ -1368,24 +1240,25 @@ Waiting for API response"
         }
     })
 
-     #*** Label Version
-     $LabelVersion = New-Object System.Windows.Forms.Label
-     $LabelVersion.Text = "v " + $Version
-     #$LabelVersion.Anchor = "Bottom,Right"
-     $LabelVersion.Location  = New-Object System.Drawing.Point(5,2)
-     $LabelVersion.Size = New-Object System.Drawing.Size(120,20)
-     $LabelVersion.TextAlign = "MiddleLeft"
-     $LabelVersion.BackColor = [System.Drawing.Color]::Transparent
-     if ($version -eq $SMOSKVersion.smosk.version) {
-        $LabelVersion.ForeColor = [System.Drawing.Color]::LightGray
-     } else {
-        $LabelVersion.ForeColor = [System.Drawing.Color]::Orange
-     }
-     $LabelVersion.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Bold)
-     $main_form.Controls.Add($LabelVersion)
-     $LabelVersion.BringToFront()
+    #*** Label Version
+    $LabelVersion = New-Object System.Windows.Forms.Label
+    $LabelVersion.Text = "v " + $Version
+    $LabelVersion.Location  = New-Object System.Drawing.Point(5,2)
+    $LabelVersion.Size = New-Object System.Drawing.Size(120,20)
+    $LabelVersion.TextAlign = "MiddleLeft"
+    $ToolTipLabelVersion = New-Object System.Windows.Forms.ToolTip
+    $ToolTipLabelVersion.SetToolTip($LabelVersion,"Click to uppdate SMOSK!")
+    $LabelVersion.BackColor = [System.Drawing.Color]::Transparent
+    if ($version -eq $SMOSKVersion.smosk.version) {
+    $LabelVersion.ForeColor = [System.Drawing.Color]::LightGray
+    } else {
+    $LabelVersion.ForeColor = [System.Drawing.Color]::Orange
+    }
+    $LabelVersion.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Bold)
+    $main_form.Controls.Add($LabelVersion)
+    $LabelVersion.BringToFront()
 
-     $LabelVersion.add_Click(
+    $LabelVersion.add_Click(
         {
             $VK_SHIFT = 0x10
             $ShiftIsDown =  (Get-KeyState($VK_SHIFT))        
