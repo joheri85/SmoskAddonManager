@@ -1247,7 +1247,7 @@ Waiting for API response"
     $LabelVersion.Size = New-Object System.Drawing.Size(120,20)
     $LabelVersion.TextAlign = "MiddleLeft"
     $ToolTipLabelVersion = New-Object System.Windows.Forms.ToolTip
-    $ToolTipLabelVersion.SetToolTip($LabelVersion,"Click to uppdate SMOSK!")
+    $ToolTipLabelVersion.SetToolTip($LabelVersion,"Click to update SMOSK!")
     $LabelVersion.BackColor = [System.Drawing.Color]::Transparent
     if ($version -eq $SMOSKVersion.smosk.version) {
     $LabelVersion.ForeColor = [System.Drawing.Color]::LightGray
