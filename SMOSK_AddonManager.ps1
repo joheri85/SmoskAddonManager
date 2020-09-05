@@ -1,4 +1,4 @@
-$Version = "2.18.0"
+$Version = "2.18.1"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -811,6 +811,26 @@ Classic Addon Manager"
         Start-Process "https://discord.gg/zK2x5XX"
     })
 
+    $ButtonGit = New-Object System.Windows.Forms.Button
+    $ButtonGit.Name = "ButtonDiscord"
+    $ButtonGit.Anchor = "Top","Left"
+    $ButtonGit.Location = New-Object System.Drawing.Point(780, 7)
+    $ButtonGit.Size = New-Object System.Drawing.Size(20, 20)
+
+    $ButtonGit.FlatStyle = "PopUp"
+    
+    $ButtonGit.UseVisualStyleBackColor = $true
+    $ButtonGit.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\GitHub-Mark.png")
+    $ButtonGit.BackgroundImageLayout = "Zoom"
+    $ButtonGit.ForeColor = [System.Drawing.Color]::White
+    
+
+    
+    $ButtonGit.Add_Click({
+        Start-Process "https://discord.gg/zK2x5XX"
+    })
+
+
     #*** Button for changelog
     $ButtonChangelog = New-Object System.Windows.Forms.Button
     $ButtonChangelog.Name = "ButtonDiscord"
@@ -839,8 +859,10 @@ Classic Addon Manager"
     $main_form.Controls.Add($ButtonHelpMainForm)
     $main_form.Controls.Add($ButtonCloseMainForm)
     $main_form.Controls.Add($ButtonDiscord)
+    $main_form.Controls.Add($ButtonGit)
     $main_form.Controls.Add($ButtonChangelog)
     $ButtonDiscord.BringToFront()
+    $ButtonGit.BringToFront()
     $ButtonChangelog.BringToFront()
     $ButtonHelpMainForm.BringToFront()
     $ButtonMinimizeMainForm.BringToFront()
@@ -860,18 +882,7 @@ Classic Addon Manager"
     $LoadSpinner.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LoadSpinner)
     $LoadSpinner.BringToFront()
-<#
-     #*** LoadSpinnerProgress
-     $LoadSpinnerProgress = New-Object System.Windows.Forms.Label
-     $LoadSpinnerProgress.Location  = New-Object System.Drawing.Point(370,235)
-     $LoadSpinnerProgress.Size = New-Object System.Drawing.Size(250,5)
-     $LoadSpinnerProgress.Anchor = "Bottom,Right"
-     $LoadSpinnerProgress.BackColor = [System.Drawing.Color]::White
-     $LoadSpinnerProgress.ForeColor = [System.Drawing.Color]::White
-     $LoadSpinnerProgress.BorderStyle = "Fixed3D"
-     $main_form.Controls.Add($LoadSpinnerProgress)
-     $LoadSpinnerProgress.BringToFront()
-#>
+
     #*** Label InstalledAddons
     $LabelInstalledAddons = New-Object System.Windows.Forms.Label
 
@@ -1419,20 +1430,7 @@ Waiting for API response"
     $LabelIfaceAddons.ForeColor = [System.Drawing.Color]::White
     $LabelIfaceAddons.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 9, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelIfaceAddons)
-<#
-    #*** Textbox IfaceAddonsPath
-    $textBoxIfaceAddonsPath = New-Object System.Windows.Forms.Label
-    $textBoxIfaceAddonsPath.Location = New-Object System.Drawing.Size(10,715)
-    $textBoxIfaceAddonsPath.Size = New-Object System.Drawing.Size(300,30)
-    #$textBoxIfaceAddonsPath.Enabled = $false
-    $textBoxIfaceAddonsPath.Anchor = "Bottom,Left"
-    $textBoxIfaceAddonsPath.TextAlign = "TopLeft"
-    $textBoxIfaceAddonsPath.BackColor = [System.Drawing.Color]::Transparent
-    $textBoxIfaceAddonsPath.ForeColor = [System.Drawing.Color]::White
-    $textBoxIfaceAddonsPath.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 9, [System.Drawing.FontStyle]::Regular)
-    $textBoxIfaceAddonsPath.Text = $Addons.config.IfaceAddonsFolder
-    $main_form.Controls.Add($textBoxIfaceAddonsPath)
-#>
+
     #*** Button IfaceAddonsPatch 
     $ButtonIfaceAddonsPath = New-Object System.Windows.Forms.Button
     $ButtonIfaceAddonsPath.Location = New-Object System.Drawing.Size(10,720)
@@ -2408,7 +2406,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "3.0.3") {
+    if ($Addons.config.Version -ne "3.0.4") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2431,7 +2429,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "3.0.3"
+        $Addons.config.Version = "3.0.4"
         $Addons.Save($XMLPath)
 
     }
