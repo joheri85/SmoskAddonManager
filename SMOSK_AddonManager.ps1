@@ -1450,6 +1450,7 @@ Waiting for API response"
     })
 
     UpdateAddonsTable
+    start-sleep -Seconds 3
     $LoadSpinner.Visible = $false
     $SplashScreen.Hide()
     $ListViewBox.TabIndex = 0
