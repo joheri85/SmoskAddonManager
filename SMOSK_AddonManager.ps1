@@ -1,4 +1,4 @@
-$Version = "2.17.3"
+$Version = "2.17.4"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -2407,7 +2407,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "2.9.0") {
+    if ($Addons.config.Version -ne "2.9.2") {
        
         $url = "http://www.smosk.net/downloads/AddonManager.zip"
         $outfile = ".\Downloads\updater.zip"
@@ -2420,6 +2420,7 @@ Function PullNewResources {
         Copy-Item -Path ".\Downloads\AddonManager\Resources\close.png" -Destination ".\Resources\close.png" -Recurse -Force
         Copy-Item -Path ".\Downloads\AddonManager\Resources\minimize.png" -Destination ".\Resources\minimize.png" -Recurse -Force
         Copy-Item -Path ".\Downloads\AddonManager\Resources\search.png" -Destination ".\Resources\search.png" -Recurse -Force
+        Copy-Item -Path ".\Downloads\AddonManager\Resources\splash.png" -Destination ".\Resources\splash.png" -Recurse -Force
         Copy-Item -Path ".\Downloads\AddonManager\Resources\help.png" -Destination ".\Resources\help.png" -Recurse -Force
         Copy-Item -Path ".\Downloads\AddonManager\Resources\SMOSK_help.pdf" -Destination ".\Resources\SMOSK_help.pdf" -Recurse -Force
         Copy-Item -Path ".\Downloads\AddonManager\Resources\Discord.png" -Destination ".\Resources\Discord.png" -Recurse -Force
@@ -2433,7 +2434,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "2.9.0"
+        $Addons.config.Version = "2.9.2"
         $Addons.Save($XMLPath)
 
     }
