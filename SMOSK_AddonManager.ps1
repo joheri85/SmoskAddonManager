@@ -2409,7 +2409,7 @@ Function PullNewResources {
     #*** pull new resources if missing
     if ($Addons.config.Version -ne "2.9.2") {
        
-        $url = "http://www.smosk.net/downloads/AddonManager.zip"
+        $url = "https://www.smosk.net/downloads/AddonManager.zip"
         $outfile = ".\Downloads\updater.zip"
 
         Invoke-WebRequest -Uri $url -OutFile $outfile
@@ -2460,7 +2460,7 @@ $Addons.Load($XMLPath)
 $OSInfo = (get-computerinfo | select-object -property OSName, OSVersion)
 
 $SMOSKVersion = New-Object System.Xml.XmlDocument
-$SMOSKVersionPath = "http://www.smosk.net/downloads/version.xml"
+$SMOSKVersionPath = "https://www.smosk.net/downloads/version.xml"
 $SMOSKVersion.Load($SMOSKVersionPath)
 
 #*** Download latest updater
