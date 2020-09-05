@@ -1,4 +1,4 @@
-$Version = "2.18.3"
+﻿$Version = "2.18.4"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1254,24 +1254,29 @@ Waiting for API response"
     })
 
     #*** Label Version
-    $LabelVersion = New-Object System.Windows.Forms.Label
-    $LabelVersion.Text = "v " + $Version
-    $LabelVersion.Location  = New-Object System.Drawing.Point(5,2)
-    $LabelVersion.Size = New-Object System.Drawing.Size(120,20)
-    $LabelVersion.TextAlign = "MiddleLeft"
-    $ToolTipLabelVersion = New-Object System.Windows.Forms.ToolTip
-    $ToolTipLabelVersion.SetToolTip($LabelVersion,"Click to update SMOSK!")
-    $LabelVersion.BackColor = [System.Drawing.Color]::Transparent
+    $ButtonVersion = New-Object System.Windows.Forms.Button
+    $ButtonVersion.Text = "v " + $Version
+    $ButtonVersion.Location  = New-Object System.Drawing.Point(3,3)
+    $ButtonVersion.Size = New-Object System.Drawing.Size(80,20)
+    $ButtonVersion.TextAlign = "MiddleLeft"
+    $ToolTipButtonVersion = New-Object System.Windows.Forms.ToolTip
+    $ToolTipButtonVersion.SetToolTip($ButtonVersion,"Click to update SMOSK!")
+    $ButtonVersion.BackColor = [System.Drawing.Color]::Black
     if ($version -eq $SMOSKVersion.smosk.version) {
-    $LabelVersion.ForeColor = [System.Drawing.Color]::LightGray
+    $ButtonVersion.ForeColor = [System.Drawing.Color]::LightGray
+    $ButtonVersion.BackgroundImage = $null
     } else {
-    $LabelVersion.ForeColor = [System.Drawing.Color]::Orange
-    }
-    $LabelVersion.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Bold)
-    $main_form.Controls.Add($LabelVersion)
-    $LabelVersion.BringToFront()
+    $ButtonVersion.ForeColor = [System.Drawing.Color]::Orange
+    $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update.png")
 
-    $LabelVersion.add_Click(
+    }
+    $ButtonVersion.BackgroundImageLayout = "Zoom"
+    $ButtonVersion.FlatStyle = "Popup"
+    $ButtonVersion.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Bold)
+    $main_form.Controls.Add($ButtonVersion)
+    $ButtonVersion.BringToFront()
+
+    $ButtonVersion.add_Click(
         {
             $VK_SHIFT = 0x10
             $ShiftIsDown =  (Get-KeyState($VK_SHIFT))        
@@ -1695,11 +1700,13 @@ and will open on
     #*** Version
     #$SMOSKVersion.Load($SMOSKVersionPath)
     if ($version -eq $SMOSKVersion.smosk.changelog.logentry[0].version) {
-        $LabelVersion.ForeColor = [System.Drawing.Color]::LightGray
-        $LabelVersion.Text = "v " + $Version
+        $ButtonVersion.ForeColor = [System.Drawing.Color]::LightGray
+        $ButtonVersion.BackgroundImage = $null
+        $ButtonVersion.Text = "v " + $Version
     } else {
-        $LabelVersion.ForeColor = [System.Drawing.Color]::Orange
-        $LabelVersion.Text = "[Update available]"
+        $ButtonVersion.ForeColor = [System.Drawing.Color]::Orange
+        $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update.png")
+        $ButtonVersion.Text = "v " + $Version
     }
 
     
@@ -2407,7 +2414,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "3.0.8") {
+    if ($Addons.config.Version -ne "3.0.9") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2430,7 +2437,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "3.0.8"
+        $Addons.config.Version = "3.0.9"
         $Addons.Save($XMLPath)
 
     }

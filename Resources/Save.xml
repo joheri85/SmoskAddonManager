@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-  <Version>3.0.3</Version>
+  <Version>3.0.8</Version>
   <IfaceAddonsFolder>D:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
   <Splash>.\Resources\Splash.png</Splash>
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
@@ -77,7 +77,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3032/394/NeatPlates-1.13.5.10.zip</DownloadLink>
     <Description>NeatPlates is a nameplate addon that works with both the Classic and Modern version of WoW</Description>
     <CurrentVersion>1.13.5.10</CurrentVersion>
-    <LatestVersion>1.13.5.10</LatestVersion>
+    <LatestVersion>1.13.5.11</LatestVersion>
     <Modules>NeatPlatesHub,NeatPlatesWidgets,NeatPlates_Alvara,NeatPlates_BlizzardPlates,NeatPlates_ClassicPlates,NeatPlates_Graphite,NeatPlates_Grey,NeatPlates_Neon,NeatPlates_Quatre,NeatPlates_Renaitre,NeatPlates_Roth,NeatPlates_Simple,NeatPlates_Slim_Horizontal,NeatPlates_Slim_Vertical,NeatPlates</Modules>
     <Website>https://www.curseforge.com/wow/addons/neatplates</Website>
   </Addon>

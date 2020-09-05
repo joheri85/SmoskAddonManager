@@ -8,6 +8,12 @@
       <Reset>No</Reset>
     </Buff>
     <Buff>
+      <Time>18:55</Time>
+      <Name>Hakkar</Name>
+      <Guild>Oomaso</Guild>
+      <Reset>No</Reset>
+    </Buff>
+    <Buff>
       <Time>19:00</Time>
       <Name>Nefarian</Name>
       <Guild>Warpbeast</Guild>
