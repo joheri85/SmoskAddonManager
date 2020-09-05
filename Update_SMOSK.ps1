@@ -121,7 +121,8 @@ click update to close the program and continue"
     $LabelStatus.Location  = New-Object System.Drawing.Point(2,120)
     $LabelStatus.Size = New-Object System.Drawing.Size(496,50)
     $LabelStatus.TextAlign = "MiddleCenter"
-    $LabelStatus.BackColor = [System.Drawing.Color]::Black
+    $LabelStatus.Image = [System.Drawing.Image]::FromFile(".\Resources\splash_text_bg.png")
+    $LabelStatus.BackColor = [System.Drawing.Color]::Transparent
     $LabelStatus.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffa500")
     $LabelStatus.Font = [System.Drawing.Font]::new("Georgia", 10, [System.Drawing.FontStyle]::Bold)
     $CloseSMOSK.Controls.Add($LabelStatus)

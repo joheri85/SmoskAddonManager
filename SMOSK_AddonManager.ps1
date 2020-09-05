@@ -1,4 +1,4 @@
-$Version = "2.18.1"
+$Version = "2.18.3"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -827,7 +827,7 @@ Classic Addon Manager"
 
     
     $ButtonGit.Add_Click({
-        Start-Process "https://discord.gg/zK2x5XX"
+        Start-Process "https://github.com/joheri85/SmoskAddonManager"
     })
 
 
@@ -835,15 +835,16 @@ Classic Addon Manager"
     $ButtonChangelog = New-Object System.Windows.Forms.Button
     $ButtonChangelog.Name = "ButtonDiscord"
     $ButtonChangelog.Anchor = "Top","Left"
-    $ButtonChangelog.Location = New-Object System.Drawing.Point(685, 7)
-    $ButtonChangelog.Size = New-Object System.Drawing.Size(85, 20)
-    $ButtonChangelog.Text = "ChangeLog"
+    $ButtonChangelog.Location = New-Object System.Drawing.Point(750, 7)
+    $ButtonChangelog.Size = New-Object System.Drawing.Size(20, 20)
     $ButtonChangelog.FlatStyle = "PopUp"
     $ButtonChangelog.TextAlign = "MiddleCenter"
+    $ButtonChangelog.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\log.png")
+    $ButtonChangelog.BackgroundImageLayout = "Zoom"
     $ButtonChangelog.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
     $ButtonChangelog.UseVisualStyleBackColor = $true
 
-    $ButtonChangelog.ForeColor = [System.Drawing.Color]::Orange
+    $ButtonChangelog.BackColor = [System.Drawing.Color]::Black
     
 
     
@@ -2406,7 +2407,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "3.0.5") {
+    if ($Addons.config.Version -ne "3.0.8") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2429,7 +2430,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "3.0.5"
+        $Addons.config.Version = "3.0.8"
         $Addons.Save($XMLPath)
 
     }
