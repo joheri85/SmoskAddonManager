@@ -1,4 +1,4 @@
-$Version = "2.17.5"
+$Version = "2.18.0"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -282,7 +282,7 @@ Function DrawGUI {
     $LabelSplash = New-Object System.Windows.Forms.Label
     $LabelSplash.Text = "SMOSK
 Classic Addon Manager" 
-    $LabelSplash.Location  = New-Object System.Drawing.Point(0,70)
+    $LabelSplash.Location  = New-Object System.Drawing.Point(0,30)
     $LabelSplash.Size = New-Object System.Drawing.Size(500,50)
     $LabelSplash.TextAlign = "MiddleCenter"
     $LabelSplash.BackColor = [System.Drawing.Color]::Transparent
@@ -292,7 +292,7 @@ Classic Addon Manager"
 
      #*** Label Splash
      $LabelSplashStatus = New-Object System.Windows.Forms.Label
-     $LabelSplashStatus.Text = "Waiting for CurseForge API..." 
+     $LabelSplashStatus.Text = "Loading Addon list" 
      $LabelSplashStatus.Location  = New-Object System.Drawing.Point(0,180)
      $LabelSplashStatus.Size = New-Object System.Drawing.Size(500,50)
      $LabelSplashStatus.TextAlign = "MiddleCenter"
@@ -313,6 +313,7 @@ Classic Addon Manager"
 #>
     $SplashScreen.Show()
     $LabelSplash.Update()
+    Start-Sleep -Seconds 3
 
     #*** Change Form ******************************************************************************************************
     $change_form = New-Object System.Windows.Forms.Form
@@ -1450,7 +1451,6 @@ Waiting for API response"
     })
 
     UpdateAddonsTable
-    start-sleep -Seconds 3
     $LoadSpinner.Visible = $false
     $SplashScreen.Hide()
     $ListViewBox.TabIndex = 0
@@ -2408,7 +2408,11 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "2.9.2") {
+    if ($Addons.config.Version -ne "3.0.0") {
+
+        $Updater = New-Object System.Xml.XmlDocument
+        $XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
+        $Updater.Load($XMLPathUpdater)
        
         $url = "https://www.smosk.net/downloads/AddonManager.zip"
         $outfile = ".\Downloads\updater.zip"
@@ -2417,25 +2421,17 @@ Function PullNewResources {
 
         Unzip -outpath ".\Downloads\" -zipfile $outfile
 
-        Copy-Item -Path ".\Downloads\AddonManager\Resources\wallpaper_search.png" -Destination ".\Resources\wallpaper_search.png" -Recurse -Force
-        Copy-Item -Path ".\Downloads\AddonManager\Resources\close.png" -Destination ".\Resources\close.png" -Recurse -Force
-        Copy-Item -Path ".\Downloads\AddonManager\Resources\minimize.png" -Destination ".\Resources\minimize.png" -Recurse -Force
-        Copy-Item -Path ".\Downloads\AddonManager\Resources\search.png" -Destination ".\Resources\search.png" -Recurse -Force
-        Copy-Item -Path ".\Downloads\AddonManager\Resources\splash.png" -Destination ".\Resources\splash.png" -Recurse -Force
-        Copy-Item -Path ".\Downloads\AddonManager\Resources\help.png" -Destination ".\Resources\help.png" -Recurse -Force
-        Copy-Item -Path ".\Downloads\AddonManager\Resources\SMOSK_help.pdf" -Destination ".\Resources\SMOSK_help.pdf" -Recurse -Force
-        Copy-Item -Path ".\Downloads\AddonManager\Resources\Discord.png" -Destination ".\Resources\Discord.png" -Recurse -Force
-        Copy-Item -Path ".\Downloads\AddonManager\Resources\Updating.png" -Destination ".\Resources\Updating.png" -Recurse -Force
+        foreach ($file in $Updater.files.file) {
+            Copy-Item -Path $file.from -Destination $file.to -Recurse -Force
+        }
 
-        Copy-Item -Path ".\Downloads\AddonManager\BuffSchedules\" -Destination ".\" -Recurse -Force
 
-        Copy-Item -Path ".\Downloads\AddonManager\Update_SMOSK.exe" -Destination ".\Update_SMOSK.exe" -Recurse -Force
-
+        #*** Cleanup
         Remove-Item -LiteralPath ".\Downloads\AddonManager\" -Force -Recurse
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "2.9.2"
+        $Addons.config.Version = "3.0.0"
         $Addons.Save($XMLPath)
 
     }
@@ -2454,6 +2450,8 @@ $ErrorActionPreference = "Stop"
 $Addons = New-Object System.Xml.XmlDocument
 $XMLPath = ".\Resources\Save.xml"
 $Addons.Load($XMLPath)
+
+
 
 
 

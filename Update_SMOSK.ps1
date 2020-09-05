@@ -21,7 +21,7 @@ function Unzip
 Function update {
 
 
-    $url = "http://www.smosk.net/downloads/AddonManager.zip"
+    $url = "https://www.smosk.net/downloads/AddonManager.zip"
     $outfile = ".\Downloads\updater.zip"
 
     if (Test-Path .\Downloads\AddonManager) {
@@ -37,16 +37,9 @@ Function update {
 
     Unzip -outpath ".\Downloads\" -zipfile $outfile
 
-    Copy-Item -Path ".\Downloads\AddonManager\SMOSK.exe" -Destination .\SMOSK.exe -Recurse -Force
+    Copy-Item -Path ".\Downloads\AddonManager\SMOSK.exe" -Destination ".\SMOSK.exe" -Recurse -Force
     Copy-Item -Path ".\Downloads\AddonManager\Uncompiled script\SMOSK_AddonManager.ps1" -Destination ".\Uncompiled script\SMOSK_AddonManager.ps1" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Uncompiled script\Update_SMOSK.ps1" -Destination ".\Uncompiled script\Update_SMOSK.ps1" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Resources\Title_Icon.ico" -Destination ".\Resources\Title_Icon.ico" -Recurse -Force
-    #Copy-Item -Path ".\Downloads\AddonManager\Resources\Splash.png" -Destination ".\Resources\Splash.png" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Resources\Wallpaper.png" -Destination ".\Resources\wallpaper.png" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Resources\wallpaper_search.png" -Destination ".\Resources\wallpaper_search.png" -Recurse -Force
-    #Copy-Item -Path ".\Downloads\AddonManager\Resources\close.png" -Destination ".\Resources\close.png" -Recurse -Force
-    #Copy-Item -Path ".\Downloads\AddonManager\Resources\minimize.png" -Destination ".\Resources\minimize.png" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Resources\search.png" -Destination ".\Resources\search.png" -Recurse -Force
+
 
     Remove-Item -LiteralPath ".\Downloads\AddonManager\" -Force -Recurse
     Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
@@ -124,10 +117,10 @@ Function DrawGUI {
     $LabelStatus = New-Object System.Windows.Forms.Label
     $LabelStatus.Text = "Smosk.exe is still running
 click update to close the program and continue" 
-    $LabelStatus.Location  = New-Object System.Drawing.Point(0,100)
-    $LabelStatus.Size = New-Object System.Drawing.Size(500,50)
+    $LabelStatus.Location  = New-Object System.Drawing.Point(2,120)
+    $LabelStatus.Size = New-Object System.Drawing.Size(496,50)
     $LabelStatus.TextAlign = "MiddleCenter"
-    $LabelStatus.BackColor = [System.Drawing.Color]::Transparent
+    $LabelStatus.BackColor = [System.Drawing.Color]::Black
     $LabelStatus.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffa500")
     $LabelStatus.Font = [System.Drawing.Font]::new("Georgia", 10, [System.Drawing.FontStyle]::Bold)
     $CloseSMOSK.Controls.Add($LabelStatus)
