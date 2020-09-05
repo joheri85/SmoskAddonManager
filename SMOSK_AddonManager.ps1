@@ -2408,7 +2408,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "3.0.0") {
+    if ($Addons.config.Version -ne "3.0.3") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2431,7 +2431,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "3.0.0"
+        $Addons.config.Version = "3.0.3"
         $Addons.Save($XMLPath)
 
     }

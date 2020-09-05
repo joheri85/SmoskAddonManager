@@ -44,7 +44,8 @@ Function update {
     Remove-Item -LiteralPath ".\Downloads\AddonManager\" -Force -Recurse
     Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
-    [System.Windows.MessageBox]::Show("Updated to latest Version of SMOSK!",'SMOSK! Updater','OK','Information')
+   
+    #[System.Windows.MessageBox]::Show("Updated to latest Version of SMOSK!",'SMOSK! Updater','OK','Information')
 
 }
 
@@ -139,13 +140,20 @@ click update to close the program and continue"
     $CloseSMOSK.Controls.Add($ButtonContinue)
 
     $ButtonContinue.Add_Click({
-        
+        if ($Global:Updated -eq 0) {
+            $ButtonContinue.Enabled = $false
+            $LabelStatus.text = "Updating.."
+            get-process | where-object {$_.path -eq (resolve-path -LiteralPath ".\SMOSK.exe").Path} | Stop-Process -Force
+            update
+            $LabelStatus.Text = "Updated to latest Version of SMOSK!"
+            $ButtonContinue.Text = "Close and start SMOSK!"
+            $ButtonContinue.Enabled = $true
+            $Global:Updated = 1
             
-        get-process | where-object {$_.path -eq (resolve-path -LiteralPath ".\SMOSK.exe").Path} | Stop-Process -Force
-        update
-        Start-Process ".\SMOSK.exe"
-        $CloseSMOSK.Dispose()
-        
+        } else {
+            Start-Process ".\SMOSK.exe"
+            $CloseSMOSK.Dispose()
+        }
     })
 
  
@@ -164,6 +172,7 @@ click update to close the program and continue"
 try {
 
     if(get-process | where-object {$_.path -eq (resolve-path -LiteralPath ".\SMOSK.exe").Path}){
+        $Global:Updated = 0
         DrawGUI
     } else {
         update
