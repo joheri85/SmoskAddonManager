@@ -1,4 +1,4 @@
-﻿$Version = "2.19.0"
+﻿$Version = "2.19.2"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -242,7 +242,7 @@ Function DrawGUI {
 
     #*** colors
     $CreamText = [System.Drawing.ColorTranslator]::FromHtml("#f1c898")
-    $StandardButtonColor = [System.Drawing.ColorTranslator]::FromHtml("#343434")
+    $StandardButtonColor = [System.Drawing.ColorTranslator]::FromHtml("#212121")
     $StandardButtonTextColor = [System.Drawing.Color]::Snow
 
     if ($null -eq $Addons.config.HighlightFont) {
@@ -427,7 +427,7 @@ Classic Addon Manager"
     $LabelMoveSearchForm.BorderStyle = "None"
     $LabelMoveSearchForm.Text = "SMOSK - Classic Addon Manager"
     $LabelMoveSearchForm.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
-    $LabelMoveSearchForm.ForeColor = $CreamText
+    $LabelMoveSearchForm.ForeColor = [System.Drawing.Color]::White
     $LabelMoveSearchForm.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
     
     $LabelMoveSearchForm.Add_MouseDown( { 
@@ -704,7 +704,7 @@ Classic Addon Manager"
     $LabelMoveMainForm.BorderStyle = "None"
     $LabelMoveMainForm.Text = "SMOSK - Classic Addon Manager"
     $LabelMoveMainForm.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
-    $LabelMoveMainForm.ForeColor = $CreamText
+    $LabelMoveMainForm.ForeColor = [System.Drawing.Color]::White
     $LabelMoveMainForm.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
     
     $LabelMoveMainForm.Add_MouseDown( { 
@@ -887,7 +887,7 @@ Classic Addon Manager"
 
     #*** Label LegendSelected Color
     $LabelSelectedColor = New-Object System.Windows.Forms.Label
-    $LabelSelectedColor.Location  = New-Object System.Drawing.Point(710,35)
+    $LabelSelectedColor.Location  = New-Object System.Drawing.Point(710,45)
     $LabelSelectedColor.Size = New-Object System.Drawing.Size(10,10)
     $LabelSelectedColor.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#0078d7")
     $LabelSelectedColor.BorderStyle = "FixedSingle"
@@ -897,7 +897,7 @@ Classic Addon Manager"
     #*** Label LegendSelected Text
     $LabelSelectedText = New-Object System.Windows.Forms.Label
     $LabelSelectedText.Text = "Selected"
-    $LabelSelectedText.Location  = New-Object System.Drawing.Point(720,30)
+    $LabelSelectedText.Location  = New-Object System.Drawing.Point(720,40)
     $LabelSelectedText.Size = New-Object System.Drawing.Size(60,20)
     $LabelSelectedText.TextAlign = "MiddleLeft"
     $LabelSelectedText.Anchor = "Top,Right"
@@ -908,7 +908,7 @@ Classic Addon Manager"
 
     #*** Label LegendUpToDate Color
     $LabelUpToDateColor = New-Object System.Windows.Forms.Label
-    $LabelUpToDateColor.Location  = New-Object System.Drawing.Point(790,35)
+    $LabelUpToDateColor.Location  = New-Object System.Drawing.Point(790,45)
     $LabelUpToDateColor.Size = New-Object System.Drawing.Size(10,10)
     $LabelUpToDateColor.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#c7c7c7")
     $LabelUpToDateColor.BorderStyle = "FixedSingle"
@@ -918,7 +918,7 @@ Classic Addon Manager"
     #*** Label LegendUpToDate Text
     $LabelUpToDateText = New-Object System.Windows.Forms.Label
     $LabelUpToDateText.Text = "Up to date"
-    $LabelUpToDateText.Location  = New-Object System.Drawing.Point(800,30)
+    $LabelUpToDateText.Location  = New-Object System.Drawing.Point(800,40)
     $LabelUpToDateText.Size = New-Object System.Drawing.Size(60,20)
     $LabelUpToDateText.TextAlign = "MiddleLeft"
     $LabelUpToDateText.Anchor = "Top,Right"
@@ -929,7 +929,7 @@ Classic Addon Manager"
 
     #*** Label LegendUpdateAvailable Color
     $LabelUpdateAvailableText = New-Object System.Windows.Forms.Label
-    $LabelUpdateAvailableText.Location  = New-Object System.Drawing.Point(870,35)
+    $LabelUpdateAvailableText.Location  = New-Object System.Drawing.Point(870,45)
     $LabelUpdateAvailableText.Size = New-Object System.Drawing.Size(10,10)
     $LabelUpdateAvailableText.BackColor = [System.Drawing.Color]::Orange
     $LabelUpdateAvailableText.BorderStyle = "FixedSingle"
@@ -939,7 +939,7 @@ Classic Addon Manager"
     #*** Label LegendUpToDate Text
     $LabelUpdateAvailableColor = New-Object System.Windows.Forms.Label
     $LabelUpdateAvailableColor.Text = "Update available"
-    $LabelUpdateAvailableColor.Location  = New-Object System.Drawing.Point(880,30)
+    $LabelUpdateAvailableColor.Location  = New-Object System.Drawing.Point(880,40)
     $LabelUpdateAvailableColor.Size = New-Object System.Drawing.Size(100,20)
     $LabelUpdateAvailableColor.TextAlign = "MiddleLeft"
     $LabelUpdateAvailableColor.Anchor = "Top,Right"
@@ -2416,7 +2416,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "3.0.10") {
+    if ($Addons.config.Version -ne "3.0.12") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2439,7 +2439,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "3.0.10"
+        $Addons.config.Version = "3.0.12"
         $Addons.Save($XMLPath)
 
     }
