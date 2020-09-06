@@ -1,4 +1,4 @@
-﻿$Version = "2.18.9"
+﻿$Version = "2.19.0"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -300,17 +300,7 @@ Classic Addon Manager"
      $LabelSplashStatus.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffa500")
      $LabelSplashStatus.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
      $SplashScreen.Controls.Add($LabelSplashStatus)
-<#
-    #*** Progressbar
-    $SplashProgress = New-Object System.Windows.Forms.Label
-    $SplashProgress.Location  = New-Object System.Drawing.Point(2,243)
-    $SplashProgress.Size = New-Object System.Drawing.Size(494,5)
-    $SplashProgress.BackColor = [System.Drawing.Color]::White
-    $SplashProgress.ForeColor = [System.Drawing.Color]::White
-    $SplashProgress.BorderStyle = "Fixed3D"
-    $SplashScreen.Controls.Add($SplashProgress)
-    $SplashProgress.BringToFront()
-#>
+
     $SplashScreen.Show()
     $LabelSplash.Update()
     Start-Sleep -Seconds 3
@@ -743,7 +733,6 @@ Classic Addon Manager"
     $ButtonCloseMainForm.Anchor = "Top","Left"
     $ButtonCloseMainForm.Location = New-Object System.Drawing.Point(960, 5)
     $ButtonCloseMainForm.Size = New-Object System.Drawing.Size(20, 20)
-    #$ButtonCloseMainForm.Text = "X"
     $ButtonCloseMainForm.TextAlign = "BottomCenter"
     $ButtonCloseMainForm.FlatStyle = "PopUp"
     $ButtonCloseMainForm.UseVisualStyleBackColor = $true
@@ -759,16 +748,13 @@ Classic Addon Manager"
     $ButtonMinimizeMainForm.Anchor = "Top","Left"
     $ButtonMinimizeMainForm.Location = New-Object System.Drawing.Point(930, 5)
     $ButtonMinimizeMainForm.Size = New-Object System.Drawing.Size(20, 20)
-    #$ButtonMinimizeMainForm.Text = "_"
     $ButtonMinimizeMainForm.FlatStyle = "PopUp"
     $ButtonMinimizeMainForm.UseVisualStyleBackColor = $true
     $ButtonMinimizeMainForm.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\minimize.png")
     $ButtonMinimizeMainForm.BackgroundImageLayout = "Zoom"
     $ButtonMinimizeMainForm.ForeColor = [System.Drawing.Color]::White
     $ButtonMinimizeMainForm.BackColor = [System.Drawing.Color]::Black
-    #$ButtonMinimizeMainForm.BorderStyle = "FixedSingle"
-    #$ButtonMinimizeMainForm.UseMnemonic = $true
-    
+
     $ButtonMinimizeMainForm.Add_Click({
         $main_form.WindowState = [System.Windows.Forms.FormWindowState]::Minimized
     })
@@ -778,15 +764,13 @@ Classic Addon Manager"
     $ButtonHelpMainForm.Anchor = "Top","Left"
     $ButtonHelpMainForm.Location = New-Object System.Drawing.Point(900, 5)
     $ButtonHelpMainForm.Size = New-Object System.Drawing.Size(20, 20)
-    #$ButtonMinimizeMainForm.Text = "_"
     $ButtonHelpMainForm.FlatStyle = "PopUp"
     $ButtonHelpMainForm.UseVisualStyleBackColor = $true
     $ButtonHelpMainForm.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\help.png")
     $ButtonHelpMainForm.BackgroundImageLayout = "Zoom"
     $ButtonHelpMainForm.ForeColor = [System.Drawing.Color]::White
     $ButtonHelpMainForm.BackColor = [System.Drawing.Color]::Black
-    #$ButtonMinimizeMainForm.BorderStyle = "FixedSingle"
-    #$ButtonMinimizeMainForm.UseMnemonic = $true
+
     
     $ButtonHelpMainForm.Add_Click({
         Start-Process ".\Resources\SMOSK_help.pdf"
@@ -1010,14 +994,12 @@ Classic Addon Manager"
     $main_form.Controls.Add($ButtonRefresh)
 
     $ButtonRefresh.Add_Click({
-        #$ListViewBox.Visible = $false
         $LoadSpinner.Text = "Refreshing...
 
 Waiting for API response"
         $LoadSpinner.Visible = $true
         UpdateAddonsTable
         $LoadSpinner.Visible = $false
-        #$ListViewBox.Visible = $true
 
     })
 
@@ -1260,7 +1242,6 @@ Waiting for API response"
     $ButtonVersion.Size = New-Object System.Drawing.Size(80,20)
     $ButtonVersion.TextAlign = "BottomLeft"
     $ToolTipButtonVersion = New-Object System.Windows.Forms.ToolTip
-    
     $ButtonVersion.BackColor = [System.Drawing.Color]::Black
     $ButtonVersion.ForeColor = [System.Drawing.Color]::LightGray
     if ($version -eq $SMOSKVersion.smosk.version) {
@@ -1403,7 +1384,6 @@ Waiting for API response"
     $ResetViewBox = New-Object System.Windows.Forms.ListView
     $ResetViewBox.Location = New-Object System.Drawing.Point(550,705)
     $ResetViewBox.Size = New-Object System.Drawing.Size(425,88)
-    #$ElvUIViewBox.Anchor = 'Top, Bottom, Left, Right'
     $ResetViewBox.View = 'Details'
     $ResetViewBox.GridLines = $false
     $ResetViewBox.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
@@ -1634,16 +1614,11 @@ and will open on
 
     Try {
         $ZGReset = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date -Date "2020-08-11 09:00"), 'Central European Standard Time')
-        #$ZGReset = Get-date -date "2020-08-11 09:00"
         $MCBWLAQ40Reset = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date -Date "2020-08-12 09:00"), 'Central European Standard Time')
-        #$MCBWLAQ40Reset = Get-date -date "2020-08-12 09:00"
         $OnyxiaReset = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date -Date "2020-08-11 09:00"), 'Central European Standard Time')
-        #$OnyxiaReset = Get-date -date "2020-08-11 09:00" 
     } catch {
         $ZGReset = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date -Date "2020-08-11 09.00"), 'Central European Standard Time')
-        #$ZGReset = Get-date -date "2020-08-11 09:00"
         $MCBWLAQ40Reset = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date -Date "2020-08-12 09.00"), 'Central European Standard Time')
-        #$MCBWLAQ40Reset = Get-date -date "2020-08-12 09:00"
         $OnyxiaReset = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date -Date "2020-08-11 09.00"), 'Central European Standard Time')
     }
     
@@ -1697,7 +1672,6 @@ and will open on
 
 
     #*** Version
-    #$SMOSKVersion.Load($SMOSKVersionPath)
     if ($version -eq $SMOSKVersion.smosk.changelog.logentry[0].version) {
         $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update_ok.png")
         $ToolTipButtonVersion.SetToolTip($ButtonVersion,"SMOSK! is up to date")
@@ -1808,17 +1782,11 @@ and will open on
                 $subnode.Website = $record.websiteUrl
             }
 
-            #*** Update progressbar on refresh view and spalshscreen
-            #$Progress = ([int]$LoadSpinner.Width / [int]$nrAddons) * [int]$numberDone
-            #$LoadSpinnerProgress.Width = $Progress
-            #$LoadSpinnerProgress.Update()
-            
-            #$SplashProgress.Width = ([int]$Progress * 2) - 4
+        
 
             
             $LabelSplashStatus.Update()
             $LoadSpinner.Update()
-            #$SplashProgress.Update()
             
 
             $ListView_Item = New-Object System.Windows.Forms.ListViewItem($record.ID)
@@ -1889,11 +1857,9 @@ and will open on
         
             if ($currentVersion -EQ $LatestVersion) {
                 if ($i % 2 -eq 0) {
-                    #$ListView_Item.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#e0e0e0")
                     $ListView_Item.BackColor = [System.Drawing.Color]::Black
                     $ListView_Item.ForeColor = [System.Drawing.Color]::LightGray
                 } else {
-                    #$ListView_Item.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#c7c7c7")
                     $ListView_Item.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#272727")
                     $ListView_Item.ForeColor = [System.Drawing.Color]::Snow
                 }
@@ -2093,7 +2059,6 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
     $BuffViewBox.EndUpdate()
     $ButtonRefresh.Text = "Refresh"
     $ButtonRefresh.BackgroundImage = $null
-    #$LoadSpinnerProgress.Visible = $false
     
 }
 

@@ -19,5 +19,11 @@
       <Guild>Pure</Guild>
       <Reset>No</Reset>
     </Buff>
+    <Buff>
+      <Time>19:00</Time>
+      <Name>Onyxia</Name>
+      <Guild>Rhu</Guild>
+      <Reset>No</Reset>
+    </Buff>
   </Today>
 </RealmBuffs>
