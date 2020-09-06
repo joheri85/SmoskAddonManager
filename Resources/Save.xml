@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-  <Version>3.0.9</Version>
+  <Version>3.0.10</Version>
   <IfaceAddonsFolder>D:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
   <Splash>.\Resources\Splash.png</Splash>
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>

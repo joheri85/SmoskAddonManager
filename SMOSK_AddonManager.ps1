@@ -1,4 +1,4 @@
-﻿$Version = "2.18.7"
+﻿$Version = "2.18.9"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1091,7 +1091,7 @@ Waiting for API response"
     $ButtonOpenSearch = New-Object System.Windows.Forms.Button
     $ButtonOpenSearch.Location = New-Object System.Drawing.Size(10,480)
     $ButtonOpenSearch.Size = New-Object System.Drawing.Size(320,40)
-    $ButtonOpenSearch.Text = "Find more addons"
+    $ButtonOpenSearch.Text = "Install new addons"
     $ButtonOpenSearch.Anchor = "Bottom,Left"
     $ButtonOpenSearch.FlatStyle = "Popup"
     $ToolTipOpenSearch = New-Object System.Windows.Forms.ToolTip
@@ -1258,13 +1258,13 @@ Waiting for API response"
     $ButtonVersion.Text = "v " + $Version
     $ButtonVersion.Location  = New-Object System.Drawing.Point(3,3)
     $ButtonVersion.Size = New-Object System.Drawing.Size(80,20)
-    $ButtonVersion.TextAlign = "MiddleLeft"
+    $ButtonVersion.TextAlign = "BottomLeft"
     $ToolTipButtonVersion = New-Object System.Windows.Forms.ToolTip
-    $ToolTipButtonVersion.SetToolTip($ButtonVersion,"Click to update SMOSK!")
+    
     $ButtonVersion.BackColor = [System.Drawing.Color]::Black
     $ButtonVersion.ForeColor = [System.Drawing.Color]::LightGray
     if ($version -eq $SMOSKVersion.smosk.version) {
-        $ButtonVersion.BackgroundImage = $null
+        $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update_ok.png")
     } else {
         $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update.png")
     }
@@ -1699,10 +1699,12 @@ and will open on
     #*** Version
     #$SMOSKVersion.Load($SMOSKVersionPath)
     if ($version -eq $SMOSKVersion.smosk.changelog.logentry[0].version) {
-        $ButtonVersion.BackgroundImage = $null
+        $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update_ok.png")
+        $ToolTipButtonVersion.SetToolTip($ButtonVersion,"SMOSK! is up to date")
         $ButtonVersion.Text = "v " + $Version
     } else {
         $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update.png")
+        $ToolTipButtonVersion.SetToolTip($ButtonVersion,"Update available!")
         $ButtonVersion.Text = "v " + $Version
     }
 
@@ -2005,8 +2007,28 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
 
     } 
 
+    $MethodError = $true
+    while ($MethodError) {
+        try {
+            $ElvUILatestVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui-classic/-/tags?format=atom")[0].title
+            $MethodError = $false
 
-    $ElvUILatestVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui-classic/-/tags?format=atom")[0].title
+        } catch {
+            if (Test-Path ".\Resources\error_log.txt") {
+                "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
+                $_ | Out-File ".\Resources\error_log.txt" -Append
+            } else {
+                "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
+                $_ | Out-File ".\Resources\error_log.txt" -Append
+    
+            }
+        }
+    }
+    
+
+
+
+
     $Addons.config.ElvUI.LatestVersion = $ElvUILatestVersion
     if ($Addons.config.ElvUI.CurrentVersion -eq "") {
         $ButtonElvUI.Text = "Install"
@@ -2429,7 +2451,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "3.0.9") {
+    if ($Addons.config.Version -ne "3.0.10") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2452,7 +2474,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "3.0.9"
+        $Addons.config.Version = "3.0.10"
         $Addons.Save($XMLPath)
 
     }
