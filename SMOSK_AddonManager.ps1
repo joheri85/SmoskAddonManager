@@ -1,4 +1,4 @@
-﻿$Version = "2.19.2"
+﻿$Version = "2.19.3"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -2416,7 +2416,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "3.0.12") {
+    if ($Addons.config.Version -ne "3.0.13") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2439,7 +2439,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "3.0.12"
+        $Addons.config.Version = "3.0.13"
         $Addons.Save($XMLPath)
 
     }
