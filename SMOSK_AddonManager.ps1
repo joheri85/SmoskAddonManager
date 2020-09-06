@@ -1,4 +1,4 @@
-﻿$Version = "2.18.4"
+﻿$Version = "2.18.7"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1262,14 +1262,13 @@ Waiting for API response"
     $ToolTipButtonVersion = New-Object System.Windows.Forms.ToolTip
     $ToolTipButtonVersion.SetToolTip($ButtonVersion,"Click to update SMOSK!")
     $ButtonVersion.BackColor = [System.Drawing.Color]::Black
-    if ($version -eq $SMOSKVersion.smosk.version) {
     $ButtonVersion.ForeColor = [System.Drawing.Color]::LightGray
-    $ButtonVersion.BackgroundImage = $null
+    if ($version -eq $SMOSKVersion.smosk.version) {
+        $ButtonVersion.BackgroundImage = $null
     } else {
-    $ButtonVersion.ForeColor = [System.Drawing.Color]::Orange
-    $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update.png")
-
+        $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update.png")
     }
+
     $ButtonVersion.BackgroundImageLayout = "Zoom"
     $ButtonVersion.FlatStyle = "Popup"
     $ButtonVersion.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Bold)
@@ -1700,11 +1699,9 @@ and will open on
     #*** Version
     #$SMOSKVersion.Load($SMOSKVersionPath)
     if ($version -eq $SMOSKVersion.smosk.changelog.logentry[0].version) {
-        $ButtonVersion.ForeColor = [System.Drawing.Color]::LightGray
         $ButtonVersion.BackgroundImage = $null
         $ButtonVersion.Text = "v " + $Version
     } else {
-        $ButtonVersion.ForeColor = [System.Drawing.Color]::Orange
         $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update.png")
         $ButtonVersion.Text = "v " + $Version
     }
@@ -2096,15 +2093,33 @@ Function NethergardeKeepBuffSchedule {
 
         $FindToday = 0
         $i = 1
-        While ( $FindToday -ne 2 ) {
+        $FindClass = 2
+        While (( $FindToday -ne $FindClass ) ) {
             $LookForString = '<td class="s' + ($i).ToString()
             $FindToday = ([regex]::Matches($BuffParse, $LookForString )).count
+            
+            if (($i -eq 100) -and ($FindClass -ne $FindToday)) {
+                $FindClass = 1
+                $i = 0
+            } 
+                
+            if(($i -eq 100) -and ($FindClass -eq 100)) {
+                Break
+            }
             $i += 1
+
+        }
+
+        if ($FindToday = 1) {
+            $LookForString = '<td class="s' + ($i).ToString()
+            $FirstSplit = 1
+        } else {
+            $FirstSplit = 2
         }
 
 
         $BuffTimes = $BuffParse -split $LookForString
-        $BuffTimes = $BuffTimes[2]
+        $BuffTimes = $BuffTimes[$FirstSplit]
 
 
         $BuffTimes = $BuffTimes -split '</div>'

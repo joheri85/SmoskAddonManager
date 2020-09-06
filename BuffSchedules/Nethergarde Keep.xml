@@ -2,21 +2,21 @@
 <RealmBuffs>
   <Today>
     <Buff>
-      <Time>10:00</Time>
+      <Time>10:40</Time>
       <Name>Nefarian</Name>
-      <Guild>Skafloc</Guild>
+      <Guild>Platypusia</Guild>
       <Reset>No</Reset>
     </Buff>
     <Buff>
-      <Time>18:55</Time>
+      <Time>18:35</Time>
       <Name>Hakkar</Name>
-      <Guild>Oomaso</Guild>
-      <Reset>No</Reset>
+      <Guild>Pure</Guild>
+      <Reset>Yes</Reset>
     </Buff>
     <Buff>
-      <Time>19:00</Time>
+      <Time>18:40</Time>
       <Name>Nefarian</Name>
-      <Guild>Warpbeast</Guild>
+      <Guild>Pure</Guild>
       <Reset>No</Reset>
     </Buff>
   </Today>
