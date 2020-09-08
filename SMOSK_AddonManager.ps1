@@ -1,4 +1,4 @@
-﻿$Version = "2.19.3"
+﻿$Version = "2.19.6"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -2076,45 +2076,37 @@ Function NethergardeKeepBuffSchedule {
 
 
    
-        $BuffParse = (Invoke-RestMethod -Uri "https://docs.google.com/spreadsheets/d/1YZbvGiUlRzVGYWwSTU7JeYoHtDUZW6JnXoqA1WEim84/htmlview?usp=sharing&pru=AAABc6XNR3U*ofU_hgCnK_odzu3J7DewXA" -TimeoutSec 5)
+        $BuffParse = (Invoke-WebRequest -Uri "https://docs.google.com/spreadsheets/d/1YZbvGiUlRzVGYWwSTU7JeYoHtDUZW6JnXoqA1WEim84/htmlview?usp=sharing&pru=AAABc6XNR3U*ofU_hgCnK_odzu3J7DewXA" -TimeoutSec 5)
 
-        $FindToday = 0
-        $i = 1
-        $FindClass = 2
-        While (( $FindToday -ne $FindClass ) ) {
-            $LookForString = '<td class="s' + ($i).ToString()
-            $FindToday = ([regex]::Matches($BuffParse, $LookForString )).count
-            
-            if (($i -eq 100) -and ($FindClass -ne $FindToday)) {
-                $FindClass = 1
-                $i = 0
-            } 
+        $regex = "<tbody>.*<\/tbody>"
+        $matches = select-string -InputObject $BuffParse -Pattern $regex -AllMatches | % { $_.Matches } | % { $_.Value }
+        $regex = "(<tr .+?</tr>)"
+        $matches = select-string -InputObject $matches -Pattern $regex -AllMatches | % { $_.Matches } | % { $_.Value }
+
+        $i = 0
+        $today = ( [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date), 'Central European Standard Time') )
+        $today = ">" + [int]$today.ToString("dd") + "<"
+
+        foreach ($row in $matches) {
+            if ($row.Contains($today)) {
+                break
                 
-            if(($i -eq 100) -and ($FindClass -eq 100)) {
-                Break
             }
             $i += 1
-
         }
 
-        if ($FindToday = 1) {
-            $LookForString = '<td class="s' + ($i).ToString()
-            $FirstSplit = 1
-        } else {
-            $FirstSplit = 2
+        $regex = "(<td .+?</td>)"
+        $tds = select-string -InputObject $matches[$i+1] -Pattern $regex -AllMatches | % { $_.Matches } | % { $_.Value }
+        $dayOfWeek = ( get-date ).DayOfWeek.value__ 
+        if ($dayOfWeek -eq 0) {
+            $dayOfWeek = 7
         }
-
-
-        $BuffTimes = $BuffParse -split $LookForString
-        $BuffTimes = $BuffTimes[$FirstSplit]
-
-
-        $BuffTimes = $BuffTimes -split '</div>'
-
-        $BuffTimes = $BuffTimes[0] -replace '.*;">'
-        $BuffTimes = $BuffTimes.Trim("<br>")
-        $BuffTimes = $BuffTimes -Split "<br>"
-
+        
+        $Buffs = $tds[$dayOfWeek] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>",""
+        $Buffs = $Buffs.Trim("<br>")
+        $BuffTimes = $Buffs -split "<br>"
+                    
+    
         
         foreach ($line in $BuffTimes) {
             $currentLine = $line.Split("|")
@@ -2416,7 +2408,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "3.0.13") {
+    if ($Addons.config.Version -ne "3.0.14") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2439,7 +2431,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "3.0.13"
+        $Addons.config.Version = "3.0.14"
         $Addons.Save($XMLPath)
 
     }

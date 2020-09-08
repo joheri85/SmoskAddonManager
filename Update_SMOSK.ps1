@@ -147,6 +147,7 @@ click update to close the program and continue"
             get-process | where-object {$_.path -eq (resolve-path -LiteralPath ".\SMOSK.exe").Path} | Stop-Process -Force
             update
             $LabelStatus.Text = "Updated to latest Version of SMOSK!"
+            $LabelStatus.ForeColor = [System.Drawing.Color]::LightGreen
             $ButtonContinue.Text = "Close and start SMOSK!"
             $ButtonContinue.Enabled = $true
             $Global:Updated = 1
@@ -199,13 +200,4 @@ See error log for more info.
 }
 
 
-
-
-
-
-
-
-
-
- 
 

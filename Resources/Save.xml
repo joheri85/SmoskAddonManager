@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-  <Version>3.0.13</Version>
+  <Version>3.0.14</Version>
   <IfaceAddonsFolder>D:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
   <Splash>.\Resources\Splash.png</Splash>
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
@@ -8,7 +8,7 @@
   <ElvUI>
     <CurrentVersion>1.27</CurrentVersion>
     <DateUpdated>2020-08-21</DateUpdated>
-    <LatestVersion>1.28</LatestVersion>
+    <LatestVersion>1.31</LatestVersion>
   </ElvUI>
   <BuffplanningDefault>Nethergarde Keep</BuffplanningDefault>
   <Addon>
@@ -37,7 +37,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3019/31/DetailsClassic.1.13.5.212.142.zip</DownloadLink>
     <Description>The best damage meter in a exclusive version for Classic WoW</Description>
     <CurrentVersion>DetailsClassic.1.13.5.212.142</CurrentVersion>
-    <LatestVersion>DetailsClassic.1.13.5.212.142</LatestVersion>
+    <LatestVersion>DetailsClassic.1.13.5.213.142</LatestVersion>
     <Modules>Details_TinyThreat,Details_DataStorage,Details_Streamer,Details</Modules>
     <Website>https://www.curseforge.com/wow/addons/details-damage-meter-classic-wow</Website>
   </Addon>
@@ -77,7 +77,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3032/394/NeatPlates-1.13.5.10.zip</DownloadLink>
     <Description>NeatPlates is a nameplate addon that works with both the Classic and Modern version of WoW</Description>
     <CurrentVersion>1.13.5.10</CurrentVersion>
-    <LatestVersion>1.13.5.11</LatestVersion>
+    <LatestVersion>1.13.5.12</LatestVersion>
     <Modules>NeatPlatesHub,NeatPlatesWidgets,NeatPlates_Alvara,NeatPlates_BlizzardPlates,NeatPlates_ClassicPlates,NeatPlates_Graphite,NeatPlates_Grey,NeatPlates_Neon,NeatPlates_Quatre,NeatPlates_Renaitre,NeatPlates_Roth,NeatPlates_Simple,NeatPlates_Slim_Horizontal,NeatPlates_Slim_Vertical,NeatPlates</Modules>
     <Website>https://www.curseforge.com/wow/addons/neatplates</Website>
   </Addon>
@@ -137,7 +137,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3040/892/gathermate2_data_wowhead_classic_v2020-08-24.zip</DownloadLink>
     <Description>GatherMate2 data from Wowhead</Description>
     <CurrentVersion>gathermate2_data_wowhead_classic_v2020-08-24.zip</CurrentVersion>
-    <LatestVersion>gathermate2_data_wowhead_classic_v2020-08-24.zip</LatestVersion>
+    <LatestVersion>gathermate2_data_wowhead_classic_v2020-09-07.zip</LatestVersion>
     <Modules>GatherMate2_Data</Modules>
     <Website>https://www.curseforge.com/wow/addons/gathermate2-data-wowhead-classic</Website>
   </Addon>

@@ -2,27 +2,15 @@
 <RealmBuffs>
   <Today>
     <Buff>
-      <Time>10:40</Time>
+      <Time>11:00</Time>
       <Name>Nefarian</Name>
-      <Guild>Platypusia</Guild>
-      <Reset>No</Reset>
-    </Buff>
-    <Buff>
-      <Time>18:35</Time>
-      <Name>Hakkar</Name>
-      <Guild>Pure</Guild>
-      <Reset>Yes</Reset>
-    </Buff>
-    <Buff>
-      <Time>18:40</Time>
-      <Name>Nefarian</Name>
-      <Guild>Pure</Guild>
+      <Guild>Nevyy</Guild>
       <Reset>No</Reset>
     </Buff>
     <Buff>
       <Time>19:00</Time>
-      <Name>Onyxia</Name>
-      <Guild>Rhu</Guild>
+      <Name>Nefarian</Name>
+      <Guild>Nikolx &lt;Laughing out Loud&gt;</Guild>
       <Reset>No</Reset>
     </Buff>
   </Today>
