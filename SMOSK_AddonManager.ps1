@@ -1,4 +1,4 @@
-﻿$Version = "2.19.6"
+﻿$Version = "2.20.1"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -105,6 +105,7 @@ Function NewAddon {
             $SubChildVersion = $Addons.CreateElement("CurrentVersion")
             $SubChildLVersion = $Addons.CreateElement("LatestVersion")
             $SubChildModules = $Addons.CreateElement("Modules")
+            $SubChildDateUpdated = $Addons.CreateElement("DateUpdated")
            
             $child.AppendChild($SubChildID)
             $child.AppendChild($SubChildName)
@@ -113,6 +114,7 @@ Function NewAddon {
             $child.AppendChild($SubChildVersion)
             $child.AppendChild($SubChildLVersion)
             $child.AppendChild($SubChildModules)
+            $child.AppendChild($SubChildDateUpdated)
            
             $child.ID = $ID
             $child.DownloadLink = $Link.ToString()
@@ -135,6 +137,8 @@ Function NewAddon {
             $ModulesString = $ModulesString.Substring(0,$ModulesString.Length-1)
             
             $child.Modules = $ModulesString
+
+            $child.DateUpdated = ([System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date), 'Central European Standard Time')).ToString("yyyy-MM-dd HH:mm")
 
 
             if ($ImportOnly) { 
@@ -325,7 +329,6 @@ Classic Addon Manager"
     $LabelMovechangeForm.Size = New-Object System.Drawing.Size(496, 30)
     $LabelMovechangeForm.Anchor = "Top","Left"
     $LabelMovechangeForm.BorderStyle = "None"
-    $LabelMovechangeForm.Text = "SMOSK - Changelog"
     $LabelMovechangeForm.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $LabelMovechangeForm.ForeColor = $CreamText
     $LabelMovechangeForm.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
@@ -825,6 +828,8 @@ Classic Addon Manager"
     $ButtonChangelog.TextAlign = "MiddleCenter"
     $ButtonChangelog.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\log.png")
     $ButtonChangelog.BackgroundImageLayout = "Zoom"
+    $ToolTipWebURL = New-Object System.Windows.Forms.ToolTip
+    $ToolTipWebURL.SetToolTip($ButtonChangelog,"Click to show change log. Shift+Click to show recently updated addons") 
     $ButtonChangelog.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
     $ButtonChangelog.UseVisualStyleBackColor = $true
 
@@ -833,11 +838,27 @@ Classic Addon Manager"
 
     
     $ButtonChangelog.Add_Click({
-       makeChangelog
-       $Changelogbox.SelectionStart = 0
-       $change_form.ShowDialog()
+       
+            $VK_SHIFT = 0x10
+            $ShiftIsDown =  (Get-KeyState($VK_SHIFT))        
+
+            if ($ShiftIsDown){
+                makeUpdateLog
+                $LabelMovechangeForm.Text = "SMOSK - Update log"
+                $Changelogbox.SelectionStart = 0
+                $change_form.ShowDialog()
+            } else {
+                makeChangelog
+                $LabelMovechangeForm.Text = "SMOSK - Change log"
+                $Changelogbox.SelectionStart = 0
+                $change_form.ShowDialog()
+            }
+        
+        
 
     })
+
+
 
     $main_form.Controls.Add($LabelMoveMainForm)
     $main_form.Controls.Add($ButtonMinimizeMainForm)
@@ -852,6 +873,7 @@ Classic Addon Manager"
     $ButtonHelpMainForm.BringToFront()
     $ButtonMinimizeMainForm.BringToFront()
     $ButtonCloseMainForm.BringToFront()
+   
 
     #*** Updating Status box
     $LoadSpinner = New-Object System.Windows.Forms.Label
@@ -1239,7 +1261,7 @@ Waiting for API response"
     $ButtonVersion = New-Object System.Windows.Forms.Button
     $ButtonVersion.Text = "v " + $Version
     $ButtonVersion.Location  = New-Object System.Drawing.Point(3,3)
-    $ButtonVersion.Size = New-Object System.Drawing.Size(80,20)
+    $ButtonVersion.Size = New-Object System.Drawing.Size(80,23)
     $ButtonVersion.TextAlign = "BottomLeft"
     $ToolTipButtonVersion = New-Object System.Windows.Forms.ToolTip
     $ButtonVersion.BackColor = [System.Drawing.Color]::Black
@@ -1435,7 +1457,7 @@ Waiting for API response"
 
     UpdateAddonsTable
     $LoadSpinner.Visible = $false
-    $SplashScreen.Hide()
+    $SplashScreen.Dispose()
     $ListViewBox.TabIndex = 0
     $main_form.ShowDialog()
 
@@ -1553,6 +1575,7 @@ starts on
 
         $LabelDarkmoon.Text = ("Darkmoon Faire 
 is active in 
+
 
 
 
@@ -2085,11 +2108,25 @@ Function NethergardeKeepBuffSchedule {
 
         $i = 0
         $today = ( [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date), 'Central European Standard Time') )
+        
+
+
+        if ([int]$today.ToString("dd") -eq [int]$today.ToString("MM")){
+            $DayEqMonth = 1
+        } else {
+            $DayEqMonth = 0
+        }
+
         $today = ">" + [int]$today.ToString("dd") + "<"
 
         foreach ($row in $matches) {
             if ($row.Contains($today)) {
-                break
+                if ($DayEqMonth -eq 0){
+                    break
+                } else {
+                    $DayEqMonth = 0
+                }
+                
                 
             }
             $i += 1
@@ -2375,6 +2412,23 @@ Function makeChangelog {
     $Changelogbox.Text = $LogText
 }
 
+Function makeUpdateLog {
+    $LogText = "Latest updates (Descending)
+
+"
+
+    $UpdateLog = $Addons.config.Addon
+    [Array]::Reverse($UpdateLog)
+    
+    foreach ($entry in $UpdateLog) {
+        $LogText += $entry.DateUpdated+ " - " + $entry.name + "
+"
+    }
+    
+
+    $Changelogbox.Text = $LogText
+}
+
 Function InstallElvUI {
 
     Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui-classic/-/archive/master/elvui-classic-master.zip" -OutFile ".\Downloads\elvui-classic-master.zip" -TimeoutSec 20
@@ -2408,7 +2462,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "3.0.14") {
+    if ($Addons.config.Version -ne "3.1.0") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2431,7 +2485,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "3.0.14"
+        $Addons.config.Version = "3.1.0"
         $Addons.Save($XMLPath)
 
     }
