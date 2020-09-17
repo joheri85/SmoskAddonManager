@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-  <Version>3.1.2</Version>
+  <Version>3.1.3</Version>
   <IfaceAddonsFolder>D:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
   <Splash>.\Resources\Splash.png</Splash>
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
@@ -200,4 +200,5 @@
     <DateUpdated>2020-09-09 11:05</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/decursive</Website>
   </Addon>
+  <BuffsMaximized>-</BuffsMaximized>
 </config>

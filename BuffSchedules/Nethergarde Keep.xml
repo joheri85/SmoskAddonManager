@@ -2,21 +2,15 @@
 <RealmBuffs>
   <Today>
     <Buff>
-      <Time>10:40</Time>
-      <Name>Nefarian</Name>
-      <Guild>Milfry &lt;The Hand&gt;</Guild>
+      <Time>19:00</Time>
+      <Name>Onyxia</Name>
+      <Guild>Getemup</Guild>
       <Reset>No</Reset>
     </Buff>
     <Buff>
-      <Time>18:30</Time>
-      <Name>Hakkar</Name>
-      <Guild>Magiboii</Guild>
-      <Reset>Yes</Reset>
-    </Buff>
-    <Buff>
-      <Time>18:40</Time>
+      <Time>19:30</Time>
       <Name>Nefarian</Name>
-      <Guild>Pure</Guild>
+      <Guild>Blinkrage</Guild>
       <Reset>No</Reset>
     </Buff>
   </Today>

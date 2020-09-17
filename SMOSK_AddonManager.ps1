@@ -1,4 +1,4 @@
-﻿$Version = "2.21.2"
+﻿$Version = "2.22.0"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -264,7 +264,13 @@ Function DrawGUI {
         $Addons.Save($XMLPath)
     }
     
-
+    if ($null -eq $Addons.config.BuffsMaximized) {
+        $node = $Addons.SelectSingleNode("config")
+        $newNode = $Addons.CreateNode("element", "BuffsMaximized", $null)
+        $node.AppendChild($newNode)
+        $Addons.config.BuffsMaximized = "+"
+        $Addons.Save($XMLPath)
+    } 
 
     
 
@@ -1377,9 +1383,16 @@ Waiting for API response"
 
 
     #*** Buffplaning list
+
+    $BuffViewBoxSizeSmall = New-Object System.Drawing.Size(425,100)
+    $BuffViewBoxSizeBig = New-Object System.Drawing.Size(425,193)
     $BuffViewBox = New-Object System.Windows.Forms.ListView
     $BuffViewBox.Location = New-Object System.Drawing.Point(550,600)
-    $BuffViewBox.Size = New-Object System.Drawing.Size(425,100)
+    if($addons.config.BuffsMaximized -eq "+") {
+        $BuffViewBox.Size = $BuffViewBoxSizeSmall
+    } else {
+        $BuffViewBox.Size = $BuffViewBoxSizeBig
+    }
     $BuffViewBox.View = 'Details'
     $BuffViewBox.GridLines = $false
     $BuffViewBox.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
@@ -1400,6 +1413,47 @@ Waiting for API response"
     })
 
     $Main_form.Controls.Add($BuffViewBox)
+
+
+    #*** Expand buffview Button
+    $ButtonExpandBuffViewLocationUp = New-Object System.Drawing.Size(954,679)
+    $ButtonExpandBuffViewLocationDown = New-Object System.Drawing.Size(954,772)
+    $ButtonExpandBuffView = New-Object System.Windows.Forms.Button
+    if($addons.config.BuffsMaximized -eq "+") {
+        $ButtonExpandBuffView.Location = $ButtonExpandBuffViewLocationUp
+        $ButtonExpandBuffView.Text = "+"
+    } else {
+        $ButtonExpandBuffView.Location = $ButtonExpandBuffViewLocationDown
+        $ButtonExpandBuffView.Text = "-"
+    }
+    
+    $ButtonExpandBuffView.Size = New-Object System.Drawing.Size(20,20)
+    $ButtonExpandBuffView.FlatStyle = "Popup"
+    $ToolTipExpandBuffView = New-Object System.Windows.Forms.ToolTip
+    $ToolTipExpandBuffView.SetToolTip($ButtonExpandBuffView,"Expand Buff schedule")
+    $ButtonExpandBuffView.BackColor = $StandardButtonColor
+    $ButtonExpandBuffView.ForeColor = $StandardButtonTextColor
+    $ButtonExpandBuffView.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $main_form.Controls.Add($ButtonExpandBuffView)
+    $ButtonExpandBuffView.BringToFront()
+
+    $ButtonExpandBuffView.Add_Click({
+        
+        if ($ButtonExpandBuffView.Location -eq $ButtonExpandBuffViewLocationUp) {
+            $ButtonExpandBuffView.Location = $ButtonExpandBuffViewLocationDown
+            $BuffViewBox.Size = $BuffViewBoxSizeBig
+            $ButtonExpandBuffView.Text = "-"
+            $Addons.config.BuffsMaximized = "-"
+        } else {
+            $ButtonExpandBuffView.Location = $ButtonExpandBuffViewLocationUp
+            $BuffViewBox.Size = $BuffViewBoxSizeSmall
+            $ButtonExpandBuffView.Text = "+"
+            $Addons.config.BuffsMaximized = "+"
+        }
+        $ButtonExpandBuffView.BringToFront()
+        $Addons.Save($XMLPath)
+
+    })
 
 
     #*** Reset list
