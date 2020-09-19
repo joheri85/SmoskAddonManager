@@ -4,13 +4,7 @@
     <Buff>
       <Time>19:00</Time>
       <Name>Onyxia</Name>
-      <Guild>Getemup</Guild>
-      <Reset>No</Reset>
-    </Buff>
-    <Buff>
-      <Time>19:30</Time>
-      <Name>Nefarian</Name>
-      <Guild>Blinkrage</Guild>
+      <Guild>Timpa</Guild>
       <Reset>No</Reset>
     </Buff>
   </Today>

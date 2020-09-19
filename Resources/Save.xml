@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-  <Version>3.1.3</Version>
+  <Version>3.1.4</Version>
   <IfaceAddonsFolder>D:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
   <Splash>.\Resources\Splash.png</Splash>
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
@@ -30,7 +30,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3052/406/DetailsClassic.1.13.5.213.142.zip</DownloadLink>
     <Description>The best damage meter in a exclusive version for Classic WoW</Description>
     <CurrentVersion>DetailsClassic.1.13.5.213.142</CurrentVersion>
-    <LatestVersion>DetailsClassic.1.13.5.213.142</LatestVersion>
+    <LatestVersion>DetailsClassic.1.13.5.214.142</LatestVersion>
     <Modules>Details_TinyThreat,Details_DataStorage,Details_Streamer,Details</Modules>
     <DateUpdated>2020-09-09 11:02</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/details-damage-meter-classic-wow</Website>

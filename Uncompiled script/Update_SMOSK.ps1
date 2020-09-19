@@ -10,7 +10,7 @@ function Unzip
 {
     param([string]$zipfile, [string]$outpath)
 
-    [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
+    [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath) 
 }
 
 
@@ -21,8 +21,15 @@ function Unzip
 Function update {
 
 
-    $url = "http://www.smosk.net/downloads/AddonManager.zip"
+    $url = "https://www.smosk.net/downloads/AddonManager.zip"
     $outfile = ".\Downloads\updater.zip"
+
+    if (Test-Path .\Downloads\AddonManager) {
+        Remove-Item -LiteralPath ".\Downloads\AddonManager\" -Force -Recurse
+    }
+    if (Test-Path .\Downloads\updater.zip) {
+        Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
+    }
 
 
     Invoke-WebRequest -Uri $url -OutFile $outfile
@@ -30,21 +37,15 @@ Function update {
 
     Unzip -outpath ".\Downloads\" -zipfile $outfile
 
-    Copy-Item -Path ".\Downloads\AddonManager\SMOSK.exe" -Destination .\SMOSK.exe -Recurse -Force
+    Copy-Item -Path ".\Downloads\AddonManager\SMOSK.exe" -Destination ".\SMOSK.exe" -Recurse -Force
     Copy-Item -Path ".\Downloads\AddonManager\Uncompiled script\SMOSK_AddonManager.ps1" -Destination ".\Uncompiled script\SMOSK_AddonManager.ps1" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Uncompiled script\Update_SMOSK.ps1" -Destination ".\Uncompiled script\Update_SMOSK.ps1" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Resources\Title_Icon.ico" -Destination ".\Resources\Title_Icon.ico" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Resources\Splash.png" -Destination ".\Resources\Splash.png" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Resources\Wallpaper.png" -Destination ".\Resources\wallpaper.png" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Resources\wallpaper_search.png" -Destination ".\Resources\wallpaper_search.png" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Resources\close.png" -Destination ".\Resources\close.png" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Resources\minimize.png" -Destination ".\Resources\minimize.png" -Recurse -Force
-    Copy-Item -Path ".\Downloads\AddonManager\Resources\search.png" -Destination ".\Resources\search.png" -Recurse -Force
+
 
     Remove-Item -LiteralPath ".\Downloads\AddonManager\" -Force -Recurse
     Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
-    [System.Windows.MessageBox]::Show("Updated to latest Version of SMOSK!",'SMOSK! Updater','OK','Information')
+   
+    #[System.Windows.MessageBox]::Show("Updated to latest Version of SMOSK!",'SMOSK! Updater','OK','Information')
 
 }
 
@@ -117,9 +118,10 @@ Function DrawGUI {
     $LabelStatus = New-Object System.Windows.Forms.Label
     $LabelStatus.Text = "Smosk.exe is still running
 click update to close the program and continue" 
-    $LabelStatus.Location  = New-Object System.Drawing.Point(0,100)
-    $LabelStatus.Size = New-Object System.Drawing.Size(500,50)
+    $LabelStatus.Location  = New-Object System.Drawing.Point(2,120)
+    $LabelStatus.Size = New-Object System.Drawing.Size(496,50)
     $LabelStatus.TextAlign = "MiddleCenter"
+    $LabelStatus.Image = [System.Drawing.Image]::FromFile(".\Resources\splash_text_bg.png")
     $LabelStatus.BackColor = [System.Drawing.Color]::Transparent
     $LabelStatus.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffa500")
     $LabelStatus.Font = [System.Drawing.Font]::new("Georgia", 10, [System.Drawing.FontStyle]::Bold)
@@ -139,13 +141,21 @@ click update to close the program and continue"
     $CloseSMOSK.Controls.Add($ButtonContinue)
 
     $ButtonContinue.Add_Click({
-        
+        if ($Global:Updated -eq 0) {
+            $ButtonContinue.Enabled = $false
+            $LabelStatus.text = "Updating.."
+            get-process | where-object {$_.path -eq (resolve-path -LiteralPath ".\SMOSK.exe").Path} | Stop-Process -Force
+            update
+            $LabelStatus.Text = "Updated to latest Version of SMOSK!"
+            $LabelStatus.ForeColor = [System.Drawing.Color]::LightGreen
+            $ButtonContinue.Text = "Close and start SMOSK!"
+            $ButtonContinue.Enabled = $true
+            $Global:Updated = 1
             
-        get-process | where-object {$_.path -eq (resolve-path -LiteralPath ".\SMOSK.exe").Path} | Stop-Process -Force
-        update
-        Start-Process ".\SMOSK.exe"
-        $CloseSMOSK.Dispose()
-        
+        } else {
+            Start-Process ".\SMOSK.exe"
+            $CloseSMOSK.Dispose()
+        }
     })
 
  
@@ -164,6 +174,7 @@ click update to close the program and continue"
 try {
 
     if(get-process | where-object {$_.path -eq (resolve-path -LiteralPath ".\SMOSK.exe").Path}){
+        $Global:Updated = 0
         DrawGUI
     } else {
         update
@@ -189,13 +200,4 @@ See error log for more info.
 }
 
 
-
-
-
-
-
-
-
-
- 
 

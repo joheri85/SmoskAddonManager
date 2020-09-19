@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config>
+  <Version>2.8.0</Version>
+  <IfaceAddonsFolder>C:\ChangeMe</IfaceAddonsFolder>
+  <Splash>.\Resources\Splash.png</Splash>
+  <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
+  <TitleIcon>.\Resources\Title_Icon.ico</TitleIcon>
+  <ElvUI>
+    <CurrentVersion>
+    </CurrentVersion>
+    <DateUpdated>
+    </DateUpdated>
+    <LatestVersion>v11.52</LatestVersion>
+  </ElvUI>
+  <BuffplanningDefault>MirageRaceway</BuffplanningDefault>
+  <HighlightFont>Georgia</HighlightFont>
+  <DetailFont>Arial</DetailFont>
+  <BuffsMaximized>+</BuffsMaximized>
+</config>

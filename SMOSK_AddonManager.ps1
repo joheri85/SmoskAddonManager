@@ -1,4 +1,4 @@
-﻿$Version = "2.22.0"
+﻿$Version = "3.0.0"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -51,7 +51,15 @@ Function NewAddon {
 
     Param ($ID, $ImportOnly)
 
-    $IsInstalled = ($Addons.config.Addon | Where-Object ID -EQ $ID).length
+    if ($ComboBoxWowVersion.SelectedItem -eq "Retail") {
+
+        $GameVersionFlavor = "wow_retail"
+    } else {
+        $GameVersionFlavor = "wow_classic"
+    }
+    
+
+    $IsInstalled = ($Global:Addons.config.Addon | Where-Object ID -EQ $ID).length
     
     if ($IsInstalled -EQ 0) {
         
@@ -81,7 +89,7 @@ Function NewAddon {
 
         $AddonInfo = $AddonToInstall | 
             Select-Object -ExpandProperty LatestFiles  |
-                Where-Object {($_.GameVersionFlavor -eq "wow_classic") -and ($_.ReleaseType -eq "1")  }
+                Where-Object {($_.GameVersionFlavor -eq $GameVersionFlavor) -and ($_.ReleaseType -eq "1")  }
         
         if (($null -ne $AddonInfo.length) -and ($null -ne $AddonInfo)){
 
@@ -94,18 +102,18 @@ Function NewAddon {
                         
             $Link = $AddonInfo.downloadUrl         
             
-            $subnode = $Addons.SelectSingleNode("config")
+            $subnode = $Global:Addons.SelectSingleNode("config")
             
-            $child = $Addons.CreateElement("Addon")
+            $child = $Global:Addons.CreateElement("Addon")
 
-            $SubChildID = $Addons.CreateElement("ID")
-            $SubChildName = $Addons.CreateElement("Name")
-            $SubChildDownloadLink = $Addons.CreateElement("DownloadLink")
-            $SubChildDescription = $Addons.CreateElement("Description")
-            $SubChildVersion = $Addons.CreateElement("CurrentVersion")
-            $SubChildLVersion = $Addons.CreateElement("LatestVersion")
-            $SubChildModules = $Addons.CreateElement("Modules")
-            $SubChildDateUpdated = $Addons.CreateElement("DateUpdated")
+            $SubChildID = $Global:Addons.CreateElement("ID")
+            $SubChildName = $Global:Addons.CreateElement("Name")
+            $SubChildDownloadLink = $Global:Addons.CreateElement("DownloadLink")
+            $SubChildDescription = $Global:Addons.CreateElement("Description")
+            $SubChildVersion = $Global:Addons.CreateElement("CurrentVersion")
+            $SubChildLVersion = $Global:Addons.CreateElement("LatestVersion")
+            $SubChildModules = $Global:Addons.CreateElement("Modules")
+            $SubChildDateUpdated = $Global:Addons.CreateElement("DateUpdated")
            
             $child.AppendChild($SubChildID)
             $child.AppendChild($SubChildName)
@@ -123,7 +131,7 @@ Function NewAddon {
             $child.LatestVersion = $AddonInfo.displayName.ToString()
             $Modules = $AddonToInstall | 
                 Select-Object -ExpandProperty LatestFiles | 
-                    Where-Object {($_.GameVersionFlavor -eq "wow_classic") -and ($_.ReleaseType -eq "1") } | 
+                    Where-Object {($_.GameVersionFlavor -eq $GameVersionFlavor) -and ($_.ReleaseType -eq "1") } | 
                         select-Object -Property Modules
 
             $ModulesString = ""
@@ -149,12 +157,12 @@ Function NewAddon {
             }
             $subnode.AppendChild($child)
         
-            $Addons.Save($XMLPath)
+            $Global:Addons.Save($Global:XMLPath)
 
             if ($ImportOnly -eq $false) { 
                 $OutFile = (".\Downloads\TempAddonDownload.zip")
                 Invoke-WebRequest -Uri $Link -OutFile $OutFile -TimeoutSec 20
-                Unzip -zipfile $OutFile -outpath $Addons.config.IfaceAddonsFolder
+                Unzip -zipfile $OutFile -outpath $Global:Addons.config.IfaceAddonsFolder
                 Remove-Item $OutFile -Force 
             }
         
@@ -178,13 +186,13 @@ Function DeleteAddon {
 
     Param($ID)  
 
-    if ($null -ne $Addons.config.Addon ) {
+    if ($null -ne $Global:Addons.config.Addon ) {
       
-        $AddonToDelete = $Addons.config.Addon | Where-Object ID -EQ $ID
+        $AddonToDelete = $Global:Addons.config.Addon | Where-Object ID -EQ $ID
         
         foreach ($Folder in $AddonToDelete.Modules.split(",")) {
 
-            $PathToDelete = $Addons.config.IfaceAddonsFolder + "\" + $Folder
+            $PathToDelete = $Global:Addons.config.IfaceAddonsFolder + "\" + $Folder
 
             if (Test-Path $PathToDelete) {
 
@@ -194,9 +202,9 @@ Function DeleteAddon {
 
         }
 
-        $Addons.config.RemoveChild($AddonToDelete)
+        $Global:Addons.config.RemoveChild($AddonToDelete)
 
-        $Addons.Save($XMLPath)
+        $Global:Addons.Save($Global:XMLPath)
     }
     
 }
@@ -204,9 +212,15 @@ Function DeleteAddon {
 Function SetIfaceAddonsFolder {
     
     Try {
-        $Path = Get-Folder -Description "Select your Classic addons dir:
+            if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+                $Path = Get-Folder -Description "Select your Classic addons dir:
 
 Example:  D:\World of Warcraft\_classic_\Interface\Addons"
+            } else {
+                $Path = Get-Folder -Description "Select your Retail addons dir:
+
+Example:  D:\World of Warcraft\_retail_\Interface\Addons"
+            }
         } catch {
             $Path = $null
             Continue
@@ -214,9 +228,9 @@ Example:  D:\World of Warcraft\_classic_\Interface\Addons"
 
     if ($null -ne $Path) {
 
-        $Addons.config.IfaceAddonsFolder = $Path
+        $Global:Addons.config.IfaceAddonsFolder = $Path
         $ButtonIfaceAddonsPath.Text = $Path
-        $Addons.Save($XMLPath)
+        $Global:Addons.Save($Global:XMLPath)
 
     }
     
@@ -249,35 +263,62 @@ Function DrawGUI {
     $StandardButtonColor = [System.Drawing.ColorTranslator]::FromHtml("#212121")
     $StandardButtonTextColor = [System.Drawing.Color]::Snow
 
-    if ($null -eq $Addons.config.HighlightFont) {
-        $node = $Addons.SelectSingleNode("config")
-        $newNode = $Addons.CreateNode("element", "HighlightFont", $null)
+
+    if ($null -eq $Global:Addons.config.HighlightFont) {
+        $node = $Global:Addons.SelectSingleNode("config")
+        $newNode = $Global:Addons.CreateNode("element", "HighlightFont", $null)
         $node.AppendChild($newNode)
-        $Addons.config.HighlightFont = "Georgia"
-        $Addons.Save($XMLPath)
+        $Global:Addons.config.HighlightFont = "Georgia"
+        $Global:Addons.Save($Global:XMLPath)
     } 
-    if ($null -eq $Addons.config.DetailFont) {
-        $node = $Addons.SelectSingleNode("config")
-        $newNode = $Addons.CreateNode("element", "DetailFont", $null)
+    if ($null -eq $Global:Addons.config.DetailFont) {
+        $node = $Global:Addons.SelectSingleNode("config")
+        $newNode = $Global:Addons.CreateNode("element", "DetailFont", $null)
         $node.AppendChild($newNode)
-        $Addons.config.DetailFont = "Arial"
-        $Addons.Save($XMLPath)
+        $Global:Addons.config.DetailFont = "Arial"
+        $Global:Addons.Save($Global:XMLPath)
     }
     
-    if ($null -eq $Addons.config.BuffsMaximized) {
-        $node = $Addons.SelectSingleNode("config")
-        $newNode = $Addons.CreateNode("element", "BuffsMaximized", $null)
+    if ($null -eq $Global:Addons.config.BuffsMaximized) {
+        $node = $Global:Addons.SelectSingleNode("config")
+        $newNode = $Global:Addons.CreateNode("element", "BuffsMaximized", $null)
         $node.AppendChild($newNode)
-        $Addons.config.BuffsMaximized = "+"
-        $Addons.Save($XMLPath)
+        $Global:Addons.config.BuffsMaximized = "+"
+        $Global:Addons.Save($Global:XMLPath)
     } 
 
+    $Global:XMLPath = ".\Resources\Save_Retail.xml"
+    $Global:Addons.Load($Global:XMLPath)
+
+    if ($null -eq $Global:Addons.config.HighlightFont) {
+        $node = $Global:Addons.SelectSingleNode("config")
+        $newNode = $Global:Addons.CreateNode("element", "HighlightFont", $null)
+        $node.AppendChild($newNode)
+        $Global:Addons.config.HighlightFont = "Georgia"
+        $Global:Addons.Save($Global:XMLPath)
+    } 
+    if ($null -eq $Global:Addons.config.DetailFont) {
+        $node = $Global:Addons.SelectSingleNode("config")
+        $newNode = $Global:Addons.CreateNode("element", "DetailFont", $null)
+        $node.AppendChild($newNode)
+        $Global:Addons.config.DetailFont = "Arial"
+        $Global:Addons.Save($Global:XMLPath)
+    }
     
+    if ($null -eq $Global:Addons.config.BuffsMaximized) {
+        $node = $Global:Addons.SelectSingleNode("config")
+        $newNode = $Global:Addons.CreateNode("element", "BuffsMaximized", $null)
+        $node.AppendChild($newNode)
+        $Global:Addons.config.BuffsMaximized = "+"
+        $Global:Addons.Save($Global:XMLPath)
+    } 
+
+    $Global:XMLPath = ".\Resources\Save.xml"
+    $Global:Addons.Load($Global:XMLPath)
 
 
     #*** Splash Form ******************************************************************************************************
     $SplashScreen = New-Object System.Windows.Forms.Form
-    $SplashScreen.Text ="SMOSK - Classic Addon Manager"
     $SplashScreen.minimumSize = New-Object System.Drawing.Size(500,250) 
     $SplashScreen.maximumSize = New-Object System.Drawing.Size(500,250) 
     $SplashScreen.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen 
@@ -285,19 +326,19 @@ Function DrawGUI {
     $SplashScreen.SizeGripStyle = "Hide"
     $SplashScreen.FormBorderStyle = [System.Windows.Forms.BorderStyle]::"None"
     $SplashScreen.BackColor = [System.Drawing.Color]::Black
-    $SplashScreen.BackgroundImage = [system.drawing.image]::FromFile($Addons.config.Splash)
+    $SplashScreen.BackgroundImage = [system.drawing.image]::FromFile($Global:Addons.config.Splash)
     $SplashScreen.BackgroundImageLayout = "Zoom"
 
     #*** Label Splash
     $LabelSplash = New-Object System.Windows.Forms.Label
     $LabelSplash.Text = "SMOSK
-Classic Addon Manager" 
+WoW Addon Manager" 
     $LabelSplash.Location  = New-Object System.Drawing.Point(0,30)
     $LabelSplash.Size = New-Object System.Drawing.Size(500,50)
     $LabelSplash.TextAlign = "MiddleCenter"
     $LabelSplash.BackColor = [System.Drawing.Color]::Transparent
     $LabelSplash.ForeColor = [System.Drawing.Color]::White
-    $LabelSplash.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $LabelSplash.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $SplashScreen.Controls.Add($LabelSplash)
 
      #*** Label Splash
@@ -308,7 +349,7 @@ Classic Addon Manager"
      $LabelSplashStatus.TextAlign = "MiddleCenter"
      $LabelSplashStatus.BackColor = [System.Drawing.Color]::Transparent
      $LabelSplashStatus.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffa500")
-     $LabelSplashStatus.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
+     $LabelSplashStatus.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
      $SplashScreen.Controls.Add($LabelSplashStatus)
 
     $SplashScreen.Show()
@@ -335,7 +376,7 @@ Classic Addon Manager"
     $LabelMovechangeForm.Size = New-Object System.Drawing.Size(496, 30)
     $LabelMovechangeForm.Anchor = "Top","Left"
     $LabelMovechangeForm.BorderStyle = "None"
-    $LabelMovechangeForm.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $LabelMovechangeForm.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $LabelMovechangeForm.ForeColor = $CreamText
     $LabelMovechangeForm.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
     
@@ -395,7 +436,7 @@ Classic Addon Manager"
 
     $Changelogbox = New-Object System.Windows.Forms.TextBox 
     $Changelogbox.Multiline = $True;
-    $Changelogbox.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 10, [System.Drawing.FontStyle]::Bold)
+    $Changelogbox.Font = [System.Drawing.Font]::new($Global:Addons.config.DetailFont, 10, [System.Drawing.FontStyle]::Bold)
     $Changelogbox.Location = New-Object System.Drawing.Size(2,30) 
     $Changelogbox.Size = New-Object System.Drawing.Size(496,673)
     $Changelogbox.BackColor = [System.Drawing.Color]::Black
@@ -434,8 +475,8 @@ Classic Addon Manager"
     $LabelMoveSearchForm.Size = New-Object System.Drawing.Size(440, 30)
     $LabelMoveSearchForm.Anchor = "Top","Left"
     $LabelMoveSearchForm.BorderStyle = "None"
-    $LabelMoveSearchForm.Text = "SMOSK - Classic Addon Manager"
-    $LabelMoveSearchForm.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $LabelMoveSearchForm.Text = "SMOSK - Search"
+    $LabelMoveSearchForm.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $LabelMoveSearchForm.ForeColor = [System.Drawing.Color]::White
     $LabelMoveSearchForm.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
     
@@ -505,7 +546,7 @@ Classic Addon Manager"
     $LabelSearchString.TextAlign = "MiddleLeft"
     $LabelSearchString.BackColor = [System.Drawing.Color]::Transparent
     $LabelSearchString.ForeColor = [System.Drawing.Color]::White
-    $LabelSearchString.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $LabelSearchString.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $Search_form.Controls.Add($LabelSearchString)
 
     #*** Textbox Search String
@@ -514,7 +555,7 @@ Classic Addon Manager"
     $textBoxSearchString.Size = New-Object System.Drawing.Size(400,20)
     $textBoxSearchString.ForeColor = [System.Drawing.Color]::White
     $textBoxSearchString.BackColor = [System.Drawing.Color]::Black
-    $textBoxSearchString.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $textBoxSearchString.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $Search_form.Controls.Add($textBoxSearchString)
 
     $TextBoxSearchString.Add_KeyDown({
@@ -535,7 +576,7 @@ Classic Addon Manager"
     $ButtonDoSearch.FlatStyle = "Popup"
     $ButtonDoSearch.BackColor = $StandardButtonColor
     $ButtonDoSearch.ForeColor = $StandardButtonTextColor
-    $ButtonDoSearch.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $ButtonDoSearch.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $Search_form.Controls.Add($ButtonDoSearch)
 
     $ButtonDoSearch.Add_Click({
@@ -553,7 +594,7 @@ Classic Addon Manager"
     $LabelSearchResult.TextAlign = "MiddleLeft"
     $LabelSearchResult.BackColor = [System.Drawing.Color]::Transparent
     $LabelSearchResult.ForeColor = [System.Drawing.Color]::White
-    $LabelSearchResult.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $LabelSearchResult.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $Search_form.Controls.Add($LabelSearchResult)
 
     #*** Search result List
@@ -569,7 +610,7 @@ Classic Addon Manager"
     $ListSearchResults.GridLines = $false
     $ListSearchResults.BackColor = [System.Drawing.Color]::Black
     $ListSearchResults.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
-    $ListSearchResults.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
+    $ListSearchResults.Font = [System.Drawing.Font]::new($Global:Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
     
     $ListSearchResults.Add_click({
         
@@ -598,7 +639,7 @@ Classic Addon Manager"
     $LablePictureBox.TextAlign = "MiddleCenter"
     $LablePictureBox.BackColor = [System.Drawing.Color]::Transparent
     $LablePictureBox.ForeColor = [System.Drawing.Color]::White
-    $LablePictureBox.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $LablePictureBox.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $Search_form.Controls.Add($LablePictureBox)
 
     #*** Thumbnail picturebox
@@ -617,7 +658,7 @@ Classic Addon Manager"
     $LabelSearchDescription.TextAlign = "MiddleCenter"
     $LabelSearchDescription.BackColor = [System.Drawing.Color]::Transparent
     $LabelSearchDescription.ForeColor = [System.Drawing.Color]::White
-    $LabelSearchDescription.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $LabelSearchDescription.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $Search_form.Controls.Add($LabelSearchDescription)
 
     #*** Button Web Link
@@ -631,7 +672,7 @@ Classic Addon Manager"
     $ToolTipWebURL.SetToolTip($ButtonWebURL,"Opens selected addon page on CurseForge with your standard Web browser.") 
     $ButtonWebURL.BackColor = $StandardButtonColor
     $ButtonWebURL.ForeColor = $StandardButtonTextColor
-    $ButtonWebURL.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $ButtonWebURL.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $Search_form.Controls.Add($ButtonWebURL)
 
     $ButtonWebURL.Add_Click({
@@ -653,7 +694,7 @@ Classic Addon Manager"
     $ToolTipInstallSearchSelect.SetToolTip($ButtonInstallSearchSelect,"Install all selected addons.") 
     $ButtonInstallSearchSelect.BackColor = $StandardButtonColor
     $ButtonInstallSearchSelect.ForeColor = $StandardButtonTextColor
-    $ButtonInstallSearchSelect.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $ButtonInstallSearchSelect.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $Search_form.Controls.Add($ButtonInstallSearchSelect)
 
     $ButtonInstallSearchSelect.Add_Click({
@@ -662,7 +703,7 @@ Classic Addon Manager"
         $LoadSpinner.Visible = $true
         foreach ($record in $ListSearchResults.SelectedItems) {
 
-            if ($null -ne ($Addons.config.Addon | Where-Object ID -EQ $record.Text).length) {
+            if ($null -ne ($Global:Addons.config.Addon | Where-Object ID -EQ $record.Text).length) {
                 
                 $LoadSpinner.Text = "Installing
 
@@ -688,12 +729,11 @@ Classic Addon Manager"
     $LabelSearchDescriptionText.BackColor = [System.Drawing.Color]::Black
     $LabelSearchDescriptionText.ForeColor = [System.Drawing.Color]::LightGray
     $LabelSearchDescriptionText.Padding = 5
-    $LabelSearchDescriptionText.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 10, [System.Drawing.FontStyle]::Bold)
+    $LabelSearchDescriptionText.Font = [System.Drawing.Font]::new($Global:Addons.config.DetailFont, 10, [System.Drawing.FontStyle]::Bold)
     $Search_form.Controls.Add($LabelSearchDescriptionText)
 
     #*** Main Form ******************************************************************************************************
     $main_form = New-Object System.Windows.Forms.Form
-    $main_form.Text ="SMOSK - Classic Addon Manager"
     $main_form.minimumSize = New-Object System.Drawing.Size(985,800) 
     $main_form.maximumSize = New-Object System.Drawing.Size(985,800) 
     $main_form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen 
@@ -702,7 +742,7 @@ Classic Addon Manager"
     $main_form.BackgroundImageLayout = "Zoom"
     $main_form.BackColor = [System.Drawing.Color]::Black
     $main_form.SizeGripStyle = "Hide"
-    $main_form.BackgroundImage = [system.drawing.image]::FromFile($Addons.config.Wallpaper)
+    $main_form.BackgroundImage = [system.drawing.image]::FromFile($Global:Addons.config.Wallpaper)
     
     $LabelMoveMainForm = New-Object System.Windows.Forms.Label
     $LabelMoveMainForm.Name = "LabelMoveMainForm"
@@ -712,7 +752,7 @@ Classic Addon Manager"
     $LabelMoveMainForm.Anchor = "Top","Left"
     $LabelMoveMainForm.BorderStyle = "None"
     $LabelMoveMainForm.Text = "SMOSK - Classic Addon Manager"
-    $LabelMoveMainForm.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $LabelMoveMainForm.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $LabelMoveMainForm.ForeColor = [System.Drawing.Color]::White
     $LabelMoveMainForm.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
     
@@ -836,7 +876,7 @@ Classic Addon Manager"
     $ButtonChangelog.BackgroundImageLayout = "Zoom"
     $ToolTipWebURL = New-Object System.Windows.Forms.ToolTip
     $ToolTipWebURL.SetToolTip($ButtonChangelog,"Click to show change log. Shift+Click to show recently updated addons") 
-    $ButtonChangelog.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
+    $ButtonChangelog.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
     $ButtonChangelog.UseVisualStyleBackColor = $true
 
     $ButtonChangelog.BackColor = [System.Drawing.Color]::Black
@@ -892,25 +932,98 @@ Classic Addon Manager"
     $LoadSpinner.BackColor = [System.Drawing.Color]::Black
     $LoadSpinner.ForeColor = [System.Drawing.Color]::White
     $LoadSpinner.BorderStyle = "Fixed3D"
-    $LoadSpinner.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
+    $LoadSpinner.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LoadSpinner)
     $LoadSpinner.BringToFront()
+
+
+    #*** Label buffplaning header
+    $ComboBoxWowVersion = New-Object System.Windows.Forms.ComboBox
+    $ComboBoxWowVersion.Location  = New-Object System.Drawing.Point(10,33)
+    $ComboBoxWowVersion.items.Add("Classic")
+    $ComboBoxWowVersion.items.Add("Retail")
+    $ComboBoxWowVersion.Size = New-Object System.Drawing.Size(100,30)
+    $ComboBoxWowVersion.Text = "Classic"
+    $ComboBoxWowVersion.DropDownStyle = "DropDownList"
+    $ComboBoxWowVersion.BackColor = [System.Drawing.Color]::Black
+    $ComboBoxWowVersion.ForeColor = [System.Drawing.Color]::White
+    $ComboBoxWowVersion.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
+    $main_form.Controls.Add($ComboBoxWowVersion)
+
+    $ComboBoxWowVersion.Add_SelectedIndexChanged({
+
+        if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+            $LoadSpinner.Text = "Switching WoW version to
+Classic"
+            $LoadSpinner.Visible = $true
+            $main_form.BeginUpdate
+            $Global:XMLPath = ".\Resources\Save.xml"
+            $LabelIfaceAddons.Text = "WoW Classic addons path"
+            $LabelMoveMainForm.Text = "SMOSK - Classic Addon Manager"
+            $Global:Addons.Load($Global:XMLPath)
+            $ButtonIfaceAddonsPath.Text = $Global:Addons.config.IfaceAddonsFolder
+            UpdateAddonsTable
+
+            $LabelBattleground.Visible = $true
+            $LabelBattlegroundInternal.Visible = $true
+            $LabelDarkmoon.Visible = $true
+            $LabelDarkmoonInternal.Visible = $true
+            $BuffViewBox.Visible = $true
+            $LabelBuffsHeader.Visible = $true
+            $ResetViewBox.Visible = $true
+            $ButtonExpandBuffView.Visible = $true
+            
+
+            
+        } 
+        
+        if(($ComboBoxWowVersion.SelectedItem -eq "Retail")){
+            $LoadSpinner.Text = "Switching WoW version to
+Retail"
+            $LoadSpinner.Visible = $true
+            $Global:XMLPath = ".\Resources\Save_Retail.xml"
+            $LabelIfaceAddons.Text = "WoW Retail addons path"
+            $LabelMoveMainForm.Text = "SMOSK - Retail Addon Manager"
+            $Global:Addons.Load($Global:XMLPath)
+            $ButtonIfaceAddonsPath.Text = $Global:Addons.config.IfaceAddonsFolder
+            UpdateAddonsTable
+
+            $LabelBattleground.Visible = $false
+            $LabelBattlegroundInternal.Visible = $false
+            $LabelDarkmoon.Visible = $false
+            $LabelDarkmoonInternal.Visible = $false
+            $BuffViewBox.Visible = $false
+            $LabelBuffsHeader.Visible = $false
+            $ResetViewBox.Visible = $false
+            $ButtonExpandBuffView.Visible = $false
+        }
+
+        
+        
+        $LoadSpinner.Visible = $false
+
+
+        
+
+    })
+
+
 
     #*** Label InstalledAddons
     $LabelInstalledAddons = New-Object System.Windows.Forms.Label
 
-    if ($null -eq $Addons.config.Addon.Length) {
+    if ($null -eq $Global:Addons.config.Addon.Length) {
         $LabelInstalledAddons.Text = "1 addon installed"
 
     } else {
-        $LabelInstalledAddons.Text = $Addons.config.Addon.Length.ToString() + " addons installed"
+        $LabelInstalledAddons.Text = $Global:Addons.config.Addon.Length.ToString() + " addons installed"
     }
-    $LabelInstalledAddons.Location  = New-Object System.Drawing.Point(10,30)
+    $LabelInstalledAddons.Location  = New-Object System.Drawing.Point(120,30)
     $LabelInstalledAddons.Size = New-Object System.Drawing.Size(500,30)
     $LabelInstalledAddons.TextAlign = "MiddleLeft"
     $LabelInstalledAddons.BackColor = [System.Drawing.Color]::Transparent
     $LabelInstalledAddons.ForeColor = [System.Drawing.Color]::White
-    $LabelInstalledAddons.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $LabelInstalledAddons.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelInstalledAddons)
 
     #*** Label LegendSelected Color
@@ -931,7 +1044,7 @@ Classic Addon Manager"
     $LabelSelectedText.Anchor = "Top,Right"
     $LabelSelectedText.BackColor = [System.Drawing.Color]::Transparent
     $LabelSelectedText.ForeColor = [System.Drawing.Color]::White
-    $LabelSelectedText.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelSelectedText.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelSelectedText)
 
     #*** Label LegendUpToDate Color
@@ -952,7 +1065,7 @@ Classic Addon Manager"
     $LabelUpToDateText.Anchor = "Top,Right"
     $LabelUpToDateText.BackColor = [System.Drawing.Color]::Transparent
     $LabelUpToDateText.ForeColor = [System.Drawing.Color]::White
-    $LabelUpToDateText.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelUpToDateText.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelUpToDateText)
 
     #*** Label LegendUpdateAvailable Color
@@ -973,7 +1086,7 @@ Classic Addon Manager"
     $LabelUpdateAvailableColor.Anchor = "Top,Right"
     $LabelUpdateAvailableColor.BackColor = [System.Drawing.Color]::Transparent
     $LabelUpdateAvailableColor.ForeColor = [System.Drawing.Color]::White
-    $LabelUpdateAvailableColor.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelUpdateAvailableColor.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelUpdateAvailableColor)
 
     #*** Addon List
@@ -986,7 +1099,7 @@ Classic Addon Manager"
     $ListViewBox.HeaderStyle =  'Nonclickable'
     $ListViewBox.BackColor = [System.Drawing.Color]::Black
     $ListViewBox.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
-    $ListViewBox.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
+    $ListViewBox.Font = [System.Drawing.Font]::new($Global:Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
     $ListViewBox.FullRowSelect = $true
     $ListViewBox.MultiSelect = $true
     $ListViewBox.he
@@ -1001,7 +1114,7 @@ Classic Addon Manager"
 
     $ListViewBox.Add_DoubleClick({
        
-        Start-Process ($Addons.config.Addon | Where-Object ID -eq $ListViewBox.SelectedItems[0].Text).Website
+        Start-Process ($Global:Addons.config.Addon | Where-Object ID -eq $ListViewBox.SelectedItems[0].Text).Website
     })
 
 
@@ -1018,7 +1131,7 @@ Classic Addon Manager"
     $ToolTipRefresh.SetToolTip($ButtonRefresh,"Refreshes the list and fetching latest version info from CurseForge. ")
     $ButtonRefresh.BackColor = $StandardButtonColor
     $ButtonRefresh.ForeColor = $StandardButtonTextColor
-    $ButtonRefresh.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $ButtonRefresh.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($ButtonRefresh)
 
     $ButtonRefresh.Add_Click({
@@ -1042,7 +1155,7 @@ Waiting for API response"
     $ToolTipUpdateSelected.SetToolTip($ButtonUpdateSelected,"Update all selected addons. Select more than one by holding shift or control.")
     $ButtonUpdateSelected.BackColor = $StandardButtonColor
     $ButtonUpdateSelected.ForeColor = $StandardButtonTextColor
-    $ButtonUpdateSelected.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $ButtonUpdateSelected.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($ButtonUpdateSelected)
 
     $ButtonUpdateSelected.Add_Click({
@@ -1051,7 +1164,7 @@ Waiting for API response"
         Foreach ($record in $ListViewBox.SelectedItems) {
             $LoadSpinner.Text = "Updating...
             
-" + ($addons.config.Addon | Where-Object ID -eq $record.text).name
+" + ($Global:Addons.config.Addon | Where-Object ID -eq $record.text).name
             $LoadSpinner.Update()
             UpdateAddon -AddonID $record.text
 
@@ -1073,13 +1186,13 @@ Waiting for API response"
         $ToolTipUpdateAll.SetToolTip($ButtonUpdateAll,"Updates all addons that have a new version on CurseForge.")        
         $ButtonUpdateAll.BackColor = $StandardButtonColor
         $ButtonUpdateAll.ForeColor = [System.Drawing.Color]::White
-        $ButtonUpdateAll.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+        $ButtonUpdateAll.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
         $main_form.Controls.Add($ButtonUpdateAll)
     
         $ButtonUpdateAll.Add_Click({
     
             $LoadSpinner.Visible = $true
-            foreach ($addon in $Addons.config.Addon) {
+            foreach ($addon in $Global:Addons.config.Addon) {
        
                 if ($addon.CurrentVersion -ne $addon.LatestVersion) {
                     
@@ -1108,7 +1221,7 @@ Waiting for API response"
     $ToolTipOpenSearch.SetToolTip($ButtonOpenSearch,"Search and install more addons from CurseForge.")  
     $ButtonOpenSearch.BackColor = $StandardButtonColor
     $ButtonOpenSearch.ForeColor = $StandardButtonTextColor
-    $ButtonOpenSearch.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $ButtonOpenSearch.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $ButtonOpenSearch.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\search.png")
     $ButtonOpenSearch.BackgroundImageLayout = "Zoom"
     $main_form.Controls.Add($ButtonOpenSearch)
@@ -1136,7 +1249,7 @@ Waiting for API response"
     $LabelElvUI.BorderStyle = "none"
     $LabelElvUI.BackColor = $StandardButtonColor
     $LabelElvUI.ForeColor = [System.Drawing.Color]::Orange
-    $LabelElvUI.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $LabelElvUI.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelElvUI)
     $LabelElvUI.BringToFront()
 
@@ -1148,7 +1261,7 @@ Waiting for API response"
     $ElvUIViewBox.GridLines = $false
     $ElvUIViewBox.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
     $ElvUIViewBox.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
-    $ElvUIViewBox.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
+    $ElvUIViewBox.Font = [System.Drawing.Font]::new($Global:Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
     $ElvUIViewBox.FullRowSelect = $true
     $ElvUIViewBox.MultiSelect = $true
 
@@ -1171,12 +1284,12 @@ Waiting for API response"
     $ButtonElvUI.FlatStyle = "Popup"
     $ButtonElvUI.ForeColor = $StandardButtonTextColor
     $ButtonElvUI.BackColor = $StandardButtonColor
-    $ButtonElvUI.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Bold)
+    $ButtonElvUI.Font = [System.Drawing.Font]::new($Global:Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($ButtonElvUI)
     $ButtonElvUI.BringToFront()
 
     $ButtonElvUI.Add_Click({
-        if (Test-Path ($Addons.config.IfaceAddonsFolder + "\ElvUI")) {
+        if (Test-Path ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI")) {
             $ButtonElvUI.Text = "Updating..."
             InstallElvUI
         } else {
@@ -1195,7 +1308,7 @@ Waiting for API response"
     $LabelBattleground.BorderStyle = "Fixed3D"
     $LabelBattleground.BackColor = $StandardButtonColor
     $LabelBattleground.ForeColor = [System.Drawing.Color]::White
-    $LabelBattleground.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
+    $LabelBattleground.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelBattleground)
 
     #*** Label Battleground
@@ -1206,7 +1319,7 @@ Waiting for API response"
     $LabelBattlegroundInternal.BorderStyle = "None"
     $LabelBattlegroundInternal.BackColor = $StandardButtonColor
     $LabelBattlegroundInternal.ForeColor = [System.Drawing.Color]::Orange
-    $LabelBattlegroundInternal.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
+    $LabelBattlegroundInternal.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelBattlegroundInternal)
     $LabelBattlegroundInternal.BringToFront()
 
@@ -1218,7 +1331,7 @@ Waiting for API response"
     $LabelDarkmoon.BorderStyle = "Fixed3D"
     $LabelDarkmoon.BackColor = $StandardButtonColor
     $LabelDarkmoon.ForeColor = [System.Drawing.Color]::White
-    $LabelDarkmoon.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
+    $LabelDarkmoon.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelDarkmoon)
 
 
@@ -1229,7 +1342,7 @@ Waiting for API response"
     $LabelDarkmoonInternal.BorderStyle = "None"
     $LabelDarkmoonInternal.BackColor = $StandardButtonColor
     $LabelDarkmoonInternal.ForeColor = [System.Drawing.Color]::Orange
-    $LabelDarkmoonInternal.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
+    $LabelDarkmoonInternal.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelDarkmoonInternal)
     $LabelDarkmoonInternal.BringToFront()
 
@@ -1244,12 +1357,12 @@ Waiting for API response"
     $ToolTipImport.SetToolTip($ButtonImport,"Searches through your addons folder and matching existing addons with possible matches on CurseForge and adds them to the list") 
     $ButtonImport.ForeColor = $StandardButtonTextColor
     $ButtonImport.BackColor = $StandardButtonColor
-    $ButtonImport.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $ButtonImport.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($ButtonImport)
 
     $ButtonImport.Add_Click({
         $SubPath = [regex]::escape("\Interface\AddOns")
-        if ($Addons.config.IfaceAddonsFolder -match $SubPath) {
+        if ($Global:Addons.config.IfaceAddonsFolder -match $SubPath) {
             $LoadSpinner.Text = "Importing your current addons. This can take some time depending on how many addons are installed"
             $LoadSpinner.Update()
             $LoadSpinner.Visible = $true
@@ -1280,7 +1393,7 @@ Waiting for API response"
 
     $ButtonVersion.BackgroundImageLayout = "Zoom"
     $ButtonVersion.FlatStyle = "Popup"
-    $ButtonVersion.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Bold)
+    $ButtonVersion.Font = [System.Drawing.Font]::new($Global:Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($ButtonVersion)
     $ButtonVersion.BringToFront()
 
@@ -1290,7 +1403,12 @@ Waiting for API response"
             $ShiftIsDown =  (Get-KeyState($VK_SHIFT))        
 
             if ($ShiftIsDown){
-                Start-Process notepad ".\Resources\Save.xml"
+                if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+                    Start-Process notepad ".\Resources\Save.xml"
+                } else {
+                    Start-Process notepad ".\Resources\Save_Retail.xml"
+                }
+                
             } else {
                 Start-Process ".\Update_SMOSK.exe"
             }
@@ -1307,7 +1425,7 @@ Waiting for API response"
     $LabelCreator.Anchor = "Bottom,Left"
     $LabelCreator.BackColor = [System.Drawing.Color]::Transparent
     $LabelCreator.ForeColor = [System.Drawing.Color]::LightGray
-    $LabelCreator.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelCreator.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelCreator)
 
     #*** Button Delete Addons
@@ -1321,7 +1439,7 @@ Waiting for API response"
     $ToolTipDeleteAddon.SetToolTip($ButtonDeleteAddon,"Delete all selected addons from the list and removing the files in your addons folder") 
     $ButtonDeleteAddon.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#e48330")
     $ButtonDeleteAddon.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#212121")
-    $ButtonDeleteAddon.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $ButtonDeleteAddon.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($ButtonDeleteAddon)
 
     $ButtonDeleteAddon.Add_Click({
@@ -1334,8 +1452,8 @@ Waiting for API response"
             
         }
 
-        if ($null -ne $Addons.config.Addon.Length) {
-            $LabelInstalledAddons.Text = $Addons.config.Addon.Length.ToString() + " Addons installed"
+        if ($null -ne $Global:Addons.config.Addon.Length) {
+            $LabelInstalledAddons.Text = $Global:Addons.config.Addon.Length.ToString() + " Addons installed"
         } else {
             $LabelInstalledAddons.Text = "1 Addon installed"
         }
@@ -1349,29 +1467,29 @@ Waiting for API response"
     $LabelBuffsHeader.Location  = New-Object System.Drawing.Point(550,570)
     $LabelBuffsHeader.items.AddRange(((Get-ChildItem -LiteralPath ".\BuffSchedules").Name.Trim(".xml")))
     $LabelBuffsHeader.Size = New-Object System.Drawing.Size(425,30)
-    if ($null -ne $Addons.config.BuffplanningDefault ) {
-        $LabelBuffsHeader.Text = $Addons.config.BuffplanningDefault.Trim(".xml")
+    if ($null -ne $Global:Addons.config.BuffplanningDefault ) {
+        $LabelBuffsHeader.Text = $Global:Addons.config.BuffplanningDefault.Trim(".xml")
     } else {
         $LabelBuffsHeader.Text = "Nethergarde Keep"
     }
     $LabelBuffsHeader.DropDownStyle = "DropDownList"
     $LabelBuffsHeader.BackColor = [System.Drawing.Color]::Black
     $LabelBuffsHeader.ForeColor = [System.Drawing.Color]::White
-    $LabelBuffsHeader.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
+    $LabelBuffsHeader.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelBuffsHeader)
 
     $LabelBuffsHeader.Add_SelectedIndexChanged({
 
         
-        if ($null -eq $Addons.config.BuffplanningDefault) {
-            $node = $Addons.SelectSingleNode("config")
-            $newNode = $Addons.CreateNode("element", "BuffplanningDefault", $null)
+        if ($null -eq $Global:Addons.config.BuffplanningDefault) {
+            $node = $Global:Addons.SelectSingleNode("config")
+            $newNode = $Global:Addons.CreateNode("element", "BuffplanningDefault", $null)
             $node.AppendChild($newNode)
  
         } 
         
-        $Addons.config.BuffplanningDefault = $LabelBuffsHeader.SelectedItem.ToString()
-        $Addons.Save($XMLPath)
+        $Global:Addons.config.BuffplanningDefault = $LabelBuffsHeader.SelectedItem.ToString()
+        $Global:Addons.Save($Global:XMLPath)
         
         
         Buffplaning
@@ -1388,7 +1506,7 @@ Waiting for API response"
     $BuffViewBoxSizeBig = New-Object System.Drawing.Size(425,193)
     $BuffViewBox = New-Object System.Windows.Forms.ListView
     $BuffViewBox.Location = New-Object System.Drawing.Point(550,600)
-    if($addons.config.BuffsMaximized -eq "+") {
+    if($Global:Addons.config.BuffsMaximized -eq "+") {
         $BuffViewBox.Size = $BuffViewBoxSizeSmall
     } else {
         $BuffViewBox.Size = $BuffViewBoxSizeBig
@@ -1397,7 +1515,7 @@ Waiting for API response"
     $BuffViewBox.GridLines = $false
     $BuffViewBox.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
     $BuffViewBox.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
-    $BuffViewBox.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
+    $BuffViewBox.Font = [System.Drawing.Font]::new($Global:Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
     $BuffViewBox.FullRowSelect = $true
     $BuffViewBox.MultiSelect = $true
 
@@ -1419,7 +1537,7 @@ Waiting for API response"
     $ButtonExpandBuffViewLocationUp = New-Object System.Drawing.Size(954,679)
     $ButtonExpandBuffViewLocationDown = New-Object System.Drawing.Size(954,772)
     $ButtonExpandBuffView = New-Object System.Windows.Forms.Button
-    if($addons.config.BuffsMaximized -eq "+") {
+    if($Global:Addons.config.BuffsMaximized -eq "+") {
         $ButtonExpandBuffView.Location = $ButtonExpandBuffViewLocationUp
         $ButtonExpandBuffView.Text = "+"
     } else {
@@ -1433,7 +1551,7 @@ Waiting for API response"
     $ToolTipExpandBuffView.SetToolTip($ButtonExpandBuffView,"Expand Buff schedule")
     $ButtonExpandBuffView.BackColor = $StandardButtonColor
     $ButtonExpandBuffView.ForeColor = $StandardButtonTextColor
-    $ButtonExpandBuffView.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $ButtonExpandBuffView.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($ButtonExpandBuffView)
     $ButtonExpandBuffView.BringToFront()
 
@@ -1443,15 +1561,15 @@ Waiting for API response"
             $ButtonExpandBuffView.Location = $ButtonExpandBuffViewLocationDown
             $BuffViewBox.Size = $BuffViewBoxSizeBig
             $ButtonExpandBuffView.Text = "-"
-            $Addons.config.BuffsMaximized = "-"
+            $Global:Addons.config.BuffsMaximized = "-"
         } else {
             $ButtonExpandBuffView.Location = $ButtonExpandBuffViewLocationUp
             $BuffViewBox.Size = $BuffViewBoxSizeSmall
             $ButtonExpandBuffView.Text = "+"
-            $Addons.config.BuffsMaximized = "+"
+            $Global:Addons.config.BuffsMaximized = "+"
         }
         $ButtonExpandBuffView.BringToFront()
-        $Addons.Save($XMLPath)
+        $Global:Addons.Save($Global:XMLPath)
 
     })
 
@@ -1464,7 +1582,7 @@ Waiting for API response"
     $ResetViewBox.GridLines = $false
     $ResetViewBox.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
     $ResetViewBox.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
-    $ResetViewBox.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
+    $ResetViewBox.Font = [System.Drawing.Font]::new($Global:Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
     $ResetViewBox.FullRowSelect = $true
     $ResetViewBox.MultiSelect = $true
 
@@ -1489,18 +1607,18 @@ Waiting for API response"
     $LabelIfaceAddons.TextAlign = "MiddleCenter"
     $LabelIfaceAddons.BackColor = [System.Drawing.Color]::Transparent
     $LabelIfaceAddons.ForeColor = [System.Drawing.Color]::White
-    $LabelIfaceAddons.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 9, [System.Drawing.FontStyle]::Bold)
+    $LabelIfaceAddons.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 9, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LabelIfaceAddons)
 
     #*** Button IfaceAddonsPatch 
     $ButtonIfaceAddonsPath = New-Object System.Windows.Forms.Button
     $ButtonIfaceAddonsPath.Location = New-Object System.Drawing.Size(10,720)
     $ButtonIfaceAddonsPath.Size = New-Object System.Drawing.Size(320,30)
-    $ButtonIfaceAddonsPath.Text = $Addons.config.IfaceAddonsFolder
+    $ButtonIfaceAddonsPath.Text = $Global:Addons.config.IfaceAddonsFolder
     $ButtonIfaceAddonsPath.FlatStyle = "Popup"
     $ButtonIfaceAddonsPath.BackColor = $StandardButtonColor
     $ButtonIfaceAddonsPath.ForeColor = $StandardButtonTextColor
-    $ButtonIfaceAddonsPath.Font = [System.Drawing.Font]::new($Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $ButtonIfaceAddonsPath.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($ButtonIfaceAddonsPath)
 
     $ButtonIfaceAddonsPath.Add_Click({
@@ -1771,9 +1889,9 @@ and will open on
 
     
 
-    if ($null -ne $Addons.config.Addon ) {
+    if ($null -ne $Global:Addons.config.Addon ) {
 
-        $Addons.Load($XMLPath)
+        $Global:Addons.Load($Global:XMLPath)
         $LoadSpinner.Update()
         $ListViewBox.Clear()
         $ListViewBox.Columns.Add("PID")
@@ -1785,12 +1903,12 @@ and will open on
         
         $AddonRemovedFromProject = @()
 
-        if ($null -eq $Addons.config.Addon.Length) {
+        if ($null -eq $Global:Addons.config.Addon.Length) {
             
             $nrAddons = 1
 
         } else {
-            $nrAddons = $Addons.config.Addon.Length
+            $nrAddons = $Global:Addons.config.Addon.Length
 
         }
         
@@ -1799,7 +1917,7 @@ and will open on
 
         #*** Getting properties for all installed addons and sorting them by name *********
         $BuildBody = @()
-        foreach ($addon in ($Addons.config.addon | Sort-Object Name)) {
+        foreach ($addon in ($Global:Addons.config.addon | Sort-Object Name)) {
             $BuildBody += $addon.id
         }
 
@@ -1815,7 +1933,7 @@ and will open on
                     $response = (Invoke-RestMethod -uri "https://addons-ecs.forgesvc.net/api/v2/addon" -Body $body -Method Post -ContentType "application/json" -TimeoutSec 5) | Sort-Object Name
                 } else {
                     
-                    $response = Invoke-RestMethod -uri ("https://addons-ecs.forgesvc.net/api/v2/addon/" + $body ) -TimeoutSec 5
+                    $response = Invoke-RestMethod -uri ("https://addons-ecs.forgesvc.net/api/v2/addon/" + $BuildBody ) -TimeoutSec 5
                     
                 }
                 $MethodError = $false
@@ -1849,10 +1967,10 @@ and will open on
             
 
 
-            $subnode = ($Addons.config.Addon | Where-Object ID -eq $record.id)
+            $subnode = ($Global:Addons.config.Addon | Where-Object ID -eq $record.id)
             if ($null -eq $subnode.Website) {
 
-                $child = $Addons.CreateElement("Website")
+                $child = $Global:Addons.CreateElement("Website")
                 
                 $subnode.AppendChild($child)
 
@@ -1869,8 +1987,8 @@ and will open on
             $ListView_Item = New-Object System.Windows.Forms.ListViewItem($record.ID)
             $ListView_Item.SubItems.Add($record.Name)
 
-            $currentVersion = ($Addons.config.Addon | Where-Object ID -eq $record.id).CurrentVersion
-            $latestVersion = ($Addons.config.Addon | Where-Object ID -eq $record.id).LatestVersion
+            $currentVersion = ($Global:Addons.config.Addon | Where-Object ID -eq $record.id).CurrentVersion
+            $latestVersion = ($Global:Addons.config.Addon | Where-Object ID -eq $record.id).LatestVersion
 
             
             if ($currentVersion -match "\d") {
@@ -1888,12 +2006,17 @@ and will open on
                 $ListView_Item.SubItems.Add("Imported, Update to display version.")
             }
             
-            
+            if ($ComboBoxWowVersion.SelectedItem -eq "Retail") {
+
+                $GameVersionFlavor = "wow_retail"
+            } else {
+                $GameVersionFlavor = "wow_classic"
+            }
 
             $AddonInfo = $record | 
                 Select-Object -ExpandProperty LatestFiles |
                     Where-Object {
-                        ($_.GameVersionFlavor -eq "wow_classic") -and ($_.ReleaseType -eq "1") 
+                        ($_.GameVersionFlavor -eq $GameVersionFlavor) -and ($_.ReleaseType -eq "1") 
                     }
             
             if ($null -eq $AddonInfo) {
@@ -1907,7 +2030,7 @@ and will open on
 
             }
 
-            ($Addons.config.addon | Where-Object ID -EQ $Record.ID).LatestVersion = $AddonInfo.displayName 
+            ($Global:Addons.config.addon | Where-Object ID -EQ $Record.ID).LatestVersion = $AddonInfo.displayName 
 
            
 
@@ -1983,6 +2106,8 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
         
         
         
+    } else {
+        $ListViewBox.Clear()
     }
     
 
@@ -1999,14 +2124,14 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
     $ElvUIViewBox.Columns[$ElvUIViewBox.Columns.Count - 1].Width = -2
 
 
-    if ($null -eq $Addons.config.ElvUI) {
-        $subnode = $Addons.SelectSingleNode("config")
+    if ($null -eq $Global:Addons.config.ElvUI) {
+        $subnode = $Global:Addons.SelectSingleNode("config")
             
-        $child = $Addons.CreateElement("ElvUI")
+        $child = $Global:Addons.CreateElement("ElvUI")
 
-        $SubChildVersion = $Addons.CreateElement("CurrentVersion")
-        $SubChildLatestVersion = $Addons.CreateElement("LatestVersion")
-        $SubChildDate = $Addons.CreateElement("DateUpdated")
+        $SubChildVersion = $Global:Addons.CreateElement("CurrentVersion")
+        $SubChildLatestVersion = $Global:Addons.CreateElement("LatestVersion")
+        $SubChildDate = $Global:Addons.CreateElement("DateUpdated")
         
         $child.AppendChild($SubChildVersion)
         $child.AppendChild($SubChildLatestVersion)
@@ -2023,24 +2148,24 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
 
 
     } else {
-        if ($null -eq $Addons.config.ElvUI.LatestVersion) {
-            $subnode = $Addons.config.SelectSingleNode("ElvUI")
+        if ($null -eq $Global:Addons.config.ElvUI.LatestVersion) {
+            $subnode = $Global:Addons.config.SelectSingleNode("ElvUI")
             
-            $child = $Addons.CreateElement("LatestVersion")
+            $child = $Global:Addons.CreateElement("LatestVersion")
 
             $subnode.AppendChild($child)
 
-            $Addons.config.ElvUI.LatestVersion = ""
+            $Global:Addons.config.ElvUI.LatestVersion = ""
         }
-        if ($null -eq $Addons.config.ElvUI.DateUpdated) {
+        if ($null -eq $Global:Addons.config.ElvUI.DateUpdated) {
 
-            $subnode = $Addons.config.SelectSingleNode("ElvUI")
+            $subnode = $Global:Addons.config.SelectSingleNode("ElvUI")
             
-            $child = $Addons.CreateElement("DateUpdated")
+            $child = $Global:Addons.CreateElement("DateUpdated")
 
             $subnode.AppendChild($child)
 
-            $Addons.config.ElvUI.DateUpdated = ""
+            $Global:Addons.config.ElvUI.DateUpdated = ""
             
            
 
@@ -2053,7 +2178,11 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
     $MethodError = $true
     while ($MethodError) {
         try {
-            $ElvUILatestVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui-classic/-/tags?format=atom")[0].title
+            if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+                $ElvUILatestVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui-classic/-/tags?format=atom")[0].title
+            } else {
+                $ElvUILatestVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui/-/tags?format=atom")[0].title
+            }
             $MethodError = $false
 
         } catch {
@@ -2072,15 +2201,15 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
 
 
 
-    $Addons.config.ElvUI.LatestVersion = $ElvUILatestVersion
-    if ($Addons.config.ElvUI.CurrentVersion -eq "") {
+    $Global:Addons.config.ElvUI.LatestVersion = $ElvUILatestVersion
+    if ($Global:Addons.config.ElvUI.CurrentVersion -eq "") {
         $ButtonElvUI.Text = "Install"
         $ButtonElvUI.BackColor = $StandardButtonColor
         $ButtonElvUI.ForeColor = [System.Drawing.Color]::White
 
     } else {
 
-        if ($Addons.config.ElvUI.CurrentVersion -ne $ElvUILatestVersion) {
+        if ($Global:Addons.config.ElvUI.CurrentVersion -ne $ElvUILatestVersion) {
             $ButtonElvUI.Text = "Update available"
             $ButtonElvUI.BackColor = [System.Drawing.Color]::Orange
             $ButtonElvUI.ForeColor = [System.Drawing.Color]::Black
@@ -2094,16 +2223,20 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
         
 
     }
-
-    $ElvUIViewBox_Item = New-Object System.Windows.Forms.ListViewItem("ElvUI Classic")
-    $ElvUIViewBox_Item.SubItems.Add($Addons.config.ElvUI.CurrentVersion)
-    $ElvUIViewBox_Item.SubItems.Add($Addons.config.ElvUI.LatestVersion)
-    $ElvUIViewBox_Item.SubItems.Add($Addons.config.ElvUI.DateUpdated)
+    if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+        $ElvUIViewBox_Item = New-Object System.Windows.Forms.ListViewItem("ElvUI Classic")
+    } else {
+        $ElvUIViewBox_Item = New-Object System.Windows.Forms.ListViewItem("ElvUI Retail")
+    }
+    
+    $ElvUIViewBox_Item.SubItems.Add($Global:Addons.config.ElvUI.CurrentVersion)
+    $ElvUIViewBox_Item.SubItems.Add($Global:Addons.config.ElvUI.LatestVersion)
+    $ElvUIViewBox_Item.SubItems.Add($Global:Addons.config.ElvUI.DateUpdated)
     $ElvUIViewBox_Item.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
     $ElvUIViewBox_Item.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
     $ElvUIViewBox.Items.AddRange($ElvUIViewBox_Item)
     
-    if ($null -eq $Addons.config.Addon.Length) {
+    if ($null -eq $Global:Addons.config.Addon.Length) {
         if ($si -gt 0) {
             $LabelInstalledAddons.Text = "1 Addon installed, " + $si + "Update available"
         } else {
@@ -2111,14 +2244,14 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
         }
     } else {
         if ($si -gt 0) {
-            $LabelInstalledAddons.Text = $Addons.config.Addon.Length.ToString() + " Addons installed, " + $si + " Updates available"
+            $LabelInstalledAddons.Text = $Global:Addons.config.Addon.Length.ToString() + " Addons installed, " + $si + " Updates available"
         } else {
-            $LabelInstalledAddons.Text = $Addons.config.Addon.Length.ToString() + " Addons installed"
+            $LabelInstalledAddons.Text = $Global:Addons.config.Addon.Length.ToString() + " Addons installed"
         }
     }
     
     Try {
-        $Addons.save($XMLPath)
+        $Global:Addons.save($Global:XMLPath)
     } catch {
         if (Test-Path ".\Resources\error_log.txt") {
             "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
@@ -2319,7 +2452,7 @@ Function Buffplaning {
                 $BuffView_Item.ForeColor = [System.Drawing.Color]::Snow
             } else {
                 $BuffView_Item.ForeColor = [System.Drawing.Color]::Orange
-                $BuffView_Item.Font = [System.Drawing.Font]::new($Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
+                $BuffView_Item.Font = [System.Drawing.Font]::new($Global:Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
             }
             
         }
@@ -2345,7 +2478,7 @@ Function ImportCurrentAddons {
     
     $LoadSpinner.Text = "Compairing your addon folders to possible matches on CurseForge..."
     $LoadSpinner.Update()
-    $CurrentAddons = Get-ChildItem -Directory $Addons.config.IfaceAddonsFolder | Select-Object Name
+    $CurrentAddons = Get-ChildItem -Directory $Global:Addons.config.IfaceAddonsFolder | Select-Object Name
     $IDArray = [System.Collections.ArrayList]@()
     foreach ($Folder in $CurrentAddons) {
         $LoadSpinner.Text = "Trying to match" + "
@@ -2354,7 +2487,12 @@ Function ImportCurrentAddons {
         $MethodError = $true
         while ($MethodError) {
             try {
-                $Url  = "https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_classic&searchFilter=" + $Folder.Name
+                if ($ComboBoxWowVersion.SelectedItem -eq "Retail") {
+                    $Url  = "https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_retail&searchFilter=" + $Folder.Name
+                } else {
+                    $Url  = "https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_classic&searchFilter=" + $Folder.Name
+                }
+                
 
                 $PossibleMatches = (Invoke-RestMethod -Uri $Url -TimeoutSec 5 )
                 Start-Sleep -Seconds 1
@@ -2373,8 +2511,11 @@ Function ImportCurrentAddons {
         }
 
         foreach ($Match in $PossibleMatches) {
-    
-            $Modules = ($Match | Select-Object -ExpandProperty LatestFiles | Where-Object gameVersionFlavor -eq wow_classic | Select-Object -ExpandProperty modules | Select-Object foldername)
+            if ($ComboBoxWowVersion.SelectedItem -eq "Retail") {
+                $Modules = ($Match | Select-Object -ExpandProperty LatestFiles | Where-Object gameVersionFlavor -eq wow_retail | Select-Object -ExpandProperty modules | Select-Object foldername)
+            } else {
+                $Modules = ($Match | Select-Object -ExpandProperty LatestFiles | Where-Object gameVersionFlavor -eq wow_classic | Select-Object -ExpandProperty modules | Select-Object foldername)
+            }
         
             foreach ($Module in $Modules) {
                 
@@ -2402,6 +2543,14 @@ Function ImportCurrentAddons {
 Function CurseForgeSearch {
 
     Param($SearchTerm)
+
+
+    if ($ComboBoxWowVersion.SelectedItem -eq "Retail") {
+
+        $Global:SearchResult = Invoke-RestMethod -uri ("https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_retail&searchFilter=" + $SearchTerm) -TimeoutSec 20
+    } else {
+        $Global:SearchResult = Invoke-RestMethod -uri ("https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_classic&searchFilter=" + $SearchTerm) -TimeoutSec 20
+    }
 
     $Global:SearchResult = Invoke-RestMethod -uri ("https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_classic&searchFilter=" + $SearchTerm) -TimeoutSec 20
     $Global:SearchResult = ($Global:SearchResult | sort-object -property name)
@@ -2471,7 +2620,7 @@ Function makeUpdateLog {
 
 "
 
-    $UpdateLog = $Addons.config.Addon
+    $UpdateLog = $Global:Addons.config.Addon
     [Array]::Reverse($UpdateLog)
     
     foreach ($entry in $UpdateLog) {
@@ -2485,42 +2634,67 @@ Function makeUpdateLog {
 
 Function InstallElvUI {
 
-    Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui-classic/-/archive/master/elvui-classic-master.zip" -OutFile ".\Downloads\elvui-classic-master.zip" -TimeoutSec 20
+    if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+        Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui-classic/-/archive/master/elvui-classic-master.zip" -OutFile ".\Downloads\elvui-classic-master.zip" -TimeoutSec 20
 
-    if (Test-Path ($Addons.config.IfaceAddonsFolder + "\ElvUI")){
-        Remove-Item -LiteralPath ($Addons.config.IfaceAddonsFolder + "\ElvUI") -Force -Recurse
+        if (Test-Path ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI")){
+            Remove-Item -LiteralPath ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI") -Force -Recurse
+            
+        }
+        if (Test-Path ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI_OptionsUI")){
         
+            Remove-Item -LiteralPath ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI_OptionsUI") -Force -Recurse
+        }
+
+        Unzip -zipfile ".\Downloads\elvui-classic-master.zip" -outpath ".\Downloads"
+
+        Copy-Item -Path ".\Downloads\elvui-classic-master\ElvUI" -Destination ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI\" ) -recurse -Force
+        Copy-Item -Path ".\Downloads\elvui-classic-master\ElvUI_OptionsUI" -Destination ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI_OptionsUI\" ) -recurse -Force
+
+        Remove-Item -LiteralPath ".\Downloads\elvui-classic-master" -force -Recurse
+        Remove-Item -LiteralPath ".\Downloads\elvui-classic-master.zip" -force -Recurse
+
+        $ElvUIVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui-classic/-/tags?format=atom")[0].title
+
+    } else {
+
+        Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui/-/archive/master/elvui-master.zip" -OutFile ".\Downloads\elvui-master.zip" -TimeoutSec 20
+
+        if (Test-Path ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI")){
+            Remove-Item -LiteralPath ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI") -Force -Recurse
+            
+        }
+        if (Test-Path ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI_OptionsUI")){
+        
+            Remove-Item -LiteralPath ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI_OptionsUI") -Force -Recurse
+        }
+
+        Unzip -zipfile ".\Downloads\elvui-master.zip" -outpath ".\Downloads"
+
+        Copy-Item -Path ".\Downloads\elvui-master\ElvUI" -Destination ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI\" ) -recurse -Force
+        Copy-Item -Path ".\Downloads\elvui-master\ElvUI_OptionsUI" -Destination ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI_OptionsUI\" ) -recurse -Force
+
+        Remove-Item -LiteralPath ".\Downloads\elvui-master" -force -Recurse
+        Remove-Item -LiteralPath ".\Downloads\elvui-master.zip" -force -Recurse
+
+        $ElvUIVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui/-/tags?format=atom")[0].title       
     }
-    if (Test-Path ($Addons.config.IfaceAddonsFolder + "\ElvUI_OptionsUI")){
-       
-        Remove-Item -LiteralPath ($Addons.config.IfaceAddonsFolder + "\ElvUI_OptionsUI") -Force -Recurse
-    }
 
-    Unzip -zipfile ".\Downloads\elvui-classic-master.zip" -outpath ".\Downloads"
 
-    Copy-Item -Path ".\Downloads\elvui-classic-master\ElvUI" -Destination ($Addons.config.IfaceAddonsFolder + "\ElvUI\" ) -recurse -Force
-    Copy-Item -Path ".\Downloads\elvui-classic-master\ElvUI_OptionsUI" -Destination ($Addons.config.IfaceAddonsFolder + "\ElvUI_OptionsUI\" ) -recurse -Force
+    $Global:Addons.config.ElvUI.CurrentVersion = $ElvUIVersion
+    $Global:Addons.config.ElvUI.DateUpdated = (Get-Date -Format "yyyy-MM-dd").ToString()
 
-    Remove-Item -LiteralPath ".\Downloads\elvui-classic-master" -force -Recurse
-    Remove-Item -LiteralPath ".\Downloads\elvui-classic-master.zip" -force -Recurse
-
-    
-    $ElvUIVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui-classic/-/tags?format=atom")[0].title
-
-    $Addons.config.ElvUI.CurrentVersion = $ElvUIVersion
-    $Addons.config.ElvUI.DateUpdated = (Get-Date -Format "yyyy-MM-dd").ToString()
-
-    $Addons.Save($XMLPath)
+    $Global:Addons.Save($Global:XMLPath)
 
 }
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Addons.config.Version -ne "3.1.3") {
+    if ($Global:Addons.config.Version -ne "3.1.4") {
 
         $Updater = New-Object System.Xml.XmlDocument
-        $XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
-        $Updater.Load($XMLPathUpdater)
+        $Global:XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
+        $Updater.Load($Global:XMLPathUpdater)
        
         $url = "https://www.smosk.net/downloads/AddonManager.zip"
         $outfile = ".\Downloads\updater.zip"
@@ -2539,8 +2713,8 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Addons.config.Version = "3.1.3"
-        $Addons.Save($XMLPath)
+        $Global:Addons.config.Version = "3.1.4"
+        $Global:Addons.Save($Global:XMLPath)
 
     }
 
@@ -2556,8 +2730,8 @@ $ErrorActionPreference = "Stop"
 
 #*** Create XML object and load addon database
 $Addons = New-Object System.Xml.XmlDocument
-$XMLPath = ".\Resources\Save.xml"
-$Addons.Load($XMLPath)
+$Global:XMLPath = ".\Resources\Save.xml"
+$Global:Addons.Load($Global:XMLPath)
 
 
 
