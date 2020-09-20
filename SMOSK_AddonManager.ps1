@@ -1,4 +1,4 @@
-﻿$Version = "3.0.0"
+﻿$Version = "3.0.2"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -51,7 +51,7 @@ Function NewAddon {
 
     Param ($ID, $ImportOnly)
 
-    if ($ComboBoxWowVersion.SelectedItem -eq "Retail") {
+    if ($Global:GameVersion -eq "Retail") {
 
         $GameVersionFlavor = "wow_retail"
     } else {
@@ -212,7 +212,7 @@ Function DeleteAddon {
 Function SetIfaceAddonsFolder {
     
     Try {
-            if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+            if ($Global:GameVersion -eq "Classic") {
                 $Path = Get-Folder -Description "Select your Classic addons dir:
 
 Example:  D:\World of Warcraft\_classic_\Interface\Addons"
@@ -937,22 +937,42 @@ WoW Addon Manager"
     $LoadSpinner.BringToFront()
 
 
-    #*** Label buffplaning header
-    $ComboBoxWowVersion = New-Object System.Windows.Forms.ComboBox
-    $ComboBoxWowVersion.Location  = New-Object System.Drawing.Point(10,33)
-    $ComboBoxWowVersion.items.Add("Classic")
-    $ComboBoxWowVersion.items.Add("Retail")
-    $ComboBoxWowVersion.Size = New-Object System.Drawing.Size(100,30)
-    $ComboBoxWowVersion.Text = "Classic"
-    $ComboBoxWowVersion.DropDownStyle = "DropDownList"
-    $ComboBoxWowVersion.BackColor = [System.Drawing.Color]::Black
-    $ComboBoxWowVersion.ForeColor = [System.Drawing.Color]::White
-    $ComboBoxWowVersion.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
-    $main_form.Controls.Add($ComboBoxWowVersion)
+    #*** Button Tab Classic
+    $LabelTabClassic = New-Object System.Windows.Forms.Label
+    $LabelTabClassic.Location = New-Object System.Drawing.Size(11,32)
+    $LabelTabClassic.Size = New-Object System.Drawing.Size(100,30)
+    $LabelTabClassic.Text = "Classic"
+    $LabelTabClassic
+    $LabelTabClassic.TextAlign = "MiddleCenter"
+    $LabelTabClassic.BackColor = [System.Drawing.Color]::Transparent
+    $LabelTabClassic.ForeColor = [System.Drawing.Color]::Black
+    $LabelTabClassic.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\Tab_Foreground.png")
+    $LabelTabClassic.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
+    $main_form.Controls.Add($LabelTabClassic)
+    
+    $LabelTabClassic.Add_MouseEnter({
+        if ($Global:GameVersion -eq "Retail") {
+            $LabelTabClassic.ForeColor = [System.Drawing.Color]::Black
+        }
+     })
 
-    $ComboBoxWowVersion.Add_SelectedIndexChanged({
+     $LabelTabClassic.Add_MouseLeave({
+        if ($Global:GameVersion -eq "Retail") {
+            $LabelTabClassic.ForeColor = [System.Drawing.Color]::Gray
+        }
+     })
 
-        if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+    $LabelTabClassic.Add_Click({
+
+        if ($Global:GameVersion -eq "Retail") {
+            $ListViewBox.clear()
+            $LabelTabClassic.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\Tab_Foreground.png")
+            $LabelTabRetail.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\Tab_Background.png")
+            $LabelTabRetail.ForeColor = [System.Drawing.Color]::Gray
+            $LabelTabClassic.ForeColor = [System.Drawing.Color]::Black
+            $Global:GameVersion = "Classic"
+
+
             $LoadSpinner.Text = "Switching WoW version to
 Classic"
             $LoadSpinner.Visible = $true
@@ -972,12 +992,47 @@ Classic"
             $LabelBuffsHeader.Visible = $true
             $ResetViewBox.Visible = $true
             $ButtonExpandBuffView.Visible = $true
-            
 
-            
-        } 
+            $LoadSpinner.Visible = $false
+        }
         
-        if(($ComboBoxWowVersion.SelectedItem -eq "Retail")){
+
+    })
+
+     #*** Button Tab Retail
+     $LabelTabRetail = New-Object System.Windows.Forms.Label
+     $LabelTabRetail.Location = New-Object System.Drawing.Size(110,32)
+     $LabelTabRetail.Size = New-Object System.Drawing.Size(100,30)
+     $LabelTabRetail.Text = "Retail"
+     $LabelTabRetail.TextAlign = "MiddleCenter"
+     $LabelTabRetail.BackColor = [System.Drawing.Color]::Transparent
+     $LabelTabRetail.ForeColor = [System.Drawing.Color]::Gray
+     $LabelTabRetail.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\Tab_Background.png")
+     $LabelTabRetail.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
+     $main_form.Controls.Add($LabelTabRetail)
+     
+     $LabelTabRetail.Add_MouseEnter({
+        if ($Global:GameVersion -eq "Classic") {
+            $LabelTabRetail.ForeColor = [System.Drawing.Color]::Black
+        }
+     })
+
+     $LabelTabRetail.Add_MouseLeave({
+        if ($Global:GameVersion -eq "Classic") {
+            $LabelTabRetail.ForeColor = [System.Drawing.Color]::Gray
+        }
+     })
+
+     $LabelTabRetail.Add_Click({
+        if ($Global:GameVersion -eq "Classic") {
+            $ListViewBox.clear()
+
+            $LabelTabClassic.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\Tab_Background.png")
+            $LabelTabRetail.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\Tab_Foreground.png")
+            $LabelTabClassic.ForeColor = [System.Drawing.Color]::Gray
+            $LabelTabRetail.ForeColor = [System.Drawing.Color]::Black
+            $Global:GameVersion = "Retail"
+
             $LoadSpinner.Text = "Switching WoW version to
 Retail"
             $LoadSpinner.Visible = $true
@@ -996,17 +1051,11 @@ Retail"
             $LabelBuffsHeader.Visible = $false
             $ResetViewBox.Visible = $false
             $ButtonExpandBuffView.Visible = $false
+
+            $LoadSpinner.Visible = $false
         }
-
-        
-        
-        $LoadSpinner.Visible = $false
-
-
-        
-
-    })
-
+ 
+     })
 
 
     #*** Label InstalledAddons
@@ -1018,7 +1067,7 @@ Retail"
     } else {
         $LabelInstalledAddons.Text = $Global:Addons.config.Addon.Length.ToString() + " addons installed"
     }
-    $LabelInstalledAddons.Location  = New-Object System.Drawing.Point(120,30)
+    $LabelInstalledAddons.Location  = New-Object System.Drawing.Point(220,30)
     $LabelInstalledAddons.Size = New-Object System.Drawing.Size(500,30)
     $LabelInstalledAddons.TextAlign = "MiddleLeft"
     $LabelInstalledAddons.BackColor = [System.Drawing.Color]::Transparent
@@ -1403,7 +1452,7 @@ Waiting for API response"
             $ShiftIsDown =  (Get-KeyState($VK_SHIFT))        
 
             if ($ShiftIsDown){
-                if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+                if ($Global:GameVersion -eq "Classic") {
                     Start-Process notepad ".\Resources\Save.xml"
                 } else {
                     Start-Process notepad ".\Resources\Save_Retail.xml"
@@ -2006,7 +2055,7 @@ and will open on
                 $ListView_Item.SubItems.Add("Imported, Update to display version.")
             }
             
-            if ($ComboBoxWowVersion.SelectedItem -eq "Retail") {
+            if ($Global:GameVersion -eq "Retail") {
 
                 $GameVersionFlavor = "wow_retail"
             } else {
@@ -2178,7 +2227,7 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
     $MethodError = $true
     while ($MethodError) {
         try {
-            if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+            if ($Global:GameVersion -eq "Classic") {
                 $ElvUILatestVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui-classic/-/tags?format=atom")[0].title
             } else {
                 $ElvUILatestVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui/-/tags?format=atom")[0].title
@@ -2223,7 +2272,7 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
         
 
     }
-    if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+    if ($Global:GameVersion -eq "Classic") {
         $ElvUIViewBox_Item = New-Object System.Windows.Forms.ListViewItem("ElvUI Classic")
     } else {
         $ElvUIViewBox_Item = New-Object System.Windows.Forms.ListViewItem("ElvUI Retail")
@@ -2487,7 +2536,7 @@ Function ImportCurrentAddons {
         $MethodError = $true
         while ($MethodError) {
             try {
-                if ($ComboBoxWowVersion.SelectedItem -eq "Retail") {
+                if ($Global:GameVersion -eq "Retail") {
                     $Url  = "https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_retail&searchFilter=" + $Folder.Name
                 } else {
                     $Url  = "https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_classic&searchFilter=" + $Folder.Name
@@ -2511,7 +2560,7 @@ Function ImportCurrentAddons {
         }
 
         foreach ($Match in $PossibleMatches) {
-            if ($ComboBoxWowVersion.SelectedItem -eq "Retail") {
+            if ($Global:GameVersion -eq "Retail") {
                 $Modules = ($Match | Select-Object -ExpandProperty LatestFiles | Where-Object gameVersionFlavor -eq wow_retail | Select-Object -ExpandProperty modules | Select-Object foldername)
             } else {
                 $Modules = ($Match | Select-Object -ExpandProperty LatestFiles | Where-Object gameVersionFlavor -eq wow_classic | Select-Object -ExpandProperty modules | Select-Object foldername)
@@ -2545,7 +2594,7 @@ Function CurseForgeSearch {
     Param($SearchTerm)
 
 
-    if ($ComboBoxWowVersion.SelectedItem -eq "Retail") {
+    if ($Global:GameVersion -eq "Retail") {
 
         $Global:SearchResult = Invoke-RestMethod -uri ("https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_retail&searchFilter=" + $SearchTerm) -TimeoutSec 20
     } else {
@@ -2634,7 +2683,7 @@ Function makeUpdateLog {
 
 Function InstallElvUI {
 
-    if ($ComboBoxWowVersion.SelectedItem -eq "Classic") {
+    if ($Global:GameVersion -eq "Classic") {
         Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui-classic/-/archive/master/elvui-classic-master.zip" -OutFile ".\Downloads\elvui-classic-master.zip" -TimeoutSec 20
 
         if (Test-Path ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI")){
@@ -2690,7 +2739,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Global:Addons.config.Version -ne "3.1.4") {
+    if ($Global:Addons.config.Version -ne "3.1.5") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $Global:XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2704,6 +2753,9 @@ Function PullNewResources {
         Unzip -outpath ".\Downloads\" -zipfile $outfile
 
         foreach ($file in $Updater.files.file) {
+            if (($file.to -eq ".\Resources\Save_Retail.xml") -and (Test-Path $file.to) ) {
+                continue
+            }
             Copy-Item -Path $file.from -Destination $file.to -Recurse -Force
         }
 
@@ -2713,7 +2765,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Global:Addons.config.Version = "3.1.4"
+        $Global:Addons.config.Version = "3.1.5"
         $Global:Addons.Save($Global:XMLPath)
 
     }
@@ -2733,7 +2785,7 @@ $Addons = New-Object System.Xml.XmlDocument
 $Global:XMLPath = ".\Resources\Save.xml"
 $Global:Addons.Load($Global:XMLPath)
 
-
+$Global:GameVersion = "Classic"
 
 
 

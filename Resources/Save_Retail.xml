@@ -1,19 +1,61 @@
 <?xml version="1.0"?>
 <config>
   <Version>2.8.0</Version>
-  <IfaceAddonsFolder>C:\ChangeMe</IfaceAddonsFolder>
+  <IfaceAddonsFolder>D:\PS Projects\WowAddonUpdater\Retail\Interface\Addons</IfaceAddonsFolder>
   <Splash>.\Resources\Splash.png</Splash>
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
   <TitleIcon>.\Resources\Title_Icon.ico</TitleIcon>
   <ElvUI>
-    <CurrentVersion>
-    </CurrentVersion>
-    <DateUpdated>
-    </DateUpdated>
+    <CurrentVersion>v11.52</CurrentVersion>
+    <DateUpdated>2020-09-20</DateUpdated>
     <LatestVersion>v11.52</LatestVersion>
   </ElvUI>
   <BuffplanningDefault>MirageRaceway</BuffplanningDefault>
   <HighlightFont>Georgia</HighlightFont>
   <DetailFont>Arial</DetailFont>
   <BuffsMaximized>+</BuffsMaximized>
+  <Addon>
+    <ID>371278</ID>
+    <Name>Gathering</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3042/754/Gathering-Live-1.30.zip</DownloadLink>
+    <Description>Display per-hour gathering rates of items in a clean tooltip</Description>
+    <CurrentVersion>Live 1.30</CurrentVersion>
+    <LatestVersion>Live 1.30</LatestVersion>
+    <Modules>Gathering</Modules>
+    <DateUpdated>2020-09-20 14:23</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/gathering</Website>
+  </Addon>
+  <Addon>
+    <ID>15226</ID>
+    <Name>Grid2</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3043/594/Grid2-r979.zip</DownloadLink>
+    <Description>A modular, lightweight and screen-estate saving grid of party/raid unit frames</Description>
+    <CurrentVersion>r979</CurrentVersion>
+    <LatestVersion>r979</LatestVersion>
+    <Modules>Grid2Options,Grid2RaidDebuffs,Grid2RaidDebuffsOptions,Grid2LDB,Grid2</Modules>
+    <DateUpdated>2020-09-20 14:24</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/grid2</Website>
+  </Addon>
+  <Addon>
+    <ID>20697</ID>
+    <Name>GTFO</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3015/777/GTFO-4.56.zip</DownloadLink>
+    <Description>GTFO warns you when you're standing in fire or other bad stuff.</Description>
+    <CurrentVersion>4.56</CurrentVersion>
+    <LatestVersion>4.56</LatestVersion>
+    <Modules>GTFO</Modules>
+    <DateUpdated>2020-09-20 14:24</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/gtfo</Website>
+  </Addon>
+  <Addon>
+    <ID>65387</ID>
+    <Name>WeakAuras</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3049/565/WeakAuras-2.18.4.zip</DownloadLink>
+    <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
+    <CurrentVersion>2.18.4</CurrentVersion>
+    <LatestVersion>2.18.4</LatestVersion>
+    <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
+    <DateUpdated>2020-09-20 14:24</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
+  </Addon>
 </config>

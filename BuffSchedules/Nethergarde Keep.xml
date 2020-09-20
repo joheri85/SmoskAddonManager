@@ -2,9 +2,33 @@
 <RealmBuffs>
   <Today>
     <Buff>
-      <Time>19:00</Time>
+      <Time>11:00</Time>
+      <Name>Nefarian</Name>
+      <Guild>Fjorim &lt;Origin&gt;</Guild>
+      <Reset>No</Reset>
+    </Buff>
+    <Buff>
+      <Time>12:30</Time>
       <Name>Onyxia</Name>
-      <Guild>Timpa</Guild>
+      <Guild>Iron Trash</Guild>
+      <Reset>No</Reset>
+    </Buff>
+    <Buff>
+      <Time>18:40</Time>
+      <Name>Onyxia</Name>
+      <Guild>&lt;Pure&gt;</Guild>
+      <Reset>No</Reset>
+    </Buff>
+    <Buff>
+      <Time>18:55</Time>
+      <Name>Hakkar</Name>
+      <Guild>Reflux</Guild>
+      <Reset>No</Reset>
+    </Buff>
+    <Buff>
+      <Time>19:00</Time>
+      <Name>Nefarian</Name>
+      <Guild>Bobbyhood</Guild>
       <Reset>No</Reset>
     </Buff>
   </Today>
