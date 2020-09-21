@@ -1,4 +1,4 @@
-﻿$Version = "3.0.2"
+﻿$Version = "3.0.3"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -983,7 +983,7 @@ Classic"
             $Global:Addons.Load($Global:XMLPath)
             $ButtonIfaceAddonsPath.Text = $Global:Addons.config.IfaceAddonsFolder
             UpdateAddonsTable
-
+            
             $LabelBattleground.Visible = $true
             $LabelBattlegroundInternal.Visible = $true
             $LabelDarkmoon.Visible = $true
@@ -2399,18 +2399,20 @@ Function NethergardeKeepBuffSchedule {
             $CurrentBuff.AppendChild($Buffname)
             $CurrentBuff.AppendChild($BuffGuild)
             $CurrentBuff.AppendChild($BuffReset)
+            if ($currentLine.Length -gt 1) {
 
             $CurrentBuff.Time = $currentLine[0].Trim() -replace "&lt;","<" -replace "&gt;",">"
             $CurrentBuff.Name = $currentLine[1].Trim() -replace "&lt;","<" -replace "&gt;",">"
             $CurrentBuff.Guild = $currentLine[2].Trim() -replace "&lt;","<" -replace "&gt;",">"
             $CurrentBuff.Reset = $currentLine[3].Trim() -replace "&lt;","<" -replace "&gt;",">"
-
+            } 
 
             $Buffday.AppendChild($CurrentBuff)
 
             
             
         }
+        
 
         $Root.AppendChild($Buffday)
 
