@@ -1,4 +1,4 @@
-﻿$Version = "3.0.3"
+﻿$Version = "3.0.5"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -75,21 +75,31 @@ Function NewAddon {
                 Start-Sleep -Seconds 1
             } catch {
                 if (Test-Path ".\Resources\error_log.txt") {
-                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
+                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
                     $_ | Out-File ".\Resources\error_log.txt" -Append
                 } else {
-                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
+                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
                     $_ | Out-File ".\Resources\error_log.txt" -Append
         
                 }
             }
         }
 
-        
-
+                
+        $ReleaseType = "1"
         $AddonInfo = $AddonToInstall | 
             Select-Object -ExpandProperty LatestFiles  |
                 Where-Object {($_.GameVersionFlavor -eq $GameVersionFlavor) -and ($_.ReleaseType -eq "1")  }
+            
+        if ($null -eq $AddonInfo) {
+            $AddonInfo = $AddonToInstall | 
+            Select-Object -ExpandProperty LatestFiles  |
+                Where-Object {($_.GameVersionFlavor -eq $GameVersionFlavor) -and ($_.ReleaseType -eq "2")  }
+
+            $ReleaseType = "2"
+        }
+        
+            
         
         if (($null -ne $AddonInfo.length) -and ($null -ne $AddonInfo)){
 
@@ -131,7 +141,7 @@ Function NewAddon {
             $child.LatestVersion = $AddonInfo.displayName.ToString()
             $Modules = $AddonToInstall | 
                 Select-Object -ExpandProperty LatestFiles | 
-                    Where-Object {($_.GameVersionFlavor -eq $GameVersionFlavor) -and ($_.ReleaseType -eq "1") } | 
+                    Where-Object {($_.GameVersionFlavor -eq $GameVersionFlavor) -and ($_.ReleaseType -eq $ReleaseType) } | 
                         select-Object -Property Modules
 
             $ModulesString = ""
@@ -1434,7 +1444,7 @@ Waiting for API response"
     $ToolTipButtonVersion = New-Object System.Windows.Forms.ToolTip
     $ButtonVersion.BackColor = [System.Drawing.Color]::Black
     $ButtonVersion.ForeColor = [System.Drawing.Color]::LightGray
-    if ($version -eq $SMOSKVersion.smosk.version) {
+    if ($version -eq $Global:SmoskVersion.smosk.version) {
         $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update_ok.png")
     } else {
         $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update.png")
@@ -1693,7 +1703,7 @@ Waiting for API response"
 # Checks for available updates from curseforge and refreshes the addon listview
 Function UpdateAddonsTable {
 
-    $SMOSKVersion.Load($SMOSKVersionPath)
+    $Global:SmoskVersion.Load($Global:SmoskVersionPath)
     
     $ButtonRefresh.Text = ""
     $ButtonRefresh.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\updating.png")
@@ -1916,7 +1926,7 @@ and will open on
 
 
     #*** Version
-    if ($version -eq $SMOSKVersion.smosk.changelog.logentry[0].version) {
+    if ($version -eq $Global:SmoskVersion.smosk.changelog.logentry[0].version) {
         $ButtonVersion.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\update_ok.png")
         $ToolTipButtonVersion.SetToolTip($ButtonVersion,"SMOSK! is up to date")
         $ButtonVersion.Text = "v " + $Version
@@ -1989,10 +1999,10 @@ and will open on
 
             } catch {
                 if (Test-Path ".\Resources\error_log.txt") {
-                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
+                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
                     $_ | Out-File ".\Resources\error_log.txt" -Append
                 } else {
-                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
+                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
                     $_ | Out-File ".\Resources\error_log.txt" -Append
         
                 }
@@ -2067,6 +2077,14 @@ and will open on
                     Where-Object {
                         ($_.GameVersionFlavor -eq $GameVersionFlavor) -and ($_.ReleaseType -eq "1") 
                     }
+
+            if ($null -eq $AddonInfo) {
+                $AddonInfo = $record | 
+                Select-Object -ExpandProperty LatestFiles |
+                    Where-Object {
+                        ($_.GameVersionFlavor -eq $GameVersionFlavor) -and ($_.ReleaseType -eq "2") 
+                    }
+            }
             
             if ($null -eq $AddonInfo) {
                 $AddonRemovedFromProject += $subnode.Name
@@ -2142,14 +2160,14 @@ and will open on
         $ListViewBox.Columns[4].Width = 940 - ($ListViewBox.Columns[0].Width + $ListViewBox.Columns[1].Width + $ListViewBox.Columns[2].Width + $ListViewBox.Columns[3].Width)
         
         if($AddonRemovedFromProject.length -gt 0) {
-            $addonstring = ""
+            $Global:Addonstring = ""
             foreach ($removedAddon in $AddonRemovedFromProject) {
-                $addonstring += $removedAddon + "
+                $Global:Addonstring += $removedAddon + "
 "
             }
             [System.Windows.MessageBox]::Show('These addons have been removed or moved to another project ID on CurseForge.
             
-'  + $addonstring +'
+'  + $Global:Addonstring +'
 Go to "Find More Addons" to reinstall the addon if it have been moved to another project ID','Addon removed','OK','Information')
         }
         
@@ -2236,10 +2254,10 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
 
         } catch {
             if (Test-Path ".\Resources\error_log.txt") {
-                "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
+                "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
                 $_ | Out-File ".\Resources\error_log.txt" -Append
             } else {
-                "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
+                "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
                 $_ | Out-File ".\Resources\error_log.txt" -Append
     
             }
@@ -2303,10 +2321,10 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
         $Global:Addons.save($Global:XMLPath)
     } catch {
         if (Test-Path ".\Resources\error_log.txt") {
-            "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
+            "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
             $_ | Out-File ".\Resources\error_log.txt" -Append
         } else {
-            "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
+            "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
             $_ | Out-File ".\Resources\error_log.txt" -Append
 
         }
@@ -2420,10 +2438,10 @@ Function NethergardeKeepBuffSchedule {
         $BuffsXML.Save($BuffPath)
     } catch {
         if (Test-Path ".\Resources\error_log.txt") {
-            "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
+            "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
             $_ | Out-File ".\Resources\error_log.txt" -Append
         } else {
-            "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
+            "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
             $_ | Out-File ".\Resources\error_log.txt" -Append
 
         }
@@ -2551,10 +2569,10 @@ Function ImportCurrentAddons {
 
             } catch {
                 if (Test-Path ".\Resources\error_log.txt") {
-                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
+                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
                     $_ | Out-File ".\Resources\error_log.txt" -Append
                 } else {
-                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
+                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
                     $_ | Out-File ".\Resources\error_log.txt" -Append
         
                 }
@@ -2648,7 +2666,7 @@ Function CurseForgeSearch {
 Function makeChangelog {
     $LogText = ""
 
-    foreach ($logentry in $SMOSKVersion.smosk.changelog.logentry) {
+    foreach ($logentry in $Global:SmoskVersion.smosk.changelog.logentry) {
         $LogText += "---------------------------------------------------- " + $logentry.version + " ----------------------------------------------------
 "
         foreach ($change in $logentry.change) {
@@ -2783,7 +2801,7 @@ $ErrorActionPreference = "Stop"
 
 
 #*** Create XML object and load addon database
-$Addons = New-Object System.Xml.XmlDocument
+$Global:Addons = New-Object System.Xml.XmlDocument
 $Global:XMLPath = ".\Resources\Save.xml"
 $Global:Addons.Load($Global:XMLPath)
 
@@ -2792,11 +2810,11 @@ $Global:GameVersion = "Classic"
 
 
 
-$OSInfo = (get-computerinfo | select-object -property OSName, OSVersion)
+$Global:OSInfo = (get-computerinfo | select-object -property OSName, OSVersion)
 
-$SMOSKVersion = New-Object System.Xml.XmlDocument
-$SMOSKVersionPath = "https://www.smosk.net/downloads/version.xml"
-$SMOSKVersion.Load($SMOSKVersionPath)
+$Global:SmoskVersion = New-Object System.Xml.XmlDocument
+$Global:SmoskVersionPath = "https://www.smosk.net/downloads/version.xml"
+$Global:SmoskVersion.Load($Global:SmoskVersionPath)
 
 #*** Download latest updater
 PullNewResources
@@ -2808,10 +2826,10 @@ DrawGUI
 } catch {
     
     if (Test-Path ".\Resources\error_log.txt") {
-        "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
+        "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
         $_ | Out-File ".\Resources\error_log.txt" -Append
     } else {
-        "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $OSInfo.OSName + " - " + $OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
+        "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
         $_ | Out-File ".\Resources\error_log.txt" -Append
         
     }

@@ -2,10 +2,10 @@
 <RealmBuffs>
   <Today>
     <Buff>
-      <Time />
-      <Name />
-      <Guild />
-      <Reset />
+      <Time>19:00</Time>
+      <Name>Nefarian</Name>
+      <Guild>Knaustro &lt;LoL&gt;</Guild>
+      <Reset>No</Reset>
     </Buff>
   </Today>
 </RealmBuffs>

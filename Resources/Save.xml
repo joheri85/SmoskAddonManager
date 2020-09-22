@@ -6,8 +6,8 @@
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
   <TitleIcon>.\Resources\Title_Icon.ico</TitleIcon>
   <ElvUI>
-    <CurrentVersion>1.27</CurrentVersion>
-    <DateUpdated>2020-08-21</DateUpdated>
+    <CurrentVersion>1.31</CurrentVersion>
+    <DateUpdated>2020-09-22</DateUpdated>
     <LatestVersion>1.31</LatestVersion>
   </ElvUI>
   <BuffplanningDefault>Nethergarde Keep</BuffplanningDefault>
@@ -91,17 +91,6 @@
     <Website>https://www.curseforge.com/wow/addons/deadly-boss-mods</Website>
   </Addon>
   <Addon>
-    <ID>301451</ID>
-    <Name>Extended Tabard UI</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2775/952/ExtTabardUI [Classic] 1.0.0.zip</DownloadLink>
-    <Description>Expands and enhances the guild tabard customization interface.</Description>
-    <CurrentVersion>Extended Tabard UI [Classic Edition] 1.0.0</CurrentVersion>
-    <LatestVersion>Extended Tabard UI [Classic Edition] 1.0.0</LatestVersion>
-    <Modules>ExtTabardUI</Modules>
-    <DateUpdated>2020-09-09 11:03</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/extended-tabard-ui</Website>
-  </Addon>
-  <Addon>
     <ID>340171</ID>
     <Name>Wide Quest Log</Name>
     <DownloadLink>https://edge.forgecdn.net/files/2795/837/widequestlog-v1.5.zip</DownloadLink>
@@ -133,17 +122,6 @@
     <Modules>Questie</Modules>
     <DateUpdated>2020-09-09 11:04</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/questie</Website>
-  </Addon>
-  <Addon>
-    <ID>341918</ID>
-    <Name>Wardrobe</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2801/928/Wardrobe-Wardrobe-1.0.10.zip</DownloadLink>
-    <Description>Helps you with your equipment</Description>
-    <CurrentVersion>Wardrobe-1.0.10</CurrentVersion>
-    <LatestVersion>Wardrobe-1.0.10</LatestVersion>
-    <Modules>Wardrobe</Modules>
-    <DateUpdated>2020-09-09 11:04</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/wardrobe</Website>
   </Addon>
   <Addon>
     <ID>79879</ID>
@@ -201,4 +179,37 @@
     <Website>https://www.curseforge.com/wow/addons/decursive</Website>
   </Addon>
   <BuffsMaximized>-</BuffsMaximized>
+  <Addon>
+    <ID>336356</ID>
+    <Name>SoulSort - Easy Soul Shard Management</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2782/10/SoulSort_v0.4.zip</DownloadLink>
+    <Description>A lightweight Soul Shard management addon.</Description>
+    <CurrentVersion>SoulSort_v0.4.zip</CurrentVersion>
+    <LatestVersion>SoulSort_v0.4.zip</LatestVersion>
+    <Modules>SoulSort</Modules>
+    <DateUpdated>2020-09-22 09:03</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/soulsort-easy-soul-shard-management</Website>
+  </Addon>
+  <Addon>
+    <ID>341918</ID>
+    <Name>Wardrobe</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2801/928/Wardrobe-Wardrobe-1.0.10.zip</DownloadLink>
+    <Description>Helps you with your equipment</Description>
+    <CurrentVersion>Wardrobe-1.0.10</CurrentVersion>
+    <LatestVersion>Wardrobe-1.0.10</LatestVersion>
+    <Modules>Wardrobe</Modules>
+    <DateUpdated>2020-09-22 09:03</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/wardrobe</Website>
+  </Addon>
+  <Addon>
+    <ID>301451</ID>
+    <Name>Extended Tabard UI</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2775/952/ExtTabardUI [Classic] 1.0.0.zip</DownloadLink>
+    <Description>Expands and enhances the guild tabard customization interface.</Description>
+    <CurrentVersion>Extended Tabard UI [Classic Edition] 1.0.0</CurrentVersion>
+    <LatestVersion>Extended Tabard UI [Classic Edition] 1.0.0</LatestVersion>
+    <Modules>ExtTabardUI</Modules>
+    <DateUpdated>2020-09-22 09:36</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/extended-tabard-ui</Website>
+  </Addon>
 </config>
