@@ -1,4 +1,4 @@
-﻿$Version = "3.0.5"
+﻿$Version = "3.1.0"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -952,7 +952,6 @@ WoW Addon Manager"
     $LabelTabClassic.Location = New-Object System.Drawing.Size(11,32)
     $LabelTabClassic.Size = New-Object System.Drawing.Size(100,30)
     $LabelTabClassic.Text = "Classic"
-    $LabelTabClassic
     $LabelTabClassic.TextAlign = "MiddleCenter"
     $LabelTabClassic.BackColor = [System.Drawing.Color]::Transparent
     $LabelTabClassic.ForeColor = [System.Drawing.Color]::Black
@@ -1496,8 +1495,8 @@ Waiting for API response"
     $ButtonDeleteAddon.Anchor = "Bottom,Right"
     $ToolTipDeleteAddon = New-Object System.Windows.Forms.ToolTip
     $ToolTipDeleteAddon.SetToolTip($ButtonDeleteAddon,"Delete all selected addons from the list and removing the files in your addons folder") 
-    $ButtonDeleteAddon.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#e48330")
-    $ButtonDeleteAddon.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#212121")
+    $ButtonDeleteAddon.BackColor = $StandardButtonColor
+    $ButtonDeleteAddon.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
     $ButtonDeleteAddon.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($ButtonDeleteAddon)
 
@@ -2545,41 +2544,45 @@ Function Buffplaning {
 
 Function ImportCurrentAddons {
     
-    $LoadSpinner.Text = "Compairing your addon folders to possible matches on CurseForge..."
+    $LoadSpinner.Text = "Fetching " + $Global:GameVersion + " addon list from CurseForge"
     $LoadSpinner.Update()
+
+    $MethodError = $true
+    while ($MethodError) {
+        try {
+            if ($Global:GameVersion -eq "Retail") {
+                $Url  = "https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_retail"
+            } else {
+                $Url  = "https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_classic"
+            }
+            
+
+            $AllAddons = (Invoke-RestMethod -Uri $Url -TimeoutSec 5 )
+            $MethodError = $false
+
+        } catch {
+            if (Test-Path ".\Resources\error_log.txt") {
+                "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
+                $_ | Out-File ".\Resources\error_log.txt" -Append
+            } else {
+                "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
+                $_ | Out-File ".\Resources\error_log.txt" -Append
+    
+            }
+        }
+    }
+
+
     $CurrentAddons = Get-ChildItem -Directory $Global:Addons.config.IfaceAddonsFolder | Select-Object Name
     $IDArray = [System.Collections.ArrayList]@()
+
     foreach ($Folder in $CurrentAddons) {
         $LoadSpinner.Text = "Trying to match" + "
         
 '" + $Folder.Name + "'"
-        $MethodError = $true
-        while ($MethodError) {
-            try {
-                if ($Global:GameVersion -eq "Retail") {
-                    $Url  = "https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_retail&searchFilter=" + $Folder.Name
-                } else {
-                    $Url  = "https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_classic&searchFilter=" + $Folder.Name
-                }
-                
-
-                $PossibleMatches = (Invoke-RestMethod -Uri $Url -TimeoutSec 5 )
-                Start-Sleep -Seconds 1
-                $MethodError = $false
-
-            } catch {
-                if (Test-Path ".\Resources\error_log.txt") {
-                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
-                    $_ | Out-File ".\Resources\error_log.txt" -Append
-                } else {
-                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
-                    $_ | Out-File ".\Resources\error_log.txt" -Append
         
-                }
-            }
-        }
 
-        foreach ($Match in $PossibleMatches) {
+        foreach ($Match in $AllAddons) {
             if ($Global:GameVersion -eq "Retail") {
                 $Modules = ($Match | Select-Object -ExpandProperty LatestFiles | Where-Object gameVersionFlavor -eq wow_retail | Select-Object -ExpandProperty modules | Select-Object foldername)
             } else {

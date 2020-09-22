@@ -13,103 +13,104 @@
   <BuffplanningDefault>Nethergarde Keep</BuffplanningDefault>
   <HighlightFont>Georgia</HighlightFont>
   <DetailFont>Arial</DetailFont>
+  <BuffsMaximized>+</BuffsMaximized>
   <Addon>
-    <ID>404027</ID>
-    <Name>Olivier C'Thun</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/3041/573/OlivierCthun_v1.34.zip</DownloadLink>
-    <Description>Positioning helper</Description>
-    <CurrentVersion>OlivierCthun_v1.34</CurrentVersion>
-    <LatestVersion>OlivierCthun_v1.34</LatestVersion>
-    <Modules>OlivierCthun</Modules>
-    <DateUpdated>2020-09-09 11:00</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/olivier-cthun</Website>
+    <ID>4344</ID>
+    <Name>Accountant Classic</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3037/769/Accountant_Classic_v2.12.00.11305.zip</DownloadLink>
+    <Description>A basic tool to track your monetary incomings and outgoings within WoW.</Description>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <LatestVersion>v2.12.00.11305</LatestVersion>
+    <Modules>Accountant_Classic</Modules>
+    <DateUpdated>2020-09-22 11:59</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/accountant-classic</Website>
   </Addon>
   <Addon>
-    <ID>338524</ID>
-    <Name>Details! Damage Meter Classic WoW</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/3052/406/DetailsClassic.1.13.5.213.142.zip</DownloadLink>
-    <Description>The best damage meter in a exclusive version for Classic WoW</Description>
-    <CurrentVersion>DetailsClassic.1.13.5.213.142</CurrentVersion>
-    <LatestVersion>DetailsClassic.1.13.5.214.142</LatestVersion>
-    <Modules>Details_TinyThreat,Details_DataStorage,Details_Streamer,Details</Modules>
-    <DateUpdated>2020-09-09 11:02</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/details-damage-meter-classic-wow</Website>
+    <ID>54541</ID>
+    <Name>AddOnSkins</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2916/997/AddOnSkins-4.401.zip</DownloadLink>
+    <Description>Additional skins for AddOns to match the look of ElvUI</Description>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <LatestVersion>4.401</LatestVersion>
+    <Modules>AddOnSkins</Modules>
+    <DateUpdated>2020-09-22 11:59</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/addonskins</Website>
   </Addon>
   <Addon>
-    <ID>299093</ID>
-    <Name>NeatPlates</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/3051/734/NeatPlates-1.13.5.12.zip</DownloadLink>
-    <Description>NeatPlates is a nameplate addon that works with both the Classic and Modern version of WoW</Description>
-    <CurrentVersion>1.13.5.12</CurrentVersion>
-    <LatestVersion>1.13.5.12</LatestVersion>
-    <Modules>NeatPlatesHub,NeatPlatesWidgets,NeatPlates_Alvara,NeatPlates_BlizzardPlates,NeatPlates_ClassicPlates,NeatPlates_Graphite,NeatPlates_Grey,NeatPlates_Neon,NeatPlates_Quatre,NeatPlates_Renaitre,NeatPlates_Roth,NeatPlates_Simple,NeatPlates_Slim_Horizontal,NeatPlates_Slim_Vertical,NeatPlates</Modules>
-    <DateUpdated>2020-09-09 11:02</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/neatplates</Website>
+    <ID>325109</ID>
+    <Name>AddOnSkins Classic</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3003/505/AddOnSkins-4.44.zip</DownloadLink>
+    <Description>Collection of Skins for User Interfaces at Tukui.org</Description>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <LatestVersion>4.44</LatestVersion>
+    <Modules>AddOnSkins</Modules>
+    <DateUpdated>2020-09-22 11:59</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/addonskins-classic</Website>
   </Addon>
   <Addon>
-    <ID>65387</ID>
-    <Name>WeakAuras</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/3049/569/WeakAuras-2.18.4-classic.zip</DownloadLink>
-    <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
-    <CurrentVersion>2.18.4-classic</CurrentVersion>
-    <LatestVersion>2.18.4-classic</LatestVersion>
-    <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
-    <DateUpdated>2020-09-09 11:03</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
+    <ID>353572</ID>
+    <Name>Classic Profession Filter</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3019/243/ClassicProfessionFilter-1.0.5.zip</DownloadLink>
+    <Description>Add a search bar to the default Blizzard profession windows</Description>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <LatestVersion>1.0.5</LatestVersion>
+    <Modules>ClassicProfessionFilter,ClassicProfessionFilter</Modules>
+    <DateUpdated>2020-09-22 11:59</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/classicprofessionfilter</Website>
   </Addon>
   <Addon>
-    <ID>350035</ID>
-    <Name>GatherMate2 Data Wowhead classic</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/3051/492/gathermate2_data_wowhead_classic_v2020-09-07.zip</DownloadLink>
-    <Description>GatherMate2 data from Wowhead</Description>
-    <CurrentVersion>gathermate2_data_wowhead_classic_v2020-09-07.zip</CurrentVersion>
-    <LatestVersion>gathermate2_data_wowhead_classic_v2020-09-07.zip</LatestVersion>
+    <ID>390738</ID>
+    <Name>CommunityDKP</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3050/680/CommunityDKP-3.2.3-r60.zip</DownloadLink>
+    <Description>The Premiere DKP Management Tool</Description>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <LatestVersion>3.2.3-r60</LatestVersion>
+    <Modules>CommunityDKP</Modules>
+    <DateUpdated>2020-09-22 11:59</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/communitydkp</Website>
+  </Addon>
+  <Addon>
+    <ID>334628</ID>
+    <Name>Accurate coordinates (DCoords Classic)</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2790/776/DCoordsClassic.zip</DownloadLink>
+    <Description>Accurate coordinates for in game and world map world of warcraft classic</Description>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <LatestVersion>1.2.15</LatestVersion>
+    <Modules>DCoordsClassic</Modules>
+    <DateUpdated>2020-09-22 11:59</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/dcoords-classic</Website>
+  </Addon>
+  <Addon>
+    <ID>340193</ID>
+    <Name>Spinx GatherMate2 Data (Classic)</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3057/208/Spinx GatherMate2 Data 2020-09-14.zip</DownloadLink>
+    <Description>Datapoints for GatherMate2 specific to the Classic zones</Description>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <LatestVersion>Spinx GatherMate2 Data 2020-09-14</LatestVersion>
     <Modules>GatherMate2_Data</Modules>
-    <DateUpdated>2020-09-09 11:03</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/gathermate2-data-wowhead-classic</Website>
+    <DateUpdated>2020-09-22 11:59</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/spinx-gathermate2-data-classic</Website>
   </Addon>
   <Addon>
-    <ID>324034</ID>
-    <Name>Leatrix Maps (Classic)</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/3052/669/Leatrix_Maps-1.13.78.zip</DownloadLink>
-    <Description>Enhancements for your maps.</Description>
-    <CurrentVersion>1.13.78</CurrentVersion>
-    <LatestVersion>1.13.78</LatestVersion>
-    <Modules>Leatrix_Maps</Modules>
-    <DateUpdated>2020-09-09 11:03</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/leatrix-maps-classic</Website>
-  </Addon>
-  <Addon>
-    <ID>3358</ID>
-    <Name>Deadly Boss Mods (DBM)</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/3049/596/DBM-Core-1.13.59-classic.zip</DownloadLink>
-    <Description>The ultimate encounter helper to give you fight info that's easy to process at a glance. DBM aims to focus on what's happening to you, and what YOU need to do about it.</Description>
-    <CurrentVersion>1.13.59-classic</CurrentVersion>
-    <LatestVersion>1.13.60-classic</LatestVersion>
-    <Modules>DBM-Core,DBM-GUI,DBM-Party-Classic,DBM-AQ20,DBM-AQ40,DBM-Azeroth,DBM-BWL,DBM-MC,DBM-Onyxia,DBM-Naxx,DBM-ZG,DBM-DefaultSkin,DBM-StatusBarTimers</Modules>
-    <DateUpdated>2020-09-09 11:03</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/deadly-boss-mods</Website>
-  </Addon>
-  <Addon>
-    <ID>340171</ID>
-    <Name>Wide Quest Log</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2795/837/widequestlog-v1.5.zip</DownloadLink>
-    <Description>Doubles the width of the default Quest Log</Description>
-    <CurrentVersion>widequestlog-v1.5.zip</CurrentVersion>
-    <LatestVersion>widequestlog-v1.5.zip</LatestVersion>
-    <Modules>WideQuestLog</Modules>
-    <DateUpdated>2020-09-09 11:04</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/widequestlog</Website>
+    <ID>349130</ID>
+    <Name>(Classic) Maekor Overpower Alert</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2966/216/Maekor-Overpower-Alert.zip</DownloadLink>
+    <Description>Alerts the warrior when overpower is available (regardless of what stance you're in)</Description>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <LatestVersion>Maekor-Overpower-Alert.zip</LatestVersion>
+    <Modules>Maekor-Overpower-Alert</Modules>
+    <DateUpdated>2020-09-22 11:59</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/classic-maekor-overpower-alert</Website>
   </Addon>
   <Addon>
     <ID>4558</ID>
     <Name>Quartz</Name>
     <DownloadLink>https://edge.forgecdn.net/files/2818/475/Quartz-3.5-classic-5.zip</DownloadLink>
     <Description>Modular casting bar.</Description>
-    <CurrentVersion>3.5-classic-5</CurrentVersion>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
     <LatestVersion>3.5-classic-5</LatestVersion>
     <Modules>Quartz</Modules>
-    <DateUpdated>2020-09-09 11:04</DateUpdated>
+    <DateUpdated>2020-09-22 12:00</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/quartz</Website>
   </Addon>
   <Addon>
@@ -117,55 +118,55 @@
     <Name>Questie</Name>
     <DownloadLink>https://edge.forgecdn.net/files/3038/665/Questie-v6.0.5.zip</DownloadLink>
     <Description>The Classic Quest Helper</Description>
-    <CurrentVersion>v6.0.5</CurrentVersion>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
     <LatestVersion>v6.0.5</LatestVersion>
     <Modules>Questie</Modules>
-    <DateUpdated>2020-09-09 11:04</DateUpdated>
+    <DateUpdated>2020-09-22 12:00</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/questie</Website>
   </Addon>
   <Addon>
-    <ID>79879</ID>
-    <Name>Exorsus Raid Tools</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2977/700/ExRT4160-classic.zip</DownloadLink>
-    <Description>Exorsus Raid Tools</Description>
-    <CurrentVersion>Exorsus Raid Tools v.4160 Classic</CurrentVersion>
-    <LatestVersion>Exorsus Raid Tools v.4160 Classic</LatestVersion>
-    <Modules>ExRT</Modules>
-    <DateUpdated>2020-09-09 11:04</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/exorsus-raid-tools</Website>
+    <ID>341918</ID>
+    <Name>Wardrobe</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2801/928/Wardrobe-Wardrobe-1.0.10.zip</DownloadLink>
+    <Description>Helps you with your equipment</Description>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <LatestVersion>Wardrobe-1.0.10</LatestVersion>
+    <Modules>Wardrobe</Modules>
+    <DateUpdated>2020-09-22 12:00</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/wardrobe</Website>
   </Addon>
   <Addon>
-    <ID>20697</ID>
-    <Name>GTFO</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2888/406/GTFO-4.55-Classic.zip</DownloadLink>
-    <Description>GTFO warns you when you're standing in fire or other bad stuff.</Description>
-    <CurrentVersion>4.55-classic</CurrentVersion>
-    <LatestVersion>4.55-classic</LatestVersion>
-    <Modules>GTFO</Modules>
-    <DateUpdated>2020-09-09 11:04</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/gtfo</Website>
+    <ID>65387</ID>
+    <Name>WeakAuras</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3049/569/WeakAuras-2.18.4-classic.zip</DownloadLink>
+    <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <LatestVersion>2.18.4-classic</LatestVersion>
+    <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
+    <DateUpdated>2020-09-22 12:00</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
   </Addon>
   <Addon>
-    <ID>334984</ID>
-    <Name>LetMeCast</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2777/357/LetMeCast_v1.3.zip</DownloadLink>
-    <Description>Tiny auto-dismount and auto-stand addon.</Description>
-    <CurrentVersion>LetMeCast_v1.3.zip</CurrentVersion>
-    <LatestVersion>LetMeCast_v1.3.zip</LatestVersion>
-    <Modules>LetMeCast</Modules>
-    <DateUpdated>2020-09-09 11:04</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/letmecast</Website>
+    <ID>340171</ID>
+    <Name>Wide Quest Log</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2795/837/widequestlog-v1.5.zip</DownloadLink>
+    <Description>Doubles the width of the default Quest Log</Description>
+    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <LatestVersion>widequestlog-v1.5.zip</LatestVersion>
+    <Modules>WideQuestLog</Modules>
+    <DateUpdated>2020-09-22 12:00</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/widequestlog</Website>
   </Addon>
   <Addon>
-    <ID>353572</ID>
-    <Name>Classic Profession Filter</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/3019/243/ClassicProfessionFilter-1.0.5.zip</DownloadLink>
-    <Description>Add a search bar to the default Blizzard profession windows</Description>
-    <CurrentVersion>1.0.5</CurrentVersion>
-    <LatestVersion>1.0.5</LatestVersion>
-    <Modules>ClassicProfessionFilter,ClassicProfessionFilter</Modules>
-    <DateUpdated>2020-09-09 11:04</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/classicprofessionfilter</Website>
+    <ID>3358</ID>
+    <Name>Deadly Boss Mods (DBM)</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3054/79/DBM-Core-1.13.60-classic.zip</DownloadLink>
+    <Description>The ultimate encounter helper to give you fight info that's easy to process at a glance. DBM aims to focus on what's happening to you, and what YOU need to do about it.</Description>
+    <CurrentVersion>1.13.60-classic</CurrentVersion>
+    <LatestVersion>1.13.60-classic</LatestVersion>
+    <Modules>DBM-Core,DBM-GUI,DBM-Party-Classic,DBM-AQ20,DBM-AQ40,DBM-Azeroth,DBM-BWL,DBM-MC,DBM-Onyxia,DBM-Naxx,DBM-ZG,DBM-DefaultSkin,DBM-StatusBarTimers</Modules>
+    <DateUpdated>2020-09-22 12:01</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/deadly-boss-mods</Website>
   </Addon>
   <Addon>
     <ID>2154</ID>
@@ -175,41 +176,106 @@
     <CurrentVersion>2.7.7-classic</CurrentVersion>
     <LatestVersion>2.7.7-classic</LatestVersion>
     <Modules>Decursive</Modules>
-    <DateUpdated>2020-09-09 11:05</DateUpdated>
+    <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/decursive</Website>
   </Addon>
-  <BuffsMaximized>-</BuffsMaximized>
   <Addon>
-    <ID>336356</ID>
-    <Name>SoulSort - Easy Soul Shard Management</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2782/10/SoulSort_v0.4.zip</DownloadLink>
-    <Description>A lightweight Soul Shard management addon.</Description>
-    <CurrentVersion>SoulSort_v0.4.zip</CurrentVersion>
-    <LatestVersion>SoulSort_v0.4.zip</LatestVersion>
-    <Modules>SoulSort</Modules>
-    <DateUpdated>2020-09-22 09:03</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/soulsort-easy-soul-shard-management</Website>
+    <ID>61284</ID>
+    <Name>Details! Damage Meter</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3059/904/DetailsClassic.1.13.5.214.142.zip</DownloadLink>
+    <Description>Complete combat analysis, gathering damage, healing, and other importante stuff.</Description>
+    <CurrentVersion>DetailsClassic.1.13.5.214.142</CurrentVersion>
+    <LatestVersion>DetailsClassic.1.13.5.214.142</LatestVersion>
+    <Modules>Details_TinyThreat,Details_DataStorage,Details_Streamer,Details</Modules>
+    <DateUpdated>2020-09-22 12:01</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/details</Website>
   </Addon>
   <Addon>
-    <ID>341918</ID>
-    <Name>Wardrobe</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2801/928/Wardrobe-Wardrobe-1.0.10.zip</DownloadLink>
-    <Description>Helps you with your equipment</Description>
-    <CurrentVersion>Wardrobe-1.0.10</CurrentVersion>
-    <LatestVersion>Wardrobe-1.0.10</LatestVersion>
-    <Modules>Wardrobe</Modules>
-    <DateUpdated>2020-09-22 09:03</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/wardrobe</Website>
+    <ID>338524</ID>
+    <Name>Details! Damage Meter Classic WoW</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3059/902/DetailsClassic.1.13.5.214.142.zip</DownloadLink>
+    <Description>The best damage meter in a exclusive version for Classic WoW</Description>
+    <CurrentVersion>DetailsClassic.1.13.5.214.142</CurrentVersion>
+    <LatestVersion>DetailsClassic.1.13.5.214.142</LatestVersion>
+    <Modules>Details_TinyThreat,Details_DataStorage,Details_Streamer,Details</Modules>
+    <DateUpdated>2020-09-22 12:01</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/details-damage-meter-classic-wow</Website>
   </Addon>
   <Addon>
-    <ID>301451</ID>
-    <Name>Extended Tabard UI</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2775/952/ExtTabardUI [Classic] 1.0.0.zip</DownloadLink>
-    <Description>Expands and enhances the guild tabard customization interface.</Description>
-    <CurrentVersion>Extended Tabard UI [Classic Edition] 1.0.0</CurrentVersion>
-    <LatestVersion>Extended Tabard UI [Classic Edition] 1.0.0</LatestVersion>
-    <Modules>ExtTabardUI</Modules>
-    <DateUpdated>2020-09-22 09:36</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/extended-tabard-ui</Website>
+    <ID>79879</ID>
+    <Name>Exorsus Raid Tools</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2977/700/ExRT4160-classic.zip</DownloadLink>
+    <Description>Exorsus Raid Tools</Description>
+    <CurrentVersion>Exorsus Raid Tools v.4160 Classic</CurrentVersion>
+    <LatestVersion>Exorsus Raid Tools v.4160 Classic</LatestVersion>
+    <Modules>ExRT</Modules>
+    <DateUpdated>2020-09-22 12:01</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/exorsus-raid-tools</Website>
+  </Addon>
+  <Addon>
+    <ID>405809</ID>
+    <Name>GatherMate2 Classic</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3047/169/GatherMate2-1.45.6-classic.zip</DownloadLink>
+    <Description>Collects Herbs, Mines, Gas Clouds, Archaeology, Treasure and Fishing locations and adds them to the worldmap and minimap</Description>
+    <CurrentVersion>1.45.6-classic</CurrentVersion>
+    <LatestVersion>1.45.6-classic</LatestVersion>
+    <Modules>GatherMate2</Modules>
+    <DateUpdated>2020-09-22 12:01</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/gathermate2-classic</Website>
+  </Addon>
+  <Addon>
+    <ID>350035</ID>
+    <Name>GatherMate2 Data Wowhead classic</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3051/492/gathermate2_data_wowhead_classic_v2020-09-07.zip</DownloadLink>
+    <Description>GatherMate2 data from Wowhead</Description>
+    <CurrentVersion>gathermate2_data_wowhead_classic_v2020-09-07.zip</CurrentVersion>
+    <LatestVersion>gathermate2_data_wowhead_classic_v2020-09-07.zip</LatestVersion>
+    <Modules>GatherMate2_Data</Modules>
+    <DateUpdated>2020-09-22 12:01</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/gathermate2-data-wowhead-classic</Website>
+  </Addon>
+  <Addon>
+    <ID>20697</ID>
+    <Name>GTFO</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2888/406/GTFO-4.55-Classic.zip</DownloadLink>
+    <Description>GTFO warns you when you're standing in fire or other bad stuff.</Description>
+    <CurrentVersion>4.55-classic</CurrentVersion>
+    <LatestVersion>4.55-classic</LatestVersion>
+    <Modules>GTFO</Modules>
+    <DateUpdated>2020-09-22 12:01</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/gtfo</Website>
+  </Addon>
+  <Addon>
+    <ID>324034</ID>
+    <Name>Leatrix Maps (Classic)</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3052/669/Leatrix_Maps-1.13.78.zip</DownloadLink>
+    <Description>Enhancements for your maps.</Description>
+    <CurrentVersion>1.13.78</CurrentVersion>
+    <LatestVersion>1.13.78</LatestVersion>
+    <Modules>Leatrix_Maps</Modules>
+    <DateUpdated>2020-09-22 12:01</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/leatrix-maps-classic</Website>
+  </Addon>
+  <Addon>
+    <ID>334984</ID>
+    <Name>LetMeCast</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2777/357/LetMeCast_v1.3.zip</DownloadLink>
+    <Description>Tiny auto-dismount and auto-stand addon.</Description>
+    <CurrentVersion>LetMeCast_v1.3.zip</CurrentVersion>
+    <LatestVersion>LetMeCast_v1.3.zip</LatestVersion>
+    <Modules>LetMeCast</Modules>
+    <DateUpdated>2020-09-22 12:01</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/letmecast</Website>
+  </Addon>
+  <Addon>
+    <ID>299093</ID>
+    <Name>NeatPlates</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3051/734/NeatPlates-1.13.5.12.zip</DownloadLink>
+    <Description>NeatPlates is a nameplate addon that works with both the Classic and Modern version of WoW</Description>
+    <CurrentVersion>1.13.5.12</CurrentVersion>
+    <LatestVersion>1.13.5.12</LatestVersion>
+    <Modules>NeatPlatesHub,NeatPlatesWidgets,NeatPlates_Alvara,NeatPlates_BlizzardPlates,NeatPlates_ClassicPlates,NeatPlates_Graphite,NeatPlates_Grey,NeatPlates_Neon,NeatPlates_Quatre,NeatPlates_Renaitre,NeatPlates_Roth,NeatPlates_Simple,NeatPlates_Slim_Horizontal,NeatPlates_Slim_Vertical,NeatPlates</Modules>
+    <DateUpdated>2020-09-22 12:01</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/neatplates</Website>
   </Addon>
 </config>
