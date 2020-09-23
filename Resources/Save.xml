@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-  <Version>3.1.5</Version>
+  <Version>3.1.8</Version>
   <IfaceAddonsFolder>D:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
   <Splash>.\Resources\Splash.png</Splash>
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
@@ -251,7 +251,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3052/669/Leatrix_Maps-1.13.78.zip</DownloadLink>
     <Description>Enhancements for your maps.</Description>
     <CurrentVersion>1.13.78</CurrentVersion>
-    <LatestVersion>1.13.78</LatestVersion>
+    <LatestVersion>1.13.79</LatestVersion>
     <Modules>Leatrix_Maps</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/leatrix-maps-classic</Website>

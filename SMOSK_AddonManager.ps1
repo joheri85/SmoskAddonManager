@@ -1,4 +1,4 @@
-﻿$Version = "3.1.0"
+﻿$Version = "3.1.1"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -339,31 +339,18 @@ Function DrawGUI {
     $SplashScreen.BackgroundImage = [system.drawing.image]::FromFile($Global:Addons.config.Splash)
     $SplashScreen.BackgroundImageLayout = "Zoom"
 
-    #*** Label Splash
-    $LabelSplash = New-Object System.Windows.Forms.Label
-    $LabelSplash.Text = "SMOSK
-WoW Addon Manager" 
-    $LabelSplash.Location  = New-Object System.Drawing.Point(0,30)
-    $LabelSplash.Size = New-Object System.Drawing.Size(500,50)
-    $LabelSplash.TextAlign = "MiddleCenter"
-    $LabelSplash.BackColor = [System.Drawing.Color]::Transparent
-    $LabelSplash.ForeColor = [System.Drawing.Color]::White
-    $LabelSplash.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
-    $SplashScreen.Controls.Add($LabelSplash)
-
      #*** Label Splash
      $LabelSplashStatus = New-Object System.Windows.Forms.Label
      $LabelSplashStatus.Text = "Loading Addon list" 
-     $LabelSplashStatus.Location  = New-Object System.Drawing.Point(0,180)
-     $LabelSplashStatus.Size = New-Object System.Drawing.Size(500,50)
+     $LabelSplashStatus.Location  = New-Object System.Drawing.Point(0,0)
+     $LabelSplashStatus.Size = New-Object System.Drawing.Size(500,35)
      $LabelSplashStatus.TextAlign = "MiddleCenter"
      $LabelSplashStatus.BackColor = [System.Drawing.Color]::Transparent
-     $LabelSplashStatus.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffa500")
-     $LabelSplashStatus.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
+     $LabelSplashStatus.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
+     $LabelSplashStatus.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
      $SplashScreen.Controls.Add($LabelSplashStatus)
 
     $SplashScreen.Show()
-    $LabelSplash.Update()
     Start-Sleep -Seconds 3
 
     #*** Change Form ******************************************************************************************************
@@ -2019,9 +2006,7 @@ and will open on
 " + $numberDone + " / " + $nrAddons
             $LoadSpinner.Update()
             
-            $LabelSplashStatus.Text = $numberDone.ToString() + " / " + $nrAddons + "
-
-" + $record.name
+            $LabelSplashStatus.Text = "Loading Addon list: "+ $numberDone.ToString() + " / " + $nrAddons 
             
 
 
@@ -2762,7 +2747,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Global:Addons.config.Version -ne "3.1.5") {
+    if ($Global:Addons.config.Version -ne "3.1.8") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $Global:XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2788,7 +2773,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Global:Addons.config.Version = "3.1.5"
+        $Global:Addons.config.Version = "3.1.8"
         $Global:Addons.Save($Global:XMLPath)
 
     }
