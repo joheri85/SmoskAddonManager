@@ -468,6 +468,7 @@ Function DrawGUI {
     $Search_form.FormBorderStyle = "None"
     $Search_form.BackColor = [System.Drawing.Color]::Black
     $Search_form.BackgroundImageLayout = "Center"
+    $Search_form.Add_Shown( { $textBoxSearchString.Select() })
 
     $LabelMoveSearchForm = New-Object System.Windows.Forms.Label
     $LabelMoveSearchForm.Name = "LabelMoveSearchForm"
@@ -1237,40 +1238,40 @@ Waiting for API response"
 
     })
 
-        #*** Button Update all
-        $ButtonUpdateAll = New-Object System.Windows.Forms.Button
-        $ButtonUpdateAll.Location = New-Object System.Drawing.Size(750,480)
-        $ButtonUpdateAll.Size = New-Object System.Drawing.Size(100,40)
-        $ButtonUpdateAll.Text = "Update all"
-        $ButtonUpdateAll.FlatStyle = "Popup"
-        $ButtonUpdateAll.Anchor = "Bottom,Right"
-        $ToolTipUpdateAll = New-Object System.Windows.Forms.ToolTip
-        $ToolTipUpdateAll.SetToolTip($ButtonUpdateAll,"Updates all addons that have a new version on CurseForge.")        
-        $ButtonUpdateAll.BackColor = $StandardButtonColor
-        $ButtonUpdateAll.ForeColor = [System.Drawing.Color]::White
-        $ButtonUpdateAll.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
-        $main_form.Controls.Add($ButtonUpdateAll)
+    #*** Button Update all
+    $ButtonUpdateAll = New-Object System.Windows.Forms.Button
+    $ButtonUpdateAll.Location = New-Object System.Drawing.Size(750,480)
+    $ButtonUpdateAll.Size = New-Object System.Drawing.Size(100,40)
+    $ButtonUpdateAll.Text = "Update all"
+    $ButtonUpdateAll.FlatStyle = "Popup"
+    $ButtonUpdateAll.Anchor = "Bottom,Right"
+    $ToolTipUpdateAll = New-Object System.Windows.Forms.ToolTip
+    $ToolTipUpdateAll.SetToolTip($ButtonUpdateAll,"Updates all addons that have a new version on CurseForge.")        
+    $ButtonUpdateAll.BackColor = $StandardButtonColor
+    $ButtonUpdateAll.ForeColor = [System.Drawing.Color]::White
+    $ButtonUpdateAll.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $main_form.Controls.Add($ButtonUpdateAll)
+
+    $ButtonUpdateAll.Add_Click({
+
+        $LoadSpinner.Visible = $true
+        foreach ($addon in $Global:Addons.config.Addon) {
     
-        $ButtonUpdateAll.Add_Click({
-    
-            $LoadSpinner.Visible = $true
-            foreach ($addon in $Global:Addons.config.Addon) {
-       
-                if ($addon.CurrentVersion -ne $addon.LatestVersion) {
-                    
-                    $LoadSpinner.Text = "Updating... 
-                    
+            if ($addon.CurrentVersion -ne $addon.LatestVersion) {
+                
+                $LoadSpinner.Text = "Updating... 
+                
 " + $addon.Name
-                    $LoadSpinner.Update()
-                    UpdateAddon -AddonID $addon.ID
-                }
-    
+                $LoadSpinner.Update()
+                UpdateAddon -AddonID $addon.ID
             }
-    
-            UpdateAddonsTable
-            $LoadSpinner.Visible = $false
-    
-        })
+
+        }
+
+        UpdateAddonsTable
+        $LoadSpinner.Visible = $false
+
+    })
 
     #*** Button Open Search
     $ButtonOpenSearch = New-Object System.Windows.Forms.Button
@@ -1759,11 +1760,8 @@ Waiting for API response"
     $LabelToday = New-Object System.Windows.Forms.Label
     $LabelToday.BackColor = [System.Drawing.Color]::Transparent
     $LabelToday.Location = New-Object System.Drawing.Point(2, 30)
-    $LabelToday.Size = New-Object System.Drawing.Size(114, 168)
+    $LabelToday.Size = New-Object System.Drawing.Size(114, 166)
     $LabelToday.BorderStyle = "Fixed3D"
-    $LabelToday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
-    $LabelToday.ForeColor = $CreamText
-    $LabelToday.TextAlign = "TopLeft"
 
 
     $LabelMonday = New-Object System.Windows.Forms.Label
@@ -3044,7 +3042,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Global:Addons.config.Version -ne "3.2.1") {
+    if ($Global:Addons.config.Version -ne "3.2.2") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $Global:XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -3070,7 +3068,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Global:Addons.config.Version = "3.2.1"
+        $Global:Addons.config.Version = "3.2.2"
         $Global:Addons.Save($Global:XMLPath)
 
     }
