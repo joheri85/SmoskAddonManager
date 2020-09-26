@@ -1,4 +1,4 @@
-﻿$Version = "3.1.1"
+﻿$Version = "3.2.2"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -453,16 +453,20 @@ Function DrawGUI {
 
 
     #*** Search Form ******************************************************************************************************
+    $SearchSmallWallpaper = [system.drawing.image]::FromFile(".\Resources\wallpaper_search_small.png")
+    $SearchMiddleWallpaper = [system.drawing.image]::FromFile(".\Resources\wallpaper_search_middle.png")
+    $SearchFullWallpaper = [system.drawing.image]::FromFile(".\Resources\wallpaper_search.png")
+
+
     $Search_form = New-Object System.Windows.Forms.Form
     
     $Search_form.minimumSize = New-Object System.Drawing.Size(500,705) 
     $Search_form.maximumSize = New-Object System.Drawing.Size(500,705) 
-    $Search_form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen 
+    $Search_form.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual 
     $Search_form.AutoSize = $false
     $Search_form.SizeGripStyle = "Hide"
     $Search_form.FormBorderStyle = "None"
     $Search_form.BackColor = [System.Drawing.Color]::Black
-    $Search_form.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\wallpaper_search.png")
     $Search_form.BackgroundImageLayout = "Center"
 
     $LabelMoveSearchForm = New-Object System.Windows.Forms.Label
@@ -560,6 +564,10 @@ Function DrawGUI {
         if ($_.KeyCode -eq "Enter") {
 
             CurseForgeSearch -SearchTerm $textBoxSearchString.Text
+            $Search_form.BackgroundImage = $SearchMiddleWallpaper
+            $Search_form.minimumSize = New-Object System.Drawing.Size(500,480) 
+            $Search_form.maximumSize = New-Object System.Drawing.Size(500,480) 
+            $Search_form.Location = New-Object System.Drawing.Point(($main_form.Location.X + 242),($Main_form.Location.Y + 150))
             $textBoxSearchString.Clear()
 
         }      
@@ -579,6 +587,10 @@ Function DrawGUI {
     $ButtonDoSearch.Add_Click({
         
         CurseForgeSearch -SearchTerm $textBoxSearchString.Text
+        $Search_form.BackgroundImage = $SearchMiddleWallpaper
+        $Search_form.minimumSize = New-Object System.Drawing.Size(500,480) 
+        $Search_form.maximumSize = New-Object System.Drawing.Size(500,480) 
+        $Search_form.Location = New-Object System.Drawing.Point(($main_form.Location.X + 242),($Main_form.Location.Y + 150))
         $textBoxSearchString.Clear()
 
     })
@@ -586,7 +598,7 @@ Function DrawGUI {
     #*** Label Search results
     $LabelSearchResult = New-Object System.Windows.Forms.Label
     $LabelSearchResult.Text = "Search results"
-    $LabelSearchResult.Location  = New-Object System.Drawing.Point(10,100)
+    $LabelSearchResult.Location  = New-Object System.Drawing.Point(10,110)
     $LabelSearchResult.Size = New-Object System.Drawing.Size(450,30)
     $LabelSearchResult.TextAlign = "MiddleLeft"
     $LabelSearchResult.BackColor = [System.Drawing.Color]::Transparent
@@ -596,9 +608,8 @@ Function DrawGUI {
 
     #*** Search result List
     $ListSearchResults = New-Object System.Windows.Forms.ListView
-    $ListSearchResults.Location = New-Object System.Drawing.Point(10,130)
-    $ListSearchResults.Size = New-Object System.Drawing.Size(465,240)
-    $ListSearchResults.Anchor = 'Top, Bottom, Left, Right'
+    $ListSearchResults.Location = New-Object System.Drawing.Point(10,140)
+    $ListSearchResults.Size = New-Object System.Drawing.Size(480,265)
     $ListSearchResults.View = 'Details'
     $ListSearchResults.ShowItemToolTips = $true
     $ListSearchResults.GridLines = $true
@@ -622,6 +633,10 @@ Function DrawGUI {
         } else {
             $pictureBox.image = $null
         }
+        $Search_form.BackgroundImage = $SearchFullWallpaper
+        $Search_form.minimumSize = New-Object System.Drawing.Size(500,705) 
+        $Search_form.maximumSize = New-Object System.Drawing.Size(500,705)
+        $Search_form.Location = New-Object System.Drawing.Point(($main_form.Location.X + 242),($Main_form.Location.Y + 50)) 
         
         
     })
@@ -967,6 +982,7 @@ Function DrawGUI {
             $LabelTabRetail.ForeColor = [System.Drawing.Color]::Gray
             $LabelTabClassic.ForeColor = [System.Drawing.Color]::Black
             $Global:GameVersion = "Classic"
+            $ButtonSchedule.Visible = $true
 
 
             $LoadSpinner.Text = "Switching WoW version to
@@ -1028,6 +1044,7 @@ Classic"
             $LabelTabClassic.ForeColor = [System.Drawing.Color]::Gray
             $LabelTabRetail.ForeColor = [System.Drawing.Color]::Black
             $Global:GameVersion = "Retail"
+            $ButtonSchedule.Visible = $false
 
             $LoadSpinner.Text = "Switching WoW version to
 Retail"
@@ -1272,6 +1289,10 @@ Waiting for API response"
     $main_form.Controls.Add($ButtonOpenSearch)
 
     $ButtonOpenSearch.Add_Click({
+        $Search_form.Location = New-Object System.Drawing.Point(($main_form.Location.X + 242),($Main_form.Location.Y + 250))
+        $Search_form.minimumSize = New-Object System.Drawing.Size(500,105) 
+        $Search_form.maximumSize = New-Object System.Drawing.Size(500,105)
+        $Search_form.BackgroundImage = $SearchSmallWallpaper
         $Search_form.ShowDialog()
 
     })
@@ -1578,6 +1599,40 @@ Waiting for API response"
     $Main_form.Controls.Add($BuffViewBox)
 
 
+    #*** Button Schedule
+    $ButtonScheduleLocationUp = New-Object System.Drawing.Size(551,679)
+    $ButtonScheduleLocationDown = New-Object System.Drawing.Size(551,772)
+    $ButtonSchedule = New-Object System.Windows.Forms.Button
+    $ButtonSchedule.Size = New-Object System.Drawing.Size(100,20)
+    $ButtonSchedule.FlatStyle = "Popup"
+    $ButtonSchedule.text = "Week schedule"
+    $ButtonSchedule.BackColor = $StandardButtonColor
+    $ButtonSchedule.ForeColor = $StandardButtonTextColor
+    $ButtonSchedule.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    if($Global:Addons.config.BuffsMaximized -eq "+") {
+        $ButtonSchedule.Location = $ButtonScheduleLocationUp
+    } else {
+        $ButtonSchedule.Location = $ButtonScheduleLocationDown
+    }
+    $main_form.Controls.Add($ButtonSchedule)
+
+    $ButtonSchedule.BringToFront()
+    if ($Global:GameVersion -eq "Classic") {
+        $ButtonSchedule.Visible = $true
+    } else {
+        $ButtonSchedule.Visible = $false
+    }
+    
+
+    $ButtonSchedule.Add_click({
+        if ($LabelBuffsHeader.Text -eq "Nethergarde Keep") {
+            $week_form.Location = New-Object System.Drawing.Point(($main_form.Location.X + 92),($Main_form.Location.Y + 200))
+            $week_form.ShowDialog()
+        }
+        
+    })
+
+
     #*** Expand buffview Button
     $ButtonExpandBuffViewLocationUp = New-Object System.Drawing.Size(954,679)
     $ButtonExpandBuffViewLocationDown = New-Object System.Drawing.Size(954,772)
@@ -1589,7 +1644,6 @@ Waiting for API response"
         $ButtonExpandBuffView.Location = $ButtonExpandBuffViewLocationDown
         $ButtonExpandBuffView.Text = "-"
     }
-    
     $ButtonExpandBuffView.Size = New-Object System.Drawing.Size(20,20)
     $ButtonExpandBuffView.FlatStyle = "Popup"
     $ToolTipExpandBuffView = New-Object System.Windows.Forms.ToolTip
@@ -1604,16 +1658,20 @@ Waiting for API response"
         
         if ($ButtonExpandBuffView.Location -eq $ButtonExpandBuffViewLocationUp) {
             $ButtonExpandBuffView.Location = $ButtonExpandBuffViewLocationDown
+            $ButtonSchedule.Location = $ButtonScheduleLocationDown
             $BuffViewBox.Size = $BuffViewBoxSizeBig
             $ButtonExpandBuffView.Text = "-"
             $Global:Addons.config.BuffsMaximized = "-"
         } else {
             $ButtonExpandBuffView.Location = $ButtonExpandBuffViewLocationUp
+            $ButtonSchedule.Location = $ButtonScheduleLocationUp
             $BuffViewBox.Size = $BuffViewBoxSizeSmall
             $ButtonExpandBuffView.Text = "+"
             $Global:Addons.config.BuffsMaximized = "+"
         }
+        
         $ButtonExpandBuffView.BringToFront()
+        $ButtonSchedule.BringToFront()
         $Global:Addons.Save($Global:XMLPath)
 
     })
@@ -1671,6 +1729,183 @@ Waiting for API response"
         SetIfaceAddonsFolder
 
     })
+
+    #*** Week Schedule ******************************************************************************************************
+    $week_form = New-Object System.Windows.Forms.Form
+    
+    $week_form.minimumSize = New-Object System.Drawing.Size(800,200) 
+    $week_form.maximumSize = New-Object System.Drawing.Size(800,200) 
+    $week_form.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
+    $week_form.AutoSize = $false
+    $week_form.BackgroundImage = [System.Drawing.Image]::FromFile(".\Resources\week.png")
+    $week_form.BackgroundImageLayout = "Zoom"
+    $week_form.SizeGripStyle = "Hide"
+    $week_form.FormBorderStyle = "None"
+    $week_form.BackColor = [System.Drawing.Color]::Black
+
+
+    $LabelMoveweekForm = New-Object System.Windows.Forms.Label
+    $LabelMoveweekForm.Text = "Buffplaning this week"
+    $LabelMoveweekForm.TextAlign = "MiddleCenter"
+    $LabelMoveweekForm.BackColor = [System.Drawing.Color]::Black
+    $LabelMoveweekForm.Location = New-Object System.Drawing.Point(2, 2)
+    $LabelMoveweekForm.Size = New-Object System.Drawing.Size(796, 25)
+    $LabelMoveweekForm.Anchor = "Top","Left"
+    $LabelMoveweekForm.BorderStyle = "None"
+    $LabelMoveweekForm.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
+    $LabelMoveweekForm.ForeColor = [System.Drawing.Color]::White
+    $LabelMoveweekForm.TextAlign = [System.Drawing.ContentAlignment]::MiddleCenter
+
+    $LabelToday = New-Object System.Windows.Forms.Label
+    $LabelToday.BackColor = [System.Drawing.Color]::Transparent
+    $LabelToday.Location = New-Object System.Drawing.Point(2, 30)
+    $LabelToday.Size = New-Object System.Drawing.Size(114, 168)
+    $LabelToday.BorderStyle = "Fixed3D"
+    $LabelToday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelToday.ForeColor = $CreamText
+    $LabelToday.TextAlign = "TopLeft"
+
+
+    $LabelMonday = New-Object System.Windows.Forms.Label
+    $LabelMonday.BackColor = [System.Drawing.Color]::Transparent
+    $LabelMonday.Location = New-Object System.Drawing.Point(15, 70)
+    $LabelMonday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelMonday.BorderStyle = "None"
+    $LabelMonday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelMonday.ForeColor = $CreamText
+    $LabelMonday.TextAlign = "TopLeft"
+
+    $LabelTuesday = New-Object System.Windows.Forms.Label
+    $LabelTuesday.BackColor = [System.Drawing.Color]::Transparent
+    $LabelTuesday.Location = New-Object System.Drawing.Point(129, 70)
+    $LabelTuesday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelTuesday.BorderStyle = "None"
+    $LabelTuesday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelTuesday.ForeColor = $CreamText
+    $LabelTuesday.TextAlign = "TopLeft"
+
+    $LabelWednesday = New-Object System.Windows.Forms.Label
+    $LabelWednesday.BackColor = [System.Drawing.Color]::Transparent
+    $LabelWednesday.Location = New-Object System.Drawing.Point(243, 70)
+    $LabelWednesday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelWednesday.BorderStyle = "None"
+    $LabelWednesday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelWednesday.ForeColor = $CreamText
+    $LabelWednesday.TextAlign = "TopLeft"
+
+    $LabelThursday = New-Object System.Windows.Forms.Label
+    $LabelThursday.BackColor = [System.Drawing.Color]::Transparent
+    $LabelThursday.Location = New-Object System.Drawing.Point(357, 70)
+    $LabelThursday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelThursday.BorderStyle = "None"
+    $LabelThursday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelThursday.ForeColor = $CreamText
+    $LabelThursday.TextAlign = "TopLeft"
+
+    $LabelFriday = New-Object System.Windows.Forms.Label
+    $LabelFriday.BackColor = [System.Drawing.Color]::Transparent
+    $LabelFriday.Location = New-Object System.Drawing.Point(471, 70)
+    $LabelFriday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelFriday.BorderStyle = "None"
+    $LabelFriday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelFriday.ForeColor = $CreamText
+    $LabelFriday.TextAlign = "TopLeft"
+
+    $LabelSaturday = New-Object System.Windows.Forms.Label
+    $LabelSaturday.BackColor = [System.Drawing.Color]::Transparent
+    $LabelSaturday.Location = New-Object System.Drawing.Point(585, 70)
+    $LabelSaturday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelSaturday.BorderStyle = "None"
+    $LabelSaturday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelSaturday.ForeColor = $CreamText
+    $LabelSaturday.TextAlign = "TopLeft"
+
+    $LabelSunday = New-Object System.Windows.Forms.Label
+    $LabelSunday.BackColor = [System.Drawing.Color]::Transparent
+    $LabelSunday.Location = New-Object System.Drawing.Point(699, 70)
+    $LabelSunday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelSunday.BorderStyle = "None"
+    $LabelSunday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelSunday.ForeColor = $CreamText
+    $LabelSunday.TextAlign = "TopLeft"
+
+    
+    
+    $LabelMoveweekForm.Add_MouseDown( { 
+        $global:dragging = $true
+        $global:mouseDragX = [System.Windows.Forms.Cursor]::Position.X - $week_form.Left
+        $global:mouseDragY = [System.Windows.Forms.Cursor]::Position.Y - $week_form.Top
+    })
+
+    $LabelMoveweekForm.Add_MouseMove( { 
+        if($global:dragging) {
+            $screen = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
+            $currentX = [System.Windows.Forms.Cursor]::Position.X
+            $currentY = [System.Windows.Forms.Cursor]::Position.Y
+            [int]$newX = [Math]::Min($currentX - $global:mouseDragX, $workareaWidth - $week_form.Width)
+            [int]$newY = [Math]::Min($currentY - $global:mouseDragY, $workareaHeight - $week_form.Height)
+            $week_form.Location = New-Object System.Drawing.Point($newX, $newY)
+        }
+    })
+
+    $LabelMoveweekForm.Add_MouseUp( { 
+        $global:dragging = $false 
+    })
+
+    $ButtonCloseweekForm = New-Object System.Windows.Forms.Button
+    $ButtonCloseweekForm.Name = "ButtonCloseMainForm"
+    $ButtonCloseweekForm.Anchor = "Top","Left"
+    $ButtonCloseweekForm.Location = New-Object System.Drawing.Point(775, 5)
+    $ButtonCloseweekForm.Size = New-Object System.Drawing.Size(20, 20)
+    $ButtonCloseweekForm.TextAlign = "BottomCenter"
+    $ButtonCloseweekForm.FlatStyle = "PopUp"
+    $ButtonCloseweekForm.UseVisualStyleBackColor = $true
+    $ButtonCloseweekForm.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\close.png")
+    $ButtonCloseweekForm.BackgroundImageLayout = "Zoom"
+    $ButtonCloseweekForm.ForeColor = [System.Drawing.Color]::White
+    $ButtonCloseweekForm.BackColor = [System.Drawing.Color]::Black
+    $ButtonCloseweekForm.UseMnemonic = $true
+    $ButtonCloseweekForm.DialogResult = [System.Windows.Forms.DialogResult]::OK
+
+    
+
+    $ButtonMinimizeweekForm = New-Object System.Windows.Forms.Button
+    $ButtonMinimizeweekForm.Name = "ButtonCloseMainForm"
+    $ButtonMinimizeweekForm.Anchor = "Top","Left"
+    $ButtonMinimizeweekForm.Location = New-Object System.Drawing.Point(750, 5)
+    $ButtonMinimizeweekForm.Size = New-Object System.Drawing.Size(20, 20)
+    $ButtonMinimizeweekForm.FlatStyle = "PopUp"
+    $ButtonMinimizeweekForm.UseVisualStyleBackColor = $true
+    $ButtonMinimizeweekForm.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\minimize.png")
+    $ButtonMinimizeweekForm.BackgroundImageLayout = "Zoom"
+    $ButtonMinimizeweekForm.ForeColor = [System.Drawing.Color]::White
+    $ButtonMinimizeweekForm.BackColor = [System.Drawing.Color]::Black
+    
+    
+
+    $ButtonMinimizeweekForm.Add_Click({
+        $week_form.WindowState = [System.Windows.Forms.FormWindowState]::Minimized
+    })
+
+
+    $week_form.Controls.Add($weeklogbox)
+    $week_form.Controls.Add($LabelMoveweekForm)
+    $week_form.Controls.Add($ButtonMinimizeweekForm)
+    $week_form.Controls.Add($ButtonCloseweekForm)
+    $week_form.Controls.Add($LabelMonday)
+    $week_form.Controls.Add($LabelTuesday)
+    $week_form.Controls.Add($LabelWednesday)
+    $week_form.Controls.Add($LabelThursday)
+    $week_form.Controls.Add($LabelFriday)
+    $week_form.Controls.Add($LabelSaturday)
+    $week_form.Controls.Add($LabelSunday)
+    $week_form.Controls.Add($LabelToday)
+    $ButtonMinimizeweekForm.BringToFront()
+    $ButtonCloseweekForm.BringToFront()
+
+    
+
+    #*** Init **************************************************************
 
     UpdateAddonsTable
     $LoadSpinner.Visible = $false
@@ -2052,8 +2287,10 @@ and will open on
             if ($Global:GameVersion -eq "Retail") {
 
                 $GameVersionFlavor = "wow_retail"
+                
             } else {
                 $GameVersionFlavor = "wow_classic"
+                
             }
 
             $AddonInfo = $record | 
@@ -2376,8 +2613,68 @@ Function NethergardeKeepBuffSchedule {
         if ($dayOfWeek -eq 0) {
             $dayOfWeek = 7
         }
+
+        $LabelToday.Location = New-Object System.Drawing.Point((1 + (114*$dayOfWeek) - 114), 30)
         
         $Buffs = $tds[$dayOfWeek] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>",""
+
+        
+        $BuffsMonday = (($tds[1] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
+        [array]::Reverse($BuffsMonday)
+        $LabelMonday.Text = ""
+        foreach ($buff in $BuffsMonday) {
+            $buff = $buff -split " | " 
+            $LabelMonday.Text += $buff[0] + " - " + $buff[3] + "
+"
+        }
+        $BuffsTuesday = (($tds[2] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
+        [array]::Reverse($BuffsTuesday)
+        $LabelTuesday.Text = ""
+        foreach ($buff in $BuffsTuesday) {
+            $buff = $buff -split " | " 
+            $LabelTuesday.Text += $buff[0] + " - " + $buff[3] + "
+"
+        }
+        $BuffsWednesday = (($tds[3] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
+        [array]::Reverse($BuffsWednesday)
+        $LabelWednesday.Text = ""
+        foreach ($buff in $BuffsWednesday) {
+            $buff = $buff -split " | " 
+            $LabelWednesday.Text += $buff[0] + " - " + $buff[3] + "
+"
+        }
+        $BuffsThursday = (($tds[4] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
+        [array]::Reverse($BuffsThursday)
+        $LabelThursday.Text = ""
+        foreach ($buff in $BuffsThursday) {
+            $buff = $buff -split " | " 
+            $LabelThursday.Text += $buff[0] + " - " + $buff[3] + "
+"
+        }
+        $BuffsFriday = (($tds[5] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
+        [array]::Reverse($BuffsFriday)
+        $LabelFriday.Text = ""
+        foreach ($buff in $BuffsFriday) {
+            $buff = $buff -split " | " 
+            $LabelFriday.Text += $buff[0] + " - " + $buff[3] + "
+"
+        }
+        $BuffsSaturday = (($tds[6] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
+        [array]::Reverse($BuffsSaturday)
+        $LabelSaturday.Text = ""
+        foreach ($buff in $BuffsSaturday) {
+            $buff = $buff -split " | " 
+            $LabelSaturday.Text += $buff[0] + " - " + $buff[3] + "
+"
+        }
+        $BuffsSunday = (($tds[7] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
+        [array]::Reverse($BuffsSunday)
+        $LabelSunday.Text = ""
+        foreach ($buff in $BuffsSunday) {
+            $buff = $buff -split " | " 
+            $LabelSunday.Text += $buff[0] + " - " + $buff[3] + "
+"
+        }
         $Buffs = $Buffs.Trim("<br>")
         $BuffTimes = $Buffs -split "<br>"
                     
@@ -2747,7 +3044,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Global:Addons.config.Version -ne "3.1.8") {
+    if ($Global:Addons.config.Version -ne "3.2.1") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $Global:XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -2773,7 +3070,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Global:Addons.config.Version = "3.1.8"
+        $Global:Addons.config.Version = "3.2.1"
         $Global:Addons.Save($Global:XMLPath)
 
     }
