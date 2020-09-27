@@ -1,4 +1,4 @@
-﻿$Version = "3.2.2"
+﻿$Version = "3.2.3"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1763,67 +1763,68 @@ Waiting for API response"
     $LabelToday.Size = New-Object System.Drawing.Size(114, 166)
     $LabelToday.BorderStyle = "Fixed3D"
 
+    $WeekScheduleFont = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
 
     $LabelMonday = New-Object System.Windows.Forms.Label
     $LabelMonday.BackColor = [System.Drawing.Color]::Transparent
-    $LabelMonday.Location = New-Object System.Drawing.Point(15, 70)
-    $LabelMonday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelMonday.Location = New-Object System.Drawing.Point(5, 70)
+    $LabelMonday.Size = New-Object System.Drawing.Size(99, 100)
     $LabelMonday.BorderStyle = "None"
-    $LabelMonday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelMonday.Font = $WeekScheduleFont
     $LabelMonday.ForeColor = $CreamText
     $LabelMonday.TextAlign = "TopLeft"
 
     $LabelTuesday = New-Object System.Windows.Forms.Label
     $LabelTuesday.BackColor = [System.Drawing.Color]::Transparent
-    $LabelTuesday.Location = New-Object System.Drawing.Point(129, 70)
-    $LabelTuesday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelTuesday.Location = New-Object System.Drawing.Point(119, 70)
+    $LabelTuesday.Size = New-Object System.Drawing.Size(99, 100)
     $LabelTuesday.BorderStyle = "None"
-    $LabelTuesday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelTuesday.Font = $WeekScheduleFont
     $LabelTuesday.ForeColor = $CreamText
     $LabelTuesday.TextAlign = "TopLeft"
 
     $LabelWednesday = New-Object System.Windows.Forms.Label
     $LabelWednesday.BackColor = [System.Drawing.Color]::Transparent
-    $LabelWednesday.Location = New-Object System.Drawing.Point(243, 70)
-    $LabelWednesday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelWednesday.Location = New-Object System.Drawing.Point(233, 70)
+    $LabelWednesday.Size = New-Object System.Drawing.Size(99, 100)
     $LabelWednesday.BorderStyle = "None"
-    $LabelWednesday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelWednesday.Font = $WeekScheduleFont
     $LabelWednesday.ForeColor = $CreamText
     $LabelWednesday.TextAlign = "TopLeft"
 
     $LabelThursday = New-Object System.Windows.Forms.Label
     $LabelThursday.BackColor = [System.Drawing.Color]::Transparent
-    $LabelThursday.Location = New-Object System.Drawing.Point(357, 70)
-    $LabelThursday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelThursday.Location = New-Object System.Drawing.Point(347, 70)
+    $LabelThursday.Size = New-Object System.Drawing.Size(99, 100)
     $LabelThursday.BorderStyle = "None"
-    $LabelThursday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelThursday.Font = $WeekScheduleFont
     $LabelThursday.ForeColor = $CreamText
     $LabelThursday.TextAlign = "TopLeft"
 
     $LabelFriday = New-Object System.Windows.Forms.Label
     $LabelFriday.BackColor = [System.Drawing.Color]::Transparent
-    $LabelFriday.Location = New-Object System.Drawing.Point(471, 70)
-    $LabelFriday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelFriday.Location = New-Object System.Drawing.Point(466, 70)
+    $LabelFriday.Size = New-Object System.Drawing.Size(99, 100)
     $LabelFriday.BorderStyle = "None"
-    $LabelFriday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelFriday.Font = $WeekScheduleFont
     $LabelFriday.ForeColor = $CreamText
     $LabelFriday.TextAlign = "TopLeft"
 
     $LabelSaturday = New-Object System.Windows.Forms.Label
     $LabelSaturday.BackColor = [System.Drawing.Color]::Transparent
-    $LabelSaturday.Location = New-Object System.Drawing.Point(585, 70)
-    $LabelSaturday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelSaturday.Location = New-Object System.Drawing.Point(575, 70)
+    $LabelSaturday.Size = New-Object System.Drawing.Size(99, 100)
     $LabelSaturday.BorderStyle = "None"
-    $LabelSaturday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelSaturday.Font = $WeekScheduleFont
     $LabelSaturday.ForeColor = $CreamText
     $LabelSaturday.TextAlign = "TopLeft"
 
     $LabelSunday = New-Object System.Windows.Forms.Label
     $LabelSunday.BackColor = [System.Drawing.Color]::Transparent
-    $LabelSunday.Location = New-Object System.Drawing.Point(699, 70)
-    $LabelSunday.Size = New-Object System.Drawing.Size(94, 40)
+    $LabelSunday.Location = New-Object System.Drawing.Point(689, 70)
+    $LabelSunday.Size = New-Object System.Drawing.Size(104, 100)
     $LabelSunday.BorderStyle = "None"
-    $LabelSunday.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $LabelSunday.Font = $WeekScheduleFont
     $LabelSunday.ForeColor = $CreamText
     $LabelSunday.TextAlign = "TopLeft"
 
@@ -2623,6 +2624,7 @@ Function NethergardeKeepBuffSchedule {
         foreach ($buff in $BuffsMonday) {
             $buff = $buff -split " | " 
             $LabelMonday.Text += $buff[0] + " - " + $buff[3] + "
+
 "
         }
         $BuffsTuesday = (($tds[2] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
@@ -2631,6 +2633,7 @@ Function NethergardeKeepBuffSchedule {
         foreach ($buff in $BuffsTuesday) {
             $buff = $buff -split " | " 
             $LabelTuesday.Text += $buff[0] + " - " + $buff[3] + "
+
 "
         }
         $BuffsWednesday = (($tds[3] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
@@ -2639,6 +2642,7 @@ Function NethergardeKeepBuffSchedule {
         foreach ($buff in $BuffsWednesday) {
             $buff = $buff -split " | " 
             $LabelWednesday.Text += $buff[0] + " - " + $buff[3] + "
+
 "
         }
         $BuffsThursday = (($tds[4] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
@@ -2647,6 +2651,7 @@ Function NethergardeKeepBuffSchedule {
         foreach ($buff in $BuffsThursday) {
             $buff = $buff -split " | " 
             $LabelThursday.Text += $buff[0] + " - " + $buff[3] + "
+
 "
         }
         $BuffsFriday = (($tds[5] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
@@ -2655,6 +2660,7 @@ Function NethergardeKeepBuffSchedule {
         foreach ($buff in $BuffsFriday) {
             $buff = $buff -split " | " 
             $LabelFriday.Text += $buff[0] + " - " + $buff[3] + "
+
 "
         }
         $BuffsSaturday = (($tds[6] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
@@ -2663,6 +2669,7 @@ Function NethergardeKeepBuffSchedule {
         foreach ($buff in $BuffsSaturday) {
             $buff = $buff -split " | " 
             $LabelSaturday.Text += $buff[0] + " - " + $buff[3] + "
+
 "
         }
         $BuffsSunday = (($tds[7] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
@@ -2671,6 +2678,7 @@ Function NethergardeKeepBuffSchedule {
         foreach ($buff in $BuffsSunday) {
             $buff = $buff -split " | " 
             $LabelSunday.Text += $buff[0] + " - " + $buff[3] + "
+
 "
         }
         $Buffs = $Buffs.Trim("<br>")
