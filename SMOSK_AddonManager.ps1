@@ -1,4 +1,4 @@
-﻿$Version = "3.2.3"
+﻿$Version = "3.2.4"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1601,12 +1601,13 @@ Waiting for API response"
 
 
     #*** Button Schedule
-    $ButtonScheduleLocationUp = New-Object System.Drawing.Size(551,679)
-    $ButtonScheduleLocationDown = New-Object System.Drawing.Size(551,772)
+    $ButtonScheduleLocationUp = New-Object System.Drawing.Size(954,629)
+    $ButtonScheduleLocationDown = New-Object System.Drawing.Size(954,722)
     $ButtonSchedule = New-Object System.Windows.Forms.Button
-    $ButtonSchedule.Size = New-Object System.Drawing.Size(100,20)
+    $ButtonSchedule.Size = New-Object System.Drawing.Size(20,50)
     $ButtonSchedule.FlatStyle = "Popup"
-    $ButtonSchedule.text = "Week schedule"
+    $ButtonSchedule.TextAlign = "MiddleCenter"
+    $ButtonSchedule.text = "WEEK"
     $ButtonSchedule.BackColor = $StandardButtonColor
     $ButtonSchedule.ForeColor = $StandardButtonTextColor
     $ButtonSchedule.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
@@ -2571,9 +2572,26 @@ Function NethergardeKeepBuffSchedule {
         
         $Buffday = $BuffsXML.CreateNode("element", "Today", $null)
 
+        $MethodError = $true
+        while ($MethodError) {
+            try {
+                $BuffParse = (Invoke-WebRequest -Uri "https://docs.google.com/spreadsheets/d/1YZbvGiUlRzVGYWwSTU7JeYoHtDUZW6JnXoqA1WEim84/htmlview?usp=sharing&pru=AAABc6XNR3U*ofU_hgCnK_odzu3J7DewXA" -TimeoutSec 5)
+                $MethodError = $false
+            } catch {
+                if (Test-Path ".\Resources\error_log.txt") {
+                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
+                    $_ | Out-File ".\Resources\error_log.txt" -Append
+                } else {
+                    "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
+                    $_ | Out-File ".\Resources\error_log.txt" -Append
+        
+                }
+            }
+        }
+
 
    
-        $BuffParse = (Invoke-WebRequest -Uri "https://docs.google.com/spreadsheets/d/1YZbvGiUlRzVGYWwSTU7JeYoHtDUZW6JnXoqA1WEim84/htmlview?usp=sharing&pru=AAABc6XNR3U*ofU_hgCnK_odzu3J7DewXA" -TimeoutSec 5)
+        
 
         $regex = "<tbody>.*<\/tbody>"
         $matches = select-string -InputObject $BuffParse -Pattern $regex -AllMatches | % { $_.Matches } | % { $_.Value }

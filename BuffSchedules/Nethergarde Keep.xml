@@ -2,28 +2,16 @@
 <RealmBuffs>
   <Today>
     <Buff>
-      <Time>11:30</Time>
+      <Time>11:00</Time>
       <Name>Nefarian</Name>
-      <Guild>Platypusia</Guild>
+      <Guild>ZiskaI</Guild>
       <Reset>No</Reset>
     </Buff>
     <Buff>
-      <Time>12:30</Time>
-      <Name>Onyxia</Name>
-      <Guild>Ilianna</Guild>
+      <Time>19:00</Time>
+      <Name>Nefarian</Name>
+      <Guild>Yannika</Guild>
       <Reset>No</Reset>
-    </Buff>
-    <Buff>
-      <Time>18:40</Time>
-      <Name>Onyxia</Name>
-      <Guild>&lt;Pure&gt;</Guild>
-      <Reset>No</Reset>
-    </Buff>
-    <Buff>
-      <Time>18:50</Time>
-      <Name>Hakkar</Name>
-      <Guild>Boremitter</Guild>
-      <Reset>Yes</Reset>
     </Buff>
   </Today>
 </RealmBuffs>
