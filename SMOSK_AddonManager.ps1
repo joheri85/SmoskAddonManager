@@ -2563,6 +2563,7 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
 
 Function NethergardeKeepBuffSchedule {
 
+    # Fetch google dock
     try {
         $BuffsXML = New-Object System.Xml.XmlDocument
         $BuffPath = ".\BuffSchedules\Nethergarde Keep.xml"
@@ -2592,7 +2593,7 @@ Function NethergardeKeepBuffSchedule {
 
    
         
-
+        # get html table body
         $regex = "<tbody>.*<\/tbody>"
         $matches = select-string -InputObject $BuffParse -Pattern $regex -AllMatches | % { $_.Matches } | % { $_.Value }
         $regex = "(<tr .+?</tr>)"
@@ -2612,7 +2613,7 @@ Function NethergardeKeepBuffSchedule {
         $thisMonth = [int]$today.ToString("MM")
         $today = ">" + [int]$today.ToString("dd") + "<"
         
-        
+        # Throw away everything before this month
         $regex = '>Month</td><td.{0,50}>' + $thisMonth + '</td>'
         $test = [int]($matches | Select-String -Pattern $regex | Select-Object LineNumber).LineNumber -1
         $matches = $matches | Select-Object -Last ([int]$matches.length - $test)
@@ -2630,6 +2631,7 @@ Function NethergardeKeepBuffSchedule {
             $i += 1
         }
 
+        # remove all html tags and devide data into easy to read array
         $regex = "(<td .+?</td>)"
         $tds = select-string -InputObject $matches[$i+1] -Pattern $regex -AllMatches | % { $_.Matches } | % { $_.Value }
         $dayOfWeek = ( get-date ).DayOfWeek.value__ 
@@ -2641,7 +2643,7 @@ Function NethergardeKeepBuffSchedule {
         
         $Buffs = $tds[$dayOfWeek] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>",""
 
-        
+        # Set week schedule view variables
         $BuffsMonday = (($tds[1] -replace "(<td .+?>)" , "" -replace "(<div .+?>)" , "" -replace "</div>","" -replace "</td>","").Trim("<br>")) -split "<br>"
         [array]::Reverse($BuffsMonday)
         $LabelMonday.Text = ""
@@ -2709,7 +2711,7 @@ Function NethergardeKeepBuffSchedule {
         $BuffTimes = $Buffs -split "<br>"
                     
     
-        
+        # draw todays buff list
         foreach ($line in $BuffTimes) {
             $currentLine = $line.Split("|")
             $currentLine = $currentLine -replace "Player: ","" -replace "Reset: ","" -replace "Head: ",""
@@ -2765,7 +2767,7 @@ Function Buffplaning {
 
      
  
-     
+     # read the choosen buffplanning file and draw the list
     if ($LabelBuffsHeader.Selecteditem.ToString() -eq "Nethergarde Keep") {
         NethergardeKeepBuffSchedule
         $BuffsXML = New-Object System.Xml.XmlDocument
