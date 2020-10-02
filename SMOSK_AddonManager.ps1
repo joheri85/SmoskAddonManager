@@ -1,4 +1,4 @@
-﻿$Version = "3.2.4"
+﻿$Version = "3.2.6"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -2609,7 +2609,13 @@ Function NethergardeKeepBuffSchedule {
             $DayEqMonth = 0
         }
 
+        $thisMonth = [int]$today.ToString("MM")
         $today = ">" + [int]$today.ToString("dd") + "<"
+        
+        
+        $regex = '>Month</td><td.{0,50}>' + $thisMonth + '</td>'
+        $test = [int]($matches | Select-String -Pattern $regex | Select-Object LineNumber).LineNumber -1
+        $matches = $matches | Select-Object -Last ([int]$matches.length - $test)
 
         foreach ($row in $matches) {
             if ($row.Contains($today)) {
@@ -2947,12 +2953,20 @@ Function CurseForgeSearch {
     foreach ($record in $SearchOutput){
         
         $ListSearch_Item = New-Object System.Windows.Forms.ListViewItem($record[0])
-        $ListSearch_Item.SubItems.Add($record[1])
-        $ListSearch_Item.ToolTipText = $record[2]
+        
+        
 
         $ListSearchResults.Items.AddRange($ListSearch_Item)
-
-        $ListSearch_Item.ForeColor = [System.Drawing.Color]::Snow
+        
+        if ($null -ne ($Addons.config.Addon | Where-Object ID -eq $record[0]) ) {
+            $ListSearch_Item.SubItems.Add($record[1] + " [Installed]")
+            $ListSearch_Item.ForeColor = [System.Drawing.Color]::LightGreen
+        } else {
+            $ListSearch_Item.SubItems.Add($record[1])
+            $ListSearch_Item.ForeColor = [System.Drawing.Color]::Snow
+        }
+        
+        $ListSearch_Item.ToolTipText = $record[2]
 
         if ($i % 2 -eq 0) {
             $ListSearch_Item.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
