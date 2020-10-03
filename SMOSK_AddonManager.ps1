@@ -1,4 +1,4 @@
-﻿$Version = "3.2.6"
+﻿$Version = "3.2.7"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1958,7 +1958,7 @@ Function UpdateAddonsTable {
         }
     }
 
-    $AVStart = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date -Date "2020-06-26"), 'Central European Standard Time') 
+    $AVStart = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date -Date "2020-06-26"), 'Central European Standard Time')
     While ($AVStart -lt $now) {
         $AVEnd = $AVStart + (New-TimeSpan -Days 4)
         if (($now -lt $AVEnd) -and ($now -gt $AVStart)) {
@@ -1969,7 +1969,7 @@ Function UpdateAddonsTable {
     }
      
     $WSGEnd = $WSGStart + (New-TimeSpan -Days 4)
-    $ABEnd  = $ABStart + (New-TimeSpan -Days 4)
+    $ABEnd = $ABStart + (New-TimeSpan -Days 4)
     $AVEnd = $AVStart + (New-TimeSpan -Days 4)
 
     $BGS = (@(@("Warsong Gulch", $WSGStart,$WSGEnd), @("Arathi Basin" ,$ABStart,$ABEnd), @("Alterac Valey", $AVStart, $AVEnd)))  | sort-object @{Expression={$_[1]}}
@@ -3084,7 +3084,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Global:Addons.config.Version -ne "3.2.2") {
+    if ($Global:Addons.config.Version -ne "3.2.3") {
 
         $Updater = New-Object System.Xml.XmlDocument
         $Global:XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -3110,7 +3110,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Global:Addons.config.Version = "3.2.2"
+        $Global:Addons.config.Version = "3.2.3"
         $Global:Addons.Save($Global:XMLPath)
 
     }
