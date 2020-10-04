@@ -19,10 +19,10 @@
     <Name>Gathering</Name>
     <DownloadLink>https://edge.forgecdn.net/files/3042/754/Gathering-Live-1.30.zip</DownloadLink>
     <Description>Display per-hour gathering rates of items in a clean tooltip</Description>
-    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <CurrentVersion>Live 1.30</CurrentVersion>
     <LatestVersion>Live 1.30</LatestVersion>
     <Modules>Gathering</Modules>
-    <DateUpdated>2020-09-22 12:08</DateUpdated>
+    <DateUpdated>2020-10-04 13:30</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/gathering</Website>
   </Addon>
   <Addon>
@@ -30,10 +30,10 @@
     <Name>Grid2</Name>
     <DownloadLink>https://edge.forgecdn.net/files/3043/594/Grid2-r979.zip</DownloadLink>
     <Description>A modular, lightweight and screen-estate saving grid of party/raid unit frames</Description>
-    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <CurrentVersion>r979</CurrentVersion>
     <LatestVersion>r979</LatestVersion>
     <Modules>Grid2Options,Grid2RaidDebuffs,Grid2RaidDebuffsOptions,Grid2LDB,Grid2</Modules>
-    <DateUpdated>2020-09-22 12:08</DateUpdated>
+    <DateUpdated>2020-10-04 13:30</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/grid2</Website>
   </Addon>
   <Addon>
@@ -41,10 +41,10 @@
     <Name>GTFO</Name>
     <DownloadLink>https://edge.forgecdn.net/files/3015/777/GTFO-4.56.zip</DownloadLink>
     <Description>GTFO warns you when you're standing in fire or other bad stuff.</Description>
-    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <CurrentVersion>4.56</CurrentVersion>
     <LatestVersion>4.56</LatestVersion>
     <Modules>GTFO</Modules>
-    <DateUpdated>2020-09-22 12:08</DateUpdated>
+    <DateUpdated>2020-10-04 13:30</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/gtfo</Website>
   </Addon>
   <Addon>
@@ -52,10 +52,10 @@
     <Name>WeakAuras</Name>
     <DownloadLink>https://edge.forgecdn.net/files/3049/565/WeakAuras-2.18.4.zip</DownloadLink>
     <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
-    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
+    <CurrentVersion>2.18.4</CurrentVersion>
     <LatestVersion>2.18.4</LatestVersion>
     <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
-    <DateUpdated>2020-09-22 12:08</DateUpdated>
+    <DateUpdated>2020-10-04 13:30</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
   </Addon>
 </config>

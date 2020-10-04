@@ -833,7 +833,6 @@ Function DrawGUI {
     $ButtonHelpMainForm.ForeColor = [System.Drawing.Color]::White
     $ButtonHelpMainForm.BackColor = [System.Drawing.Color]::Black
 
-    
     $ButtonHelpMainForm.Add_Click({
         Start-Process ".\Resources\SMOSK_help.pdf"
     })
@@ -843,28 +842,23 @@ Function DrawGUI {
     $ButtonDiscord.Anchor = "Top","Left"
     $ButtonDiscord.Location = New-Object System.Drawing.Point(800, 7)
     $ButtonDiscord.Size = New-Object System.Drawing.Size(90, 20)
-
     $ButtonDiscord.FlatStyle = "PopUp"
-    
     $ButtonDiscord.UseVisualStyleBackColor = $true
     $ButtonDiscord.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\Discord.png")
     $ButtonDiscord.BackgroundImageLayout = "Zoom"
     $ButtonDiscord.ForeColor = [System.Drawing.Color]::White
-    
 
-    
     $ButtonDiscord.Add_Click({
         Start-Process "https://discord.gg/zK2x5XX"
     })
+
 
     $ButtonGit = New-Object System.Windows.Forms.Button
     $ButtonGit.Name = "ButtonDiscord"
     $ButtonGit.Anchor = "Top","Left"
     $ButtonGit.Location = New-Object System.Drawing.Point(780, 7)
     $ButtonGit.Size = New-Object System.Drawing.Size(20, 20)
-
     $ButtonGit.FlatStyle = "PopUp"
-    
     $ButtonGit.UseVisualStyleBackColor = $true
     $ButtonGit.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\GitHub-Mark.png")
     $ButtonGit.BackgroundImageLayout = "Zoom"
@@ -882,7 +876,7 @@ Function DrawGUI {
     $ButtonChangelog.Name = "ButtonDiscord"
     $ButtonChangelog.Anchor = "Top","Left"
     $ButtonChangelog.Location = New-Object System.Drawing.Point(750, 7)
-    $ButtonChangelog.Size = New-Object System.Drawing.Size(20, 20)
+    $ButtonChangelog.Size = New-Object System.Drawing.Size(25, 20)
     $ButtonChangelog.FlatStyle = "PopUp"
     $ButtonChangelog.TextAlign = "MiddleCenter"
     $ButtonChangelog.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\log.png")
@@ -891,7 +885,6 @@ Function DrawGUI {
     $ToolTipWebURL.SetToolTip($ButtonChangelog,"Click to show change log. Shift+Click to show recently updated addons") 
     $ButtonChangelog.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
     $ButtonChangelog.UseVisualStyleBackColor = $true
-
     $ButtonChangelog.BackColor = [System.Drawing.Color]::Black
     
 
@@ -2210,7 +2203,8 @@ and will open on
 
                     $body = $BuildBody | ConvertTo-Json
                     
-                    $response = (Invoke-RestMethod -uri "https://addons-ecs.forgesvc.net/api/v2/addon" -Body $body -Method Post -ContentType "application/json" -TimeoutSec 5) | Sort-Object Name
+                    $response = (Invoke-RestMethod -uri "https://addons-ecs.forgesvc.net/api/v2/addon" -Body $body -Method Post -ContentType "application/json" -TimeoutSec 5) | 
+                        Sort-Object Name
                 } else {
                     
                     $response = Invoke-RestMethod -uri ("https://addons-ecs.forgesvc.net/api/v2/addon/" + $BuildBody ) -TimeoutSec 5
@@ -2245,7 +2239,11 @@ and will open on
             
 
 
-            $subnode = ($Global:Addons.config.Addon | Where-Object ID -eq $record.id)
+            $subnode = (
+                $Global:Addons.config.Addon | 
+                    Where-Object ID -eq $record.id
+            )
+
             if ($null -eq $subnode.Website) {
 
                 $child = $Global:Addons.CreateElement("Website")
@@ -2301,10 +2299,10 @@ and will open on
 
             if ($null -eq $AddonInfo) {
                 $AddonInfo = $record | 
-                Select-Object -ExpandProperty LatestFiles |
-                    Where-Object {
-                        ($_.GameVersionFlavor -eq $GameVersionFlavor) -and ($_.ReleaseType -eq "2") 
-                    }
+                    Select-Object -ExpandProperty LatestFiles |
+                        Where-Object {
+                            ($_.GameVersionFlavor -eq $GameVersionFlavor) -and ($_.ReleaseType -eq "2") 
+                        }
             }
             
             if ($null -eq $AddonInfo) {
@@ -2318,7 +2316,10 @@ and will open on
 
             }
 
-            ($Global:Addons.config.addon | Where-Object ID -EQ $Record.ID).LatestVersion = $AddonInfo.displayName 
+            (
+                $Global:Addons.config.addon | 
+                Where-Object ID -EQ $Record.ID
+            ).LatestVersion = $AddonInfo.displayName 
 
            
 
@@ -3084,7 +3085,8 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    if ($Global:Addons.config.Version -ne "3.2.3") {
+    $LatestVersion = "3.2.4"
+    if ($Global:Addons.config.Version -ne $LatestVersion) {
 
         $Updater = New-Object System.Xml.XmlDocument
         $Global:XMLPathUpdater = "https://www.smosk.net/downloads/UpdateState.xml"
@@ -3110,7 +3112,7 @@ Function PullNewResources {
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
 
 
-        $Global:Addons.config.Version = "3.2.3"
+        $Global:Addons.config.Version = $LatestVersion
         $Global:Addons.Save($Global:XMLPath)
 
     }
