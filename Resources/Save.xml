@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-  <Version>3.2.4</Version>
+  <Version>3.2.5</Version>
   <IfaceAddonsFolder>D:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
   <Splash>.\Resources\Splash.png</Splash>
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
@@ -24,17 +24,6 @@
     <Modules>Accountant_Classic</Modules>
     <DateUpdated>2020-09-22 11:59</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/accountant-classic</Website>
-  </Addon>
-  <Addon>
-    <ID>54541</ID>
-    <Name>AddOnSkins</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2916/997/AddOnSkins-4.401.zip</DownloadLink>
-    <Description>Additional skins for AddOns to match the look of ElvUI</Description>
-    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
-    <LatestVersion>4.401</LatestVersion>
-    <Modules>AddOnSkins</Modules>
-    <DateUpdated>2020-09-22 11:59</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/addonskins</Website>
   </Addon>
   <Addon>
     <ID>325109</ID>

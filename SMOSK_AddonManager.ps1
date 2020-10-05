@@ -1,4 +1,4 @@
-﻿$Version = "3.2.7"
+﻿$Version = "3.2.8"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1501,7 +1501,7 @@ Waiting for API response"
     $ButtonDeleteAddon.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
     $ButtonDeleteAddon.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($ButtonDeleteAddon)
-
+        
     $ButtonDeleteAddon.Add_Click({
        
 
@@ -3085,7 +3085,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    $LatestVersion = "3.2.4"
+    $LatestVersion = "3.2.5"
     if ($Global:Addons.config.Version -ne $LatestVersion) {
 
         $Updater = New-Object System.Xml.XmlDocument
