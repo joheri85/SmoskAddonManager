@@ -1,4 +1,4 @@
-﻿$Version = "3.2.8"
+﻿$Version = "3.3.0"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -3085,7 +3085,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    $LatestVersion = "3.2.5"
+    $LatestVersion = "3.2.6"
     if ($Global:Addons.config.Version -ne $LatestVersion) {
 
         $Updater = New-Object System.Xml.XmlDocument
@@ -3163,4 +3163,5 @@ DrawGUI
     [System.Windows.MessageBox]::Show("Something have caused the program to fail. See error log for more info.
 .\Resources\error_log.txt",'SMOSK! Error','OK','Information')
 
-}
+} 
+

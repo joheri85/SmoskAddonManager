@@ -2,15 +2,9 @@
 <RealmBuffs>
   <Today>
     <Buff>
-      <Time>18:40</Time>
-      <Name>Onyxia</Name>
-      <Guild>&lt;Pure&gt;</Guild>
-      <Reset>No</Reset>
-    </Buff>
-    <Buff>
-      <Time>19:30</Time>
+      <Time>19:00</Time>
       <Name>Nefarian</Name>
-      <Guild>Elvaria</Guild>
+      <Guild>Danno</Guild>
       <Reset>No</Reset>
     </Buff>
   </Today>
