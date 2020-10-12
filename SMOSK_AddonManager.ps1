@@ -1,4 +1,4 @@
-﻿$Version = "3.3.0"
+﻿$Version = "3.3.1"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1497,7 +1497,7 @@ Waiting for API response"
     $ButtonDeleteAddon.Anchor = "Bottom,Right"
     $ToolTipDeleteAddon = New-Object System.Windows.Forms.ToolTip
     $ToolTipDeleteAddon.SetToolTip($ButtonDeleteAddon,"Delete all selected addons from the list and removing the files in your addons folder") 
-    $ButtonDeleteAddon.BackColor = $StandardButtonColor
+    $ButtonDeleteAddon.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#a12626")
     $ButtonDeleteAddon.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
     $ButtonDeleteAddon.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($ButtonDeleteAddon)

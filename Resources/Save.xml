@@ -152,7 +152,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3054/79/DBM-Core-1.13.60-classic.zip</DownloadLink>
     <Description>The ultimate encounter helper to give you fight info that's easy to process at a glance. DBM aims to focus on what's happening to you, and what YOU need to do about it.</Description>
     <CurrentVersion>1.13.60-classic</CurrentVersion>
-    <LatestVersion>1.13.60-classic</LatestVersion>
+    <LatestVersion>1.13.61-classic</LatestVersion>
     <Modules>DBM-Core,DBM-GUI,DBM-Party-Classic,DBM-AQ20,DBM-AQ40,DBM-Azeroth,DBM-BWL,DBM-MC,DBM-Onyxia,DBM-Naxx,DBM-ZG,DBM-DefaultSkin,DBM-StatusBarTimers</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/deadly-boss-mods</Website>
@@ -262,7 +262,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3051/734/NeatPlates-1.13.5.12.zip</DownloadLink>
     <Description>NeatPlates is a nameplate addon that works with both the Classic and Modern version of WoW</Description>
     <CurrentVersion>1.13.5.12</CurrentVersion>
-    <LatestVersion>1.13.5.12</LatestVersion>
+    <LatestVersion>1.13.5.15</LatestVersion>
     <Modules>NeatPlatesHub,NeatPlatesWidgets,NeatPlates_Alvara,NeatPlates_BlizzardPlates,NeatPlates_ClassicPlates,NeatPlates_Graphite,NeatPlates_Grey,NeatPlates_Neon,NeatPlates_Quatre,NeatPlates_Renaitre,NeatPlates_Roth,NeatPlates_Simple,NeatPlates_Slim_Horizontal,NeatPlates_Slim_Vertical,NeatPlates</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/neatplates</Website>
