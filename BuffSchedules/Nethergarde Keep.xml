@@ -2,21 +2,15 @@
 <RealmBuffs>
   <Today>
     <Buff>
-      <Time>18:30</Time>
+      <Time>9:00</Time>
       <Name>Onyxia</Name>
-      <Guild>Fluffydork</Guild>
+      <Guild>soyaris</Guild>
       <Reset>No</Reset>
     </Buff>
     <Buff>
-      <Time>19:00</Time>
-      <Name>Nefarian</Name>
-      <Guild>CreedBraton</Guild>
-      <Reset>No</Reset>
-    </Buff>
-    <Buff>
-      <Time>19:40</Time>
-      <Name>Hakkar</Name>
-      <Guild>Dreadgnome</Guild>
+      <Time>19:30</Time>
+      <Name>Onyxia</Name>
+      <Guild>Br??der</Guild>
       <Reset>No</Reset>
     </Buff>
   </Today>

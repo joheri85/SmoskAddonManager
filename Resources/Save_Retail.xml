@@ -20,7 +20,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3042/754/Gathering-Live-1.30.zip</DownloadLink>
     <Description>Display per-hour gathering rates of items in a clean tooltip</Description>
     <CurrentVersion>Live 1.30</CurrentVersion>
-    <LatestVersion>Live 1.30</LatestVersion>
+    <LatestVersion>Live 1.31</LatestVersion>
     <Modules>Gathering</Modules>
     <DateUpdated>2020-10-04 13:30</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/gathering</Website>
@@ -53,7 +53,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3049/565/WeakAuras-2.18.4.zip</DownloadLink>
     <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
     <CurrentVersion>2.18.4</CurrentVersion>
-    <LatestVersion>2.18.4</LatestVersion>
+    <LatestVersion>3.0.0</LatestVersion>
     <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
     <DateUpdated>2020-10-04 13:30</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>

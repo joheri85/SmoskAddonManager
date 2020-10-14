@@ -1,4 +1,4 @@
-﻿$Version = "3.3.1"
+﻿$Version = "3.4.0"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1196,7 +1196,7 @@ Retail"
 Waiting for API response"
         $LoadSpinner.Visible = $true
         UpdateAddonsTable
-        $LoadSpinner.Visible = $false
+        
 
     })
 
@@ -1901,7 +1901,7 @@ Waiting for API response"
     #*** Init **************************************************************
 
     UpdateAddonsTable
-    $LoadSpinner.Visible = $false
+    
     $SplashScreen.Dispose()
     $ListViewBox.TabIndex = 0
     $main_form.ShowDialog()
@@ -1917,6 +1917,9 @@ Waiting for API response"
 # Checks for available updates from curseforge and refreshes the addon listview
 Function UpdateAddonsTable {
 
+    
+
+
     $Global:SmoskVersion.Load($Global:SmoskVersionPath)
     
     $ButtonRefresh.Text = ""
@@ -1927,7 +1930,8 @@ Function UpdateAddonsTable {
     $ElvUIViewBox.BeginUpdate()
     $BuffViewBox.BeginUpdate()
     
-
+    $LoadSpinner.Text = "Updating BG Schedule..."
+    $LabelSplashStatus.Text = "Updating BG Schedule..."
     #*** BG Schedules
     $now = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date), 'Central European Standard Time') 
 
@@ -1960,13 +1964,13 @@ Function UpdateAddonsTable {
             $AVStart += (New-TimeSpan -Days 28)
         }
     }
-     
+    
     $WSGEnd = $WSGStart + (New-TimeSpan -Days 4)
     $ABEnd = $ABStart + (New-TimeSpan -Days 4)
     $AVEnd = $AVStart + (New-TimeSpan -Days 4)
 
     $BGS = (@(@("Warsong Gulch", $WSGStart,$WSGEnd), @("Arathi Basin" ,$ABStart,$ABEnd), @("Alterac Valey", $AVStart, $AVEnd)))  | sort-object @{Expression={$_[1]}}
- 
+
     IF (($now -ge $BGS[0][1]) -and ($now -le $BGS[0][2]) ) {
         
         $LabelBattleground.Text = ("BG weekend is Active 
@@ -1992,6 +1996,9 @@ starts on
 
 
     #*** Darkmoon fair
+    $LoadSpinner.Text = "Updating Darkmoon faire schedule..."
+    $LabelSplashStatus.Text = "Updating Darkmoon faire schedule..."
+
     [datetime]$DayOfMonth = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date -Date (Get-date -Format "yyyy-MM-01")), 'Central European Standard Time')
     $CurrentDay  = $DayOfMonth.ToString("dddd")
     $Friday = (get-date -Date "2020-08-14").ToString("dddd")
@@ -2014,7 +2021,7 @@ starts on
     [datetime]$DarkMoonEnd = $DarkMoonStart + (New-TimeSpan -Days 6)
     [datetime]$now = get-date -Format "yyyy-MM-dd"
 
-  
+
     if (($now -ge $DarkMoonStart) -and ($now -le $DarkMoonEnd)) {
         
 
@@ -2029,7 +2036,7 @@ and ends on " + $DarkMoonEnd.ToString("dddd"))
     } elseif ($now -lt $DarkMoonStart) {
         $LabelDarkmoon.Text = ("Darkmoon Faire 
 arrives in
-          
+        
 
                 
         and will open on 
@@ -2078,7 +2085,9 @@ and will open on
 
     $LabelDarkmoon.Update()
 
-    #*** BuffTimers Europe
+    #*** Instance reset Europe
+    $LoadSpinner.Text = "Updating reset timers..."
+    $LabelSplashStatus.Text = "Updating reset timers..."
 
     Try {
         $ZGReset = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId( (Get-Date -Date "2020-08-11 09:00"), 'Central European Standard Time')
@@ -2157,7 +2166,7 @@ and will open on
     }
     BuffPlaning
 
-   
+
 
 
     
@@ -2194,9 +2203,17 @@ and will open on
             $BuildBody += $addon.id
         }
 
-
+        $CurseResponse = $false
         $MethodError = $true
+        $ii = 0
         while ($MethodError) {
+            
+            if ($ii -gt 2) {
+
+                Break
+            }
+
+            $ii += 1
             
             Try {
                 if ($BuildBody.Length -gt 1) {
@@ -2210,6 +2227,7 @@ and will open on
                     $response = Invoke-RestMethod -uri ("https://addons-ecs.forgesvc.net/api/v2/addon/" + $BuildBody ) -TimeoutSec 5
                     
                 }
+                $CurseResponse = $true
                 $MethodError = $false
 
             } catch {
@@ -2264,7 +2282,7 @@ and will open on
             $ListView_Item.SubItems.Add($record.Name)
 
             $currentVersion = ($Global:Addons.config.Addon | Where-Object ID -eq $record.id).CurrentVersion
-            $latestVersion = ($Global:Addons.config.Addon | Where-Object ID -eq $record.id).LatestVersion
+            
 
             
             if ($currentVersion -match "\d") {
@@ -2321,11 +2339,11 @@ and will open on
                 Where-Object ID -EQ $Record.ID
             ).LatestVersion = $AddonInfo.displayName 
 
-           
+        
 
 
             if ($AddonInfo.displayName -match "\d") {
-               
+            
 
                 $temp =  ($AddonInfo.displayName -replace "[a-z,A-Z,-]" , "" -replace " ", "" -replace "_","").Trim(".")
 
@@ -2338,7 +2356,7 @@ and will open on
             }
 
             
-
+            $latestVersion = $AddonInfo.displayName
 
             $ListView_Item.SubItems.Add($record.summary)
 
@@ -2401,6 +2419,8 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
     
 
     #*** update ElvUI section 
+    $LoadSpinner.Text = "Checking for ElvUI update..."
+    $LabelSplashStatus.Text = "Checking for ElvUI update..."
 
     $ElvUIViewBox.Clear()
     $ElvUIViewBox.Columns.Add("Name")
@@ -2456,7 +2476,7 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
 
             $Global:Addons.config.ElvUI.DateUpdated = ""
             
-           
+        
 
         }
 
@@ -2465,12 +2485,18 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
     } 
 
     $MethodError = $true
+    $i = 0
     while ($MethodError) {
+        if ($i -ge 2) {
+            $ElvUILatestVersion = $Global:Addons.config.ElvUI.LatestVersion
+            Break
+        }
+        $i += 1
         try {
             if ($Global:GameVersion -eq "Classic") {
-                $ElvUILatestVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui-classic/-/tags?format=atom")[0].title
+                $ElvUILatestVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui-classic/-/tags?format=atom" -TimeoutSec 3)[0].title
             } else {
-                $ElvUILatestVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui/-/tags?format=atom")[0].title
+                $ElvUILatestVersion = (Invoke-RestMethod -uri "https://git.tukui.org/elvui/elvui/-/tags?format=atom" -TimeoutSec 3)[0].title
             }
             $MethodError = $false
 
@@ -2558,6 +2584,17 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
     $BuffViewBox.EndUpdate()
     $ButtonRefresh.Text = "Refresh"
     $ButtonRefresh.BackgroundImage = $null
+
+    if ($CurseResponse) {
+        $LoadSpinner.Visible = $false
+
+    } else {
+        $LoadSpinner.Visible = $true
+        $LoadSpinner.Text = "Cursefore did not respond
+        
+Please try again in a moment"
+    }
+    $Loadspinner.update()
     
 }
 
@@ -2827,11 +2864,11 @@ Function Buffplaning {
 
         
         
-        if  ($hour -lt $InTime[0]) {
+        if  ([int]$hour -lt [int]$InTime[0]) {
             $BuffView_Item.ForeColor = [System.Drawing.Color]::Snow
             
         } else {
-            if (($hour -eq $InTime[0]) -and ($Minute -lt $InTime[1] )) {
+            if (([int]$hour -eq [int]$InTime[0]) -and ([int]$Minute -lt [int]$InTime[1] )) {
                 $BuffView_Item.ForeColor = [System.Drawing.Color]::Snow
             } else {
                 $BuffView_Item.ForeColor = [System.Drawing.Color]::Orange

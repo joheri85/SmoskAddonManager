@@ -130,7 +130,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3049/569/WeakAuras-2.18.4-classic.zip</DownloadLink>
     <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
     <CurrentVersion>Imported, Update to display version.</CurrentVersion>
-    <LatestVersion>2.18.4-classic</LatestVersion>
+    <LatestVersion>3.0.0-classic</LatestVersion>
     <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
     <DateUpdated>2020-09-22 12:00</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
@@ -196,7 +196,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/2977/700/ExRT4160-classic.zip</DownloadLink>
     <Description>Exorsus Raid Tools</Description>
     <CurrentVersion>Exorsus Raid Tools v.4160 Classic</CurrentVersion>
-    <LatestVersion>Exorsus Raid Tools v.4160 Classic</LatestVersion>
+    <LatestVersion>Exorsus Raid Tools v.4330 Classic</LatestVersion>
     <Modules>ExRT</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/exorsus-raid-tools</Website>
