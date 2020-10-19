@@ -1,4 +1,4 @@
-﻿$Version = "3.4.0"
+﻿$Version = "3.4.1"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -2842,7 +2842,7 @@ Function Buffplaning {
     $BuffViewBox.Columns.Add("Buff")
     $BuffViewBox.Columns.Add("Player/Guild")
     $BuffViewBox.Columns.Add("Reset")
- 
+    
     
  
     $i = 0
@@ -2967,7 +2967,7 @@ Function ImportCurrentAddons {
 Function CurseForgeSearch {
 
     Param($SearchTerm)
-
+    Write-Host $Global:GameVersion
 
     if ($Global:GameVersion -eq "Retail") {
 
@@ -2976,7 +2976,6 @@ Function CurseForgeSearch {
         $Global:SearchResult = Invoke-RestMethod -uri ("https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_classic&searchFilter=" + $SearchTerm) -TimeoutSec 20
     }
 
-    $Global:SearchResult = Invoke-RestMethod -uri ("https://addons-ecs.forgesvc.net/api/v2/addon/search?&gameId=1&sort=downloadCount&gameVersionFlavor=wow_classic&searchFilter=" + $SearchTerm) -TimeoutSec 20
     $Global:SearchResult = ($Global:SearchResult | sort-object -property name)
     $SearchOutput = [System.Collections.ArrayList]@()
     foreach ($Result in $Global:SearchResult) {

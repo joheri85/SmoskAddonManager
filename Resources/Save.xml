@@ -130,7 +130,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3049/569/WeakAuras-2.18.4-classic.zip</DownloadLink>
     <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
     <CurrentVersion>Imported, Update to display version.</CurrentVersion>
-    <LatestVersion>3.0.0-classic</LatestVersion>
+    <LatestVersion>3.0.1-classic</LatestVersion>
     <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
     <DateUpdated>2020-09-22 12:00</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
