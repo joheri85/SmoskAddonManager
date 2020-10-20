@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-  <Version>3.2.6</Version>
+  <Version>3.2.7</Version>
   <IfaceAddonsFolder>D:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
   <Splash>.\Resources\Splash.png</Splash>
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
@@ -92,23 +92,12 @@
     <Website>https://www.curseforge.com/wow/addons/classic-maekor-overpower-alert</Website>
   </Addon>
   <Addon>
-    <ID>4558</ID>
-    <Name>Quartz</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2818/475/Quartz-3.5-classic-5.zip</DownloadLink>
-    <Description>Modular casting bar.</Description>
-    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
-    <LatestVersion>3.5-classic-5</LatestVersion>
-    <Modules>Quartz</Modules>
-    <DateUpdated>2020-09-22 12:00</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/quartz</Website>
-  </Addon>
-  <Addon>
     <ID>334372</ID>
     <Name>Questie</Name>
     <DownloadLink>https://edge.forgecdn.net/files/3038/665/Questie-v6.0.5.zip</DownloadLink>
     <Description>The Classic Quest Helper</Description>
     <CurrentVersion>Imported, Update to display version.</CurrentVersion>
-    <LatestVersion>v6.0.5</LatestVersion>
+    <LatestVersion>v6.1.0</LatestVersion>
     <Modules>Questie</Modules>
     <DateUpdated>2020-09-22 12:00</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/questie</Website>
@@ -130,7 +119,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3049/569/WeakAuras-2.18.4-classic.zip</DownloadLink>
     <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
     <CurrentVersion>Imported, Update to display version.</CurrentVersion>
-    <LatestVersion>3.0.1-classic</LatestVersion>
+    <LatestVersion>3.0.4-classic</LatestVersion>
     <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
     <DateUpdated>2020-09-22 12:00</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
@@ -163,7 +152,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/2952/214/Decursive-2.7.7-classic.zip</DownloadLink>
     <Description>Afflictions display and cleaning for solo, group and raid with advanced filtering and priority system.</Description>
     <CurrentVersion>2.7.7-classic</CurrentVersion>
-    <LatestVersion>2.7.7-classic</LatestVersion>
+    <LatestVersion>2.7.7.1-classic</LatestVersion>
     <Modules>Decursive</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/decursive</Website>
@@ -196,21 +185,10 @@
     <DownloadLink>https://edge.forgecdn.net/files/2977/700/ExRT4160-classic.zip</DownloadLink>
     <Description>Exorsus Raid Tools</Description>
     <CurrentVersion>Exorsus Raid Tools v.4160 Classic</CurrentVersion>
-    <LatestVersion>Exorsus Raid Tools v.4330 Classic</LatestVersion>
+    <LatestVersion>Exorsus Raid Tools v.4360 Classic</LatestVersion>
     <Modules>ExRT</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/exorsus-raid-tools</Website>
-  </Addon>
-  <Addon>
-    <ID>405809</ID>
-    <Name>GatherMate2 Classic</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/3047/169/GatherMate2-1.45.6-classic.zip</DownloadLink>
-    <Description>Collects Herbs, Mines, Gas Clouds, Archaeology, Treasure and Fishing locations and adds them to the worldmap and minimap</Description>
-    <CurrentVersion>1.45.6-classic</CurrentVersion>
-    <LatestVersion>1.45.6-classic</LatestVersion>
-    <Modules>GatherMate2</Modules>
-    <DateUpdated>2020-09-22 12:01</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/gathermate2-classic</Website>
   </Addon>
   <Addon>
     <ID>350035</ID>
@@ -224,37 +202,15 @@
     <Website>https://www.curseforge.com/wow/addons/gathermate2-data-wowhead-classic</Website>
   </Addon>
   <Addon>
-    <ID>20697</ID>
-    <Name>GTFO</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2888/406/GTFO-4.55-Classic.zip</DownloadLink>
-    <Description>GTFO warns you when you're standing in fire or other bad stuff.</Description>
-    <CurrentVersion>4.55-classic</CurrentVersion>
-    <LatestVersion>4.55-classic</LatestVersion>
-    <Modules>GTFO</Modules>
-    <DateUpdated>2020-09-22 12:01</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/gtfo</Website>
-  </Addon>
-  <Addon>
     <ID>324034</ID>
     <Name>Leatrix Maps (Classic)</Name>
     <DownloadLink>https://edge.forgecdn.net/files/3052/669/Leatrix_Maps-1.13.78.zip</DownloadLink>
     <Description>Enhancements for your maps.</Description>
     <CurrentVersion>1.13.78</CurrentVersion>
-    <LatestVersion>1.13.81</LatestVersion>
+    <LatestVersion>1.13.82</LatestVersion>
     <Modules>Leatrix_Maps</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/leatrix-maps-classic</Website>
-  </Addon>
-  <Addon>
-    <ID>334984</ID>
-    <Name>LetMeCast</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/2777/357/LetMeCast_v1.3.zip</DownloadLink>
-    <Description>Tiny auto-dismount and auto-stand addon.</Description>
-    <CurrentVersion>LetMeCast_v1.3.zip</CurrentVersion>
-    <LatestVersion>LetMeCast_v1.3.zip</LatestVersion>
-    <Modules>LetMeCast</Modules>
-    <DateUpdated>2020-09-22 12:01</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/letmecast</Website>
   </Addon>
   <Addon>
     <ID>299093</ID>
@@ -266,5 +222,16 @@
     <Modules>NeatPlatesHub,NeatPlatesWidgets,NeatPlates_Alvara,NeatPlates_BlizzardPlates,NeatPlates_ClassicPlates,NeatPlates_Graphite,NeatPlates_Grey,NeatPlates_Neon,NeatPlates_Quatre,NeatPlates_Renaitre,NeatPlates_Roth,NeatPlates_Simple,NeatPlates_Slim_Horizontal,NeatPlates_Slim_Vertical,NeatPlates</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/neatplates</Website>
+  </Addon>
+  <Addon>
+    <ID>4558</ID>
+    <Name>Quartz</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2818/475/Quartz-3.5-classic-5.zip</DownloadLink>
+    <Description>Modular casting bar.</Description>
+    <CurrentVersion>3.5-classic-5</CurrentVersion>
+    <LatestVersion>3.5-classic-5</LatestVersion>
+    <Modules>Quartz</Modules>
+    <DateUpdated>2020-10-20 17:20</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/quartz</Website>
   </Addon>
 </config>

@@ -1,4 +1,4 @@
-﻿$Version = "3.4.1"
+﻿$Version = "3.5.0"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -352,6 +352,67 @@ Function DrawGUI {
 
     $SplashScreen.Show()
     Start-Sleep -Seconds 3
+
+    #*** Update available Form ******************************************************************************************************
+    $UpdateAvailable = New-Object System.Windows.Forms.Form
+    $UpdateAvailable.minimumSize = New-Object System.Drawing.Size(500,250) 
+    $UpdateAvailable.maximumSize = New-Object System.Drawing.Size(500,250) 
+    $UpdateAvailable.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen 
+    $UpdateAvailable.AutoSize = $true
+    $UpdateAvailable.SizeGripStyle = "Hide"
+    $UpdateAvailable.FormBorderStyle = [System.Windows.Forms.BorderStyle]::"None"
+    $UpdateAvailable.BackColor = [System.Drawing.Color]::Black
+    $UpdateAvailable.BackgroundImage = [system.drawing.image]::FromFile($Global:Addons.config.Splash)
+    $UpdateAvailable.BackgroundImageLayout = "Zoom"
+
+    #*** 
+    $LabelUpdateAvailable = New-Object System.Windows.Forms.Label
+    $LabelUpdateAvailable.Text = "A newer version of SMOSK! is available" 
+    $LabelUpdateAvailable.Location  = New-Object System.Drawing.Point(0,0)
+    $LabelUpdateAvailable.Size = New-Object System.Drawing.Size(500,35)
+    $LabelUpdateAvailable.TextAlign = "MiddleCenter"
+    $LabelUpdateAvailable.BackColor = [System.Drawing.Color]::Transparent
+    $LabelUpdateAvailable.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
+    $LabelUpdateAvailable.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 8, [System.Drawing.FontStyle]::Bold)
+    $UpdateAvailable.Controls.Add($LabelUpdateAvailable)
+
+    $ButtonUpdateYes = New-Object System.Windows.Forms.Button
+    $ButtonUpdateYes.Location = New-Object System.Drawing.Size(140,150)
+    $ButtonUpdateYes.Size = New-Object System.Drawing.Size(100,40)
+    $ButtonUpdateYes.Text = "Update now"
+    $ButtonUpdateYes.Anchor = "Bottom,Right"
+    $ButtonUpdateYes.FlatStyle = "Popup"
+    $ButtonUpdateYes.BackColor = $StandardButtonColor
+    $ButtonUpdateYes.ForeColor = $StandardButtonTextColor
+    $ButtonUpdateYes.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $UpdateAvailable.Controls.Add($ButtonUpdateYes)
+
+    $ButtonUpdateYes.Add_Click({
+        
+        Start-Process ".\Update_SMOSK.exe"
+        $UpdateAvailable.Dispose()
+
+    })
+
+    $ButtonUpdateNo = New-Object System.Windows.Forms.Button
+    $ButtonUpdateNo.Location = New-Object System.Drawing.Size(260,150)
+    $ButtonUpdateNo.Size = New-Object System.Drawing.Size(100,40)
+    $ButtonUpdateNo.Text = "Update later"
+    $ButtonUpdateNo.Anchor = "Bottom,Right"
+    $ButtonUpdateNo.FlatStyle = "Popup"
+    $ButtonUpdateNo.BackColor = $StandardButtonColor
+    $ButtonUpdateNo.ForeColor = $StandardButtonTextColor
+    $ButtonUpdateNo.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
+    $UpdateAvailable.Controls.Add($ButtonUpdateNo)
+
+    $ButtonUpdateNo.Add_Click({
+        
+        $UpdateAvailable.Dispose()
+        $main_form.ShowDialog()
+
+    })
+   
+    
 
     #*** Change Form ******************************************************************************************************
     $change_form = New-Object System.Windows.Forms.Form
@@ -1158,10 +1219,66 @@ Retail"
     $ListViewBox.Font = [System.Drawing.Font]::new($Global:Addons.config.DetailFont, 8, [System.Drawing.FontStyle]::Regular)
     $ListViewBox.FullRowSelect = $true
     $ListViewBox.MultiSelect = $true
-    $ListViewBox.he
     
+    $ListViewContextMenu = New-Object System.Windows.Forms.ContextMenuStrip
+    $ListViewContextMenu.Items.Add("Show addon page on CurseForge").Add_Click(
+        {
+            Start-Process ($Global:Addons.config.Addon | Where-Object ID -eq $ListViewBox.SelectedItems[0].Text).Website
+        }
+    )
+    $ListViewContextMenu.Items.Add("-")
+    $ListViewContextMenu.Items.Add("Update selected").Add_click(
+        {
+            $LoadSpinner.Visible = $true
+            Foreach ($record in $ListViewBox.SelectedItems) {
+                $LoadSpinner.Text = "Updating...
+            
+" + ($Global:Addons.config.Addon | Where-Object ID -eq $record.text).name
+                $LoadSpinner.Update()
+                UpdateAddon -AddonID $record.text
+
+        }
+
+        UpdateAddonsTable
+        $LoadSpinner.Visible = $false}
+    )
+
+    $ListViewContextMenu.Items.Add("Update all").Add_click(
+        { 
+            $LoadSpinner.Visible = $true
+            Foreach ($record in $ListViewBox.SelectedItems) {
+                $LoadSpinner.Text = "Updating...
+            
+" + ($Global:Addons.config.Addon | Where-Object ID -eq $record.text).name
+                $LoadSpinner.Update()
+                UpdateAddon -AddonID $record.text
+
+        }
+
+            UpdateAddonsTable
+            $LoadSpinner.Visible = $false
+        }
+    )
+    $ListViewContextMenu.Items.Add("-")
+    $ListViewContextMenu.Items.Add("Delete selected").Add_click(
+        {
+            Foreach ($record in $ListViewBox.SelectedItems) {
+            
+                DeleteAddon -ID $record.text
+                $ListViewBox.Items.Remove($record)
+        
+            }
+
+            if ($null -ne $Global:Addons.config.Addon.Length) {
+                $LabelInstalledAddons.Text = $Global:Addons.config.Addon.Length.ToString() + " Addons installed"
+            } else {
+                $LabelInstalledAddons.Text = "1 Addon installed"
+            }
+        }
+    )
     
-    
+    $ListViewBox.ContextMenuStrip = $ListViewContextMenu
+
 
     
     $ListViewBox.Add_click({
@@ -1904,9 +2021,12 @@ Waiting for API response"
     
     $SplashScreen.Dispose()
     $ListViewBox.TabIndex = 0
-    $main_form.ShowDialog()
-
-
+    if ($version -ne $Global:SmoskVersion.smosk.changelog.logentry[0].version) {
+        $UpdateAvailable.ShowDialog()
+    } else {
+        $main_form.ShowDialog()
+    }
+    
     $main_form.Dispose()
     $Search_form.Dispose()
     $SplashScreen.Dispose()
@@ -3121,7 +3241,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    $LatestVersion = "3.2.6"
+    $LatestVersion = "3.2.7"
     if ($Global:Addons.config.Version -ne $LatestVersion) {
 
         $Updater = New-Object System.Xml.XmlDocument

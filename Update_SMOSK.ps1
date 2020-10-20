@@ -178,6 +178,7 @@ try {
         DrawGUI
     } else {
         update
+        Start-Process ".\SMOSK.exe"
     }
 
 } catch {
