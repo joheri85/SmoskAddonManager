@@ -1,4 +1,4 @@
-﻿$Version = "3.5.0"
+﻿$Version = "3.5.2"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1221,13 +1221,42 @@ Retail"
     $ListViewBox.MultiSelect = $true
     
     $ListViewContextMenu = New-Object System.Windows.Forms.ContextMenuStrip
-    $ListViewContextMenu.Items.Add("Show addon page on CurseForge").Add_Click(
+
+    $ContextCurse = New-Object System.Windows.Forms.ToolStripMenuItem
+    $ContextCurse.Text = "Show addon page on CurseForge"    
+    $ContextCurse.Image = [System.Drawing.Image]::FromFile(".\Resources\Context_web.png")
+    $ContextCurse.Add_Click(
         {
             Start-Process ($Global:Addons.config.Addon | Where-Object ID -eq $ListViewBox.SelectedItems[0].Text).Website
         }
     )
+    $ListViewContextMenu.Items.Add($ContextCurse)
+
+    $ListViewContextMenu.Items.Add("-")    
+
+    $ContextRefresh = New-Object System.Windows.Forms.ToolStripMenuItem
+    $ContextRefresh.Text = "Refresh"    
+    $ContextRefresh.Image = [System.Drawing.Image]::FromFile(".\Resources\Context_refresh.png")
+    $ContextRefresh.Add_Click(
+        {
+            $LoadSpinner.Text = "Refreshing...
+
+Waiting for API response"
+            $LoadSpinner.Visible = $true
+            UpdateAddonsTable
+        }
+    )
+    $ListViewContextMenu.Items.Add($ContextRefresh)
+
+
     $ListViewContextMenu.Items.Add("-")
-    $ListViewContextMenu.Items.Add("Update selected").Add_click(
+
+
+
+    $ContextUpdateOne = New-Object System.Windows.Forms.ToolStripMenuItem
+    $ContextUpdateOne.Text = "Update selected"    
+    $ContextUpdateOne.Image = [System.Drawing.Image]::FromFile(".\Resources\Context_update.png")
+    $ContextUpdateOne.Add_click(
         {
             $LoadSpinner.Visible = $true
             Foreach ($record in $ListViewBox.SelectedItems) {
@@ -1242,8 +1271,13 @@ Retail"
         UpdateAddonsTable
         $LoadSpinner.Visible = $false}
     )
+    $ListViewContextMenu.Items.Add($ContextUpdateOne)
 
-    $ListViewContextMenu.Items.Add("Update all").Add_click(
+
+    $ContextUpdateAll = New-Object System.Windows.Forms.ToolStripMenuItem
+    $ContextUpdateAll.Text = "Update all"    
+    $ContextUpdateAll.Image = [System.Drawing.Image]::FromFile(".\Resources\Context_update.png")
+    $ContextUpdateAll.Add_click(
         { 
             $LoadSpinner.Visible = $true
             Foreach ($record in $ListViewBox.SelectedItems) {
@@ -1259,8 +1293,16 @@ Retail"
             $LoadSpinner.Visible = $false
         }
     )
+    $ListViewContextMenu.Items.Add($ContextUpdateAll)
+
+
     $ListViewContextMenu.Items.Add("-")
-    $ListViewContextMenu.Items.Add("Delete selected").Add_click(
+
+
+    $ContextTrash = New-Object System.Windows.Forms.ToolStripMenuItem
+    $ContextTrash.Text = "Delete selected"  
+    $ContextTrash.Image = [System.Drawing.Image]::FromFile(".\Resources\Context_trash.png")
+    $ContextTrash.Add_click(
         {
             Foreach ($record in $ListViewBox.SelectedItems) {
             
@@ -1276,6 +1318,8 @@ Retail"
             }
         }
     )
+
+    $ListViewContextMenu.Items.Add($ContextTrash)
     
     $ListViewBox.ContextMenuStrip = $ListViewContextMenu
 
@@ -3241,7 +3285,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    $LatestVersion = "3.2.7"
+    $LatestVersion = "3.2.9"
     if ($Global:Addons.config.Version -ne $LatestVersion) {
 
         $Updater = New-Object System.Xml.XmlDocument

@@ -3,14 +3,20 @@
   <Today>
     <Buff>
       <Time>11:00</Time>
-      <Name>Nefarian</Name>
-      <Guild>Soridormi</Guild>
+      <Name>Onyxia</Name>
+      <Guild>Stiggdogg</Guild>
       <Reset>No</Reset>
     </Buff>
     <Buff>
       <Time>19:00</Time>
+      <Name>Onyxia</Name>
+      <Guild>pepparkak</Guild>
+      <Reset>No</Reset>
+    </Buff>
+    <Buff>
+      <Time>19:30</Time>
       <Name>Nefarian</Name>
-      <Guild>kamija</Guild>
+      <Guild>Shroudedfury</Guild>
       <Reset>No</Reset>
     </Buff>
   </Today>
