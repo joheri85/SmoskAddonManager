@@ -1,4 +1,4 @@
-﻿$Version = "3.5.2"
+﻿$Version = "3.5.3"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
