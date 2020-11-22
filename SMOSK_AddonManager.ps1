@@ -1,4 +1,4 @@
-﻿$Version = "3.5.3"
+﻿$Version = "3.5.6"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1280,15 +1280,19 @@ Waiting for API response"
     $ContextUpdateAll.Add_click(
         { 
             $LoadSpinner.Visible = $true
-            Foreach ($record in $ListViewBox.SelectedItems) {
-                $LoadSpinner.Text = "Updating...
-            
-" + ($Global:Addons.config.Addon | Where-Object ID -eq $record.text).name
-                $LoadSpinner.Update()
-                UpdateAddon -AddonID $record.text
-
-        }
-
+            foreach ($addon in $Global:Addons.config.Addon) {
+        
+                if ($addon.CurrentVersion -ne $addon.LatestVersion) {
+                    
+                    $LoadSpinner.Text = "Updating... 
+                    
+    " + $addon.Name
+                    $LoadSpinner.Update()
+                    UpdateAddon -AddonID $addon.ID
+                }
+    
+            }
+    
             UpdateAddonsTable
             $LoadSpinner.Visible = $false
         }
@@ -2133,7 +2137,7 @@ Function UpdateAddonsTable {
     $ABEnd = $ABStart + (New-TimeSpan -Days 4)
     $AVEnd = $AVStart + (New-TimeSpan -Days 4)
 
-    $BGS = (@(@("Warsong Gulch", $WSGStart,$WSGEnd), @("Arathi Basin" ,$ABStart,$ABEnd), @("Alterac Valey", $AVStart, $AVEnd)))  | sort-object @{Expression={$_[1]}}
+    $BGS = (@(@("Warsong Gulch", $WSGStart,$WSGEnd), @("Arathi Basin" ,$ABStart,$ABEnd), @("Alterac Valley", $AVStart, $AVEnd)))  | sort-object @{Expression={$_[1]}}
 
     IF (($now -ge $BGS[0][1]) -and ($now -le $BGS[0][2]) ) {
         
@@ -2778,7 +2782,7 @@ Function NethergardeKeepBuffSchedule {
         $MethodError = $true
         while ($MethodError) {
             try {
-                $BuffParse = (Invoke-WebRequest -Uri "https://docs.google.com/spreadsheets/d/1YZbvGiUlRzVGYWwSTU7JeYoHtDUZW6JnXoqA1WEim84/htmlview?usp=sharing&pru=AAABc6XNR3U*ofU_hgCnK_odzu3J7DewXA" -TimeoutSec 5)
+                $BuffParse = (Invoke-WebRequest -Uri "https://docs.google.com/spreadsheets/d/1YZbvGiUlRzVGYWwSTU7JeYoHtDUZW6JnXoqA1WEim84/htmlview?usp=sharing&pru=AAABc6XNR3U*ofU_hgCnK_odzu3J7DewXA" -TimeoutSec 5 -UseBasicParsing)
                 $MethodError = $false
             } catch {
                 if (Test-Path ".\Resources\error_log.txt") {
@@ -3230,7 +3234,7 @@ Function makeUpdateLog {
 Function InstallElvUI {
 
     if ($Global:GameVersion -eq "Classic") {
-        Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui-classic/-/archive/master/elvui-classic-master.zip" -OutFile ".\Downloads\elvui-classic-master.zip" -TimeoutSec 20
+        Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui-classic/-/archive/master/elvui-classic-master.zip" -OutFile ".\Downloads\elvui-classic-master.zip" -TimeoutSec 20 -UseBasicParsing
 
         if (Test-Path ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI")){
             Remove-Item -LiteralPath ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI") -Force -Recurse
@@ -3253,7 +3257,7 @@ Function InstallElvUI {
 
     } else {
 
-        Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui/-/archive/master/elvui-master.zip" -OutFile ".\Downloads\elvui-master.zip" -TimeoutSec 20
+        Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui/-/archive/master/elvui-master.zip" -OutFile ".\Downloads\elvui-master.zip" -TimeoutSec 20 -UseBasicParsing
 
         if (Test-Path ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI")){
             Remove-Item -LiteralPath ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI") -Force -Recurse
@@ -3320,34 +3324,34 @@ Function PullNewResources {
 }
 
 try {
-$global:ProgressPreference = 'SilentlyContinue'
-$ErrorActionPreference = "Stop"
+    $global:ProgressPreference = 'SilentlyContinue'
+    $ErrorActionPreference = "Stop"
 
 
 
 
 
-#*** Create XML object and load addon database
-$Global:Addons = New-Object System.Xml.XmlDocument
-$Global:XMLPath = ".\Resources\Save.xml"
-$Global:Addons.Load($Global:XMLPath)
+    #*** Create XML object and load addon database
+    $Global:Addons = New-Object System.Xml.XmlDocument
+    $Global:XMLPath = ".\Resources\Save.xml"
+    $Global:Addons.Load($Global:XMLPath)
 
-$Global:GameVersion = "Classic"
-
-
+    $Global:GameVersion = "Classic"
 
 
-$Global:OSInfo = (get-computerinfo | select-object -property OSName, OSVersion)
 
-$Global:SmoskVersion = New-Object System.Xml.XmlDocument
-$Global:SmoskVersionPath = "https://www.smosk.net/downloads/version.xml"
-$Global:SmoskVersion.Load($Global:SmoskVersionPath)
 
-#*** Download latest updater
-PullNewResources
+    $Global:OSInfo = (get-computerinfo | select-object -property OSName, OSVersion)
 
-#***  Render the GUI
-DrawGUI
+    $Global:SmoskVersion = New-Object System.Xml.XmlDocument
+    $Global:SmoskVersionPath = "https://www.smosk.net/downloads/version.xml"
+    $Global:SmoskVersion.Load($Global:SmoskVersionPath)
+
+    #*** Download latest updater
+    PullNewResources
+
+    #***  Render the GUI
+    DrawGUI
 
 
 } catch {

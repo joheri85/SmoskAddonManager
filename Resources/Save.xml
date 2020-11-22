@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <config>
-  <Version>3.2.8</Version>
-  <IfaceAddonsFolder>D:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
+  <Version>3.2.9</Version>
+  <IfaceAddonsFolder>E:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
   <Splash>.\Resources\Splash.png</Splash>
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
   <TitleIcon>.\Resources\Title_Icon.ico</TitleIcon>
   <ElvUI>
-    <CurrentVersion>1.31</CurrentVersion>
-    <DateUpdated>2020-09-22</DateUpdated>
-    <LatestVersion>1.31</LatestVersion>
+    <CurrentVersion>1.36</CurrentVersion>
+    <DateUpdated>2020-10-29</DateUpdated>
+    <LatestVersion>1.36</LatestVersion>
   </ElvUI>
   <BuffplanningDefault>Nethergarde Keep</BuffplanningDefault>
   <HighlightFont>Georgia</HighlightFont>
@@ -119,7 +119,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3049/569/WeakAuras-2.18.4-classic.zip</DownloadLink>
     <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
     <CurrentVersion>Imported, Update to display version.</CurrentVersion>
-    <LatestVersion>3.0.4-classic</LatestVersion>
+    <LatestVersion>3.0.5-classic</LatestVersion>
     <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
     <DateUpdated>2020-09-22 12:00</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
@@ -163,7 +163,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3059/904/DetailsClassic.1.13.5.214.142.zip</DownloadLink>
     <Description>Complete combat analysis, gathering damage, healing, and other importante stuff.</Description>
     <CurrentVersion>DetailsClassic.1.13.5.214.142</CurrentVersion>
-    <LatestVersion>DetailsClassic.1.13.5.214.142</LatestVersion>
+    <LatestVersion>DetailsClassic.1.13.5.215.142</LatestVersion>
     <Modules>Details_TinyThreat,Details_DataStorage,Details_Streamer,Details</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/details</Website>
@@ -174,7 +174,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3059/902/DetailsClassic.1.13.5.214.142.zip</DownloadLink>
     <Description>The best damage meter in a exclusive version for Classic WoW</Description>
     <CurrentVersion>DetailsClassic.1.13.5.214.142</CurrentVersion>
-    <LatestVersion>DetailsClassic.1.13.5.214.142</LatestVersion>
+    <LatestVersion>DetailsClassic.1.13.5.215.142</LatestVersion>
     <Modules>Details_TinyThreat,Details_DataStorage,Details_Streamer,Details</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/details-damage-meter-classic-wow</Website>
@@ -185,7 +185,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/2977/700/ExRT4160-classic.zip</DownloadLink>
     <Description>Exorsus Raid Tools</Description>
     <CurrentVersion>Exorsus Raid Tools v.4160 Classic</CurrentVersion>
-    <LatestVersion>Exorsus Raid Tools v.4360 Classic</LatestVersion>
+    <LatestVersion>Exorsus Raid Tools v.4370 Classic</LatestVersion>
     <Modules>ExRT</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/exorsus-raid-tools</Website>
@@ -207,7 +207,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3052/669/Leatrix_Maps-1.13.78.zip</DownloadLink>
     <Description>Enhancements for your maps.</Description>
     <CurrentVersion>1.13.78</CurrentVersion>
-    <LatestVersion>1.13.82</LatestVersion>
+    <LatestVersion>1.13.83</LatestVersion>
     <Modules>Leatrix_Maps</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/leatrix-maps-classic</Website>
@@ -218,7 +218,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3051/734/NeatPlates-1.13.5.12.zip</DownloadLink>
     <Description>NeatPlates is a nameplate addon that works with both the Classic and Modern version of WoW</Description>
     <CurrentVersion>1.13.5.12</CurrentVersion>
-    <LatestVersion>1.13.5.15</LatestVersion>
+    <LatestVersion>1.13.5.17</LatestVersion>
     <Modules>NeatPlatesHub,NeatPlatesWidgets,NeatPlates_Alvara,NeatPlates_BlizzardPlates,NeatPlates_ClassicPlates,NeatPlates_Graphite,NeatPlates_Grey,NeatPlates_Neon,NeatPlates_Quatre,NeatPlates_Renaitre,NeatPlates_Roth,NeatPlates_Simple,NeatPlates_Slim_Horizontal,NeatPlates_Slim_Vertical,NeatPlates</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/neatplates</Website>

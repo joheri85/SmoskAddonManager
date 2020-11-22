@@ -2,21 +2,21 @@
 <RealmBuffs>
   <Today>
     <Buff>
-      <Time>11:00</Time>
-      <Name>Onyxia</Name>
-      <Guild>Stiggdogg</Guild>
+      <Time>18:45</Time>
+      <Name>Hakkar</Name>
+      <Guild>Haderbald</Guild>
       <Reset>No</Reset>
     </Buff>
     <Buff>
       <Time>19:00</Time>
-      <Name>Onyxia</Name>
-      <Guild>pepparkak</Guild>
+      <Name>Nefarian</Name>
+      <Guild>Fearthegnome</Guild>
       <Reset>No</Reset>
     </Buff>
     <Buff>
       <Time>19:30</Time>
-      <Name>Nefarian</Name>
-      <Guild>Shroudedfury</Guild>
+      <Name>Onyxia</Name>
+      <Guild>Ironsmite</Guild>
       <Reset>No</Reset>
     </Buff>
   </Today>
