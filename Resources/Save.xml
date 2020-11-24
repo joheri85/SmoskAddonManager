@@ -97,7 +97,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3038/665/Questie-v6.0.5.zip</DownloadLink>
     <Description>The Classic Quest Helper</Description>
     <CurrentVersion>Imported, Update to display version.</CurrentVersion>
-    <LatestVersion>v6.1.0</LatestVersion>
+    <LatestVersion>v6.2.2</LatestVersion>
     <Modules>Questie</Modules>
     <DateUpdated>2020-09-22 12:00</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/questie</Website>
@@ -112,17 +112,6 @@
     <Modules>Wardrobe</Modules>
     <DateUpdated>2020-09-22 12:00</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/wardrobe</Website>
-  </Addon>
-  <Addon>
-    <ID>65387</ID>
-    <Name>WeakAuras</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/3049/569/WeakAuras-2.18.4-classic.zip</DownloadLink>
-    <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
-    <CurrentVersion>Imported, Update to display version.</CurrentVersion>
-    <LatestVersion>3.0.5-classic</LatestVersion>
-    <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
-    <DateUpdated>2020-09-22 12:00</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
   </Addon>
   <Addon>
     <ID>340171</ID>
@@ -152,7 +141,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/2952/214/Decursive-2.7.7-classic.zip</DownloadLink>
     <Description>Afflictions display and cleaning for solo, group and raid with advanced filtering and priority system.</Description>
     <CurrentVersion>2.7.7-classic</CurrentVersion>
-    <LatestVersion>2.7.7.1-classic</LatestVersion>
+    <LatestVersion>2.7.8-classic</LatestVersion>
     <Modules>Decursive</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/decursive</Website>
@@ -185,21 +174,10 @@
     <DownloadLink>https://edge.forgecdn.net/files/2977/700/ExRT4160-classic.zip</DownloadLink>
     <Description>Exorsus Raid Tools</Description>
     <CurrentVersion>Exorsus Raid Tools v.4160 Classic</CurrentVersion>
-    <LatestVersion>Exorsus Raid Tools v.4370 Classic</LatestVersion>
+    <LatestVersion>Exorsus Raid Tools v.4390 Classic</LatestVersion>
     <Modules>ExRT</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/exorsus-raid-tools</Website>
-  </Addon>
-  <Addon>
-    <ID>350035</ID>
-    <Name>GatherMate2 Data Wowhead classic</Name>
-    <DownloadLink>https://edge.forgecdn.net/files/3051/492/gathermate2_data_wowhead_classic_v2020-09-07.zip</DownloadLink>
-    <Description>GatherMate2 data from Wowhead</Description>
-    <CurrentVersion>gathermate2_data_wowhead_classic_v2020-09-07.zip</CurrentVersion>
-    <LatestVersion>gathermate2_data_wowhead_classic_v2020-09-28.zip</LatestVersion>
-    <Modules>GatherMate2_Data</Modules>
-    <DateUpdated>2020-09-22 12:01</DateUpdated>
-    <Website>https://www.curseforge.com/wow/addons/gathermate2-data-wowhead-classic</Website>
   </Addon>
   <Addon>
     <ID>324034</ID>
@@ -207,7 +185,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3052/669/Leatrix_Maps-1.13.78.zip</DownloadLink>
     <Description>Enhancements for your maps.</Description>
     <CurrentVersion>1.13.78</CurrentVersion>
-    <LatestVersion>1.13.83</LatestVersion>
+    <LatestVersion>1.13.86</LatestVersion>
     <Modules>Leatrix_Maps</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/leatrix-maps-classic</Website>
@@ -218,7 +196,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3051/734/NeatPlates-1.13.5.12.zip</DownloadLink>
     <Description>NeatPlates is a nameplate addon that works with both the Classic and Modern version of WoW</Description>
     <CurrentVersion>1.13.5.12</CurrentVersion>
-    <LatestVersion>1.13.5.17</LatestVersion>
+    <LatestVersion>1.13.5.21</LatestVersion>
     <Modules>NeatPlatesHub,NeatPlatesWidgets,NeatPlates_Alvara,NeatPlates_BlizzardPlates,NeatPlates_ClassicPlates,NeatPlates_Graphite,NeatPlates_Grey,NeatPlates_Neon,NeatPlates_Quatre,NeatPlates_Renaitre,NeatPlates_Roth,NeatPlates_Simple,NeatPlates_Slim_Horizontal,NeatPlates_Slim_Vertical,NeatPlates</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/neatplates</Website>
@@ -233,5 +211,28 @@
     <Modules>Quartz</Modules>
     <DateUpdated>2020-10-20 17:20</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/quartz</Website>
+  </Addon>
+  <Mode>Simple</Mode>
+  <Addon>
+    <ID>350035</ID>
+    <Name>GatherMate2 Data Wowhead classic</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3067/533/gathermate2_data_wowhead_classic_v2020-09-28.zip</DownloadLink>
+    <Description>GatherMate2 data from Wowhead</Description>
+    <CurrentVersion>gathermate2_data_wowhead_classic_v2020-09-28.zip</CurrentVersion>
+    <LatestVersion>gathermate2_data_wowhead_classic_v2020-09-28.zip</LatestVersion>
+    <Modules>GatherMate2_Data</Modules>
+    <DateUpdated>2020-11-23 18:42</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/gathermate2-data-wowhead-classic</Website>
+  </Addon>
+  <Addon>
+    <ID>65387</ID>
+    <Name>WeakAuras</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3120/75/WeakAuras-3.1.2-classic.zip</DownloadLink>
+    <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
+    <CurrentVersion>3.1.2-classic</CurrentVersion>
+    <LatestVersion>3.1.2-classic</LatestVersion>
+    <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
+    <DateUpdated>2020-11-23 18:42</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
   </Addon>
 </config>

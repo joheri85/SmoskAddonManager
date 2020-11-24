@@ -43,6 +43,7 @@ Function update {
 
     Remove-Item -LiteralPath ".\Downloads\AddonManager\" -Force -Recurse
     Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
+    
 
    
     #[System.Windows.MessageBox]::Show("Updated to latest Version of SMOSK!",'SMOSK! Updater','OK','Information')

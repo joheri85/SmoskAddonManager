@@ -1,4 +1,4 @@
-﻿$Version = "3.5.6"
+﻿$Version = "4.0.0"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -279,14 +279,13 @@ Function DrawGUI {
         $newNode = $Global:Addons.CreateNode("element", "HighlightFont", $null)
         $node.AppendChild($newNode)
         $Global:Addons.config.HighlightFont = "Georgia"
-        $Global:Addons.Save($Global:XMLPath)
     } 
+
     if ($null -eq $Global:Addons.config.DetailFont) {
         $node = $Global:Addons.SelectSingleNode("config")
         $newNode = $Global:Addons.CreateNode("element", "DetailFont", $null)
         $node.AppendChild($newNode)
         $Global:Addons.config.DetailFont = "Arial"
-        $Global:Addons.Save($Global:XMLPath)
     }
     
     if ($null -eq $Global:Addons.config.BuffsMaximized) {
@@ -294,9 +293,16 @@ Function DrawGUI {
         $newNode = $Global:Addons.CreateNode("element", "BuffsMaximized", $null)
         $node.AppendChild($newNode)
         $Global:Addons.config.BuffsMaximized = "+"
-        $Global:Addons.Save($Global:XMLPath)
     } 
 
+    if ($null -eq $Global:Addons.config.Mode) {
+        $node = $Global:Addons.SelectSingleNode("config")
+        $newNode = $Global:Addons.CreateNode("element", "Mode", $null)
+        $node.AppendChild($newNode)
+        $Global:Addons.config.Mode = "Full"
+    } 
+    
+    $Global:Addons.Save($Global:XMLPath)
     $Global:XMLPath = ".\Resources\Save_Retail.xml"
     $Global:Addons.Load($Global:XMLPath)
 
@@ -305,14 +311,12 @@ Function DrawGUI {
         $newNode = $Global:Addons.CreateNode("element", "HighlightFont", $null)
         $node.AppendChild($newNode)
         $Global:Addons.config.HighlightFont = "Georgia"
-        $Global:Addons.Save($Global:XMLPath)
     } 
     if ($null -eq $Global:Addons.config.DetailFont) {
         $node = $Global:Addons.SelectSingleNode("config")
         $newNode = $Global:Addons.CreateNode("element", "DetailFont", $null)
         $node.AppendChild($newNode)
         $Global:Addons.config.DetailFont = "Arial"
-        $Global:Addons.Save($Global:XMLPath)
     }
     
     if ($null -eq $Global:Addons.config.BuffsMaximized) {
@@ -320,9 +324,17 @@ Function DrawGUI {
         $newNode = $Global:Addons.CreateNode("element", "BuffsMaximized", $null)
         $node.AppendChild($newNode)
         $Global:Addons.config.BuffsMaximized = "+"
-        $Global:Addons.Save($Global:XMLPath)
     } 
 
+    if ($null -eq $Global:Addons.config.Mode) {
+        $node = $Global:Addons.SelectSingleNode("config")
+        $newNode = $Global:Addons.CreateNode("element", "Mode", $null)
+        $node.AppendChild($newNode)
+        $Global:Addons.config.Mode = "Full"
+    } 
+
+    
+    $Global:Addons.Save($Global:XMLPath)
     $Global:XMLPath = ".\Resources\Save.xml"
     $Global:Addons.Load($Global:XMLPath)
 
@@ -380,7 +392,7 @@ Function DrawGUI {
     $ButtonUpdateYes.Location = New-Object System.Drawing.Size(140,150)
     $ButtonUpdateYes.Size = New-Object System.Drawing.Size(100,40)
     $ButtonUpdateYes.Text = "Update now"
-    $ButtonUpdateYes.Anchor = "Bottom,Right"
+    #$ButtonUpdateYes.Anchor = "Bottom,Right"
     $ButtonUpdateYes.FlatStyle = "Popup"
     $ButtonUpdateYes.BackColor = $StandardButtonColor
     $ButtonUpdateYes.ForeColor = $StandardButtonTextColor
@@ -398,7 +410,7 @@ Function DrawGUI {
     $ButtonUpdateNo.Location = New-Object System.Drawing.Size(260,150)
     $ButtonUpdateNo.Size = New-Object System.Drawing.Size(100,40)
     $ButtonUpdateNo.Text = "Update later"
-    $ButtonUpdateNo.Anchor = "Bottom,Right"
+    #$ButtonUpdateNo.Anchor = "Bottom,Right"
     $ButtonUpdateNo.FlatStyle = "Popup"
     $ButtonUpdateNo.BackColor = $StandardButtonColor
     $ButtonUpdateNo.ForeColor = $StandardButtonTextColor
@@ -432,7 +444,7 @@ Function DrawGUI {
     $LabelMovechangeForm.BackColor = [System.Drawing.Color]::Black
     $LabelMovechangeForm.Location = New-Object System.Drawing.Point(2, 2)
     $LabelMovechangeForm.Size = New-Object System.Drawing.Size(496, 30)
-    $LabelMovechangeForm.Anchor = "Top","Left"
+    #$LabelMovechangeForm.Anchor = "Top","Left"
     $LabelMovechangeForm.BorderStyle = "None"
     $LabelMovechangeForm.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $LabelMovechangeForm.ForeColor = $CreamText
@@ -461,7 +473,7 @@ Function DrawGUI {
 
     $ButtonClosechangeForm = New-Object System.Windows.Forms.Button
     $ButtonClosechangeForm.Name = "ButtonCloseMainForm"
-    $ButtonClosechangeForm.Anchor = "Top","Left"
+    #$ButtonClosechangeForm.Anchor = "Top","Left"
     $ButtonClosechangeForm.Location = New-Object System.Drawing.Point(475, 5)
     $ButtonClosechangeForm.Size = New-Object System.Drawing.Size(20, 20)
     
@@ -477,7 +489,7 @@ Function DrawGUI {
 
     $ButtonMinimizechangeForm = New-Object System.Windows.Forms.Button
     $ButtonMinimizechangeForm.Name = "ButtonCloseMainForm"
-    $ButtonMinimizechangeForm.Anchor = "Top","Left"
+    #$ButtonMinimizechangeForm.Anchor = "Top","Left"
     $ButtonMinimizechangeForm.Location = New-Object System.Drawing.Point(450, 5)
     $ButtonMinimizechangeForm.Size = New-Object System.Drawing.Size(20, 20)
     #$ButtonMinimizeSearchForm.Text = "_"
@@ -536,7 +548,7 @@ Function DrawGUI {
     $LabelMoveSearchForm.BackColor = [System.Drawing.Color]::Transparent
     $LabelMoveSearchForm.Location = New-Object System.Drawing.Point(0, 0)
     $LabelMoveSearchForm.Size = New-Object System.Drawing.Size(440, 30)
-    $LabelMoveSearchForm.Anchor = "Top","Left"
+    #$LabelMoveSearchForm.Anchor = "Top","Left"
     $LabelMoveSearchForm.BorderStyle = "None"
     $LabelMoveSearchForm.Text = "SMOSK - Search"
     $LabelMoveSearchForm.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
@@ -566,7 +578,7 @@ Function DrawGUI {
 
     $ButtonCloseSearchForm = New-Object System.Windows.Forms.Button
     $ButtonCloseSearchForm.Name = "ButtonCloseMainForm"
-    $ButtonCloseSearchForm.Anchor = "Top","Left"
+    #$ButtonCloseSearchForm.Anchor = "Top","Left"
     $ButtonCloseSearchForm.Location = New-Object System.Drawing.Point(475, 5)
     $ButtonCloseSearchForm.Size = New-Object System.Drawing.Size(20, 20)
     #$ButtonCloseSearchForm.Text = "X"
@@ -582,7 +594,7 @@ Function DrawGUI {
 
     $ButtonMinimizeSearchForm = New-Object System.Windows.Forms.Button
     $ButtonMinimizeSearchForm.Name = "ButtonCloseMainForm"
-    $ButtonMinimizeSearchForm.Anchor = "Top","Left"
+    #$ButtonMinimizeSearchForm.Anchor = "Top","Left"
     $ButtonMinimizeSearchForm.Location = New-Object System.Drawing.Point(450, 5)
     $ButtonMinimizeSearchForm.Size = New-Object System.Drawing.Size(20, 20)
     #$ButtonMinimizeSearchForm.Text = "_"
@@ -740,7 +752,7 @@ Function DrawGUI {
     $ButtonWebURL.Location = New-Object System.Drawing.Size(10,415)
     $ButtonWebURL.Size = New-Object System.Drawing.Size(235,40)
     $ButtonWebURL.BackColor = [System.Drawing.Color]::Transparent
-    $ButtonWebURL.Text = "Visit CursForge page"
+    $ButtonWebURL.Text = "Visit CurseForge page"
     $ButtonWebURL.FlatStyle = "Popup"
     $ToolTipWebURL = New-Object System.Windows.Forms.ToolTip
     $ToolTipWebURL.SetToolTip($ButtonWebURL,"Opens selected addon page on CurseForge with your standard Web browser.") 
@@ -823,7 +835,7 @@ Function DrawGUI {
     $LabelMoveMainForm.BackColor = [System.Drawing.Color]::Transparent
     $LabelMoveMainForm.Location = New-Object System.Drawing.Point(0, 0)
     $LabelMoveMainForm.Size = New-Object System.Drawing.Size(985, 30)
-    $LabelMoveMainForm.Anchor = "Top","Left"
+    #$LabelMoveMainForm.Anchor = "Top","Left"
     $LabelMoveMainForm.BorderStyle = "None"
     $LabelMoveMainForm.Text = "SMOSK - Classic Addon Manager"
     $LabelMoveMainForm.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
@@ -853,7 +865,7 @@ Function DrawGUI {
 
     $ButtonCloseMainForm = New-Object System.Windows.Forms.Button
     $ButtonCloseMainForm.Name = "ButtonCloseMainForm"
-    $ButtonCloseMainForm.Anchor = "Top","Left"
+    #$ButtonCloseMainForm.Anchor = "Top","Left"
     $ButtonCloseMainForm.Location = New-Object System.Drawing.Point(960, 5)
     $ButtonCloseMainForm.Size = New-Object System.Drawing.Size(20, 20)
     $ButtonCloseMainForm.TextAlign = "BottomCenter"
@@ -868,7 +880,7 @@ Function DrawGUI {
 
     $ButtonMinimizeMainForm = New-Object System.Windows.Forms.Button
     $ButtonMinimizeMainForm.Name = "ButtonCloseMainForm"
-    $ButtonMinimizeMainForm.Anchor = "Top","Left"
+    #$ButtonMinimizeMainForm.Anchor = "Top","Left"
     $ButtonMinimizeMainForm.Location = New-Object System.Drawing.Point(930, 5)
     $ButtonMinimizeMainForm.Size = New-Object System.Drawing.Size(20, 20)
     $ButtonMinimizeMainForm.FlatStyle = "PopUp"
@@ -884,7 +896,7 @@ Function DrawGUI {
 
     $ButtonHelpMainForm = New-Object System.Windows.Forms.Button
     $ButtonHelpMainForm.Name = "ButtonCloseMainForm"
-    $ButtonHelpMainForm.Anchor = "Top","Left"
+    #$ButtonHelpMainForm.Anchor = "Top","Left"
     $ButtonHelpMainForm.Location = New-Object System.Drawing.Point(900, 5)
     $ButtonHelpMainForm.Size = New-Object System.Drawing.Size(20, 20)
     $ButtonHelpMainForm.FlatStyle = "PopUp"
@@ -900,7 +912,7 @@ Function DrawGUI {
 
     $ButtonDiscord = New-Object System.Windows.Forms.Button
     $ButtonDiscord.Name = "ButtonDiscord"
-    $ButtonDiscord.Anchor = "Top","Left"
+    #$ButtonDiscord.Anchor = "Top","Left"
     $ButtonDiscord.Location = New-Object System.Drawing.Point(800, 7)
     $ButtonDiscord.Size = New-Object System.Drawing.Size(90, 20)
     $ButtonDiscord.FlatStyle = "PopUp"
@@ -916,7 +928,7 @@ Function DrawGUI {
 
     $ButtonGit = New-Object System.Windows.Forms.Button
     $ButtonGit.Name = "ButtonDiscord"
-    $ButtonGit.Anchor = "Top","Left"
+    #$ButtonGit.Anchor = "Top","Left"
     $ButtonGit.Location = New-Object System.Drawing.Point(780, 7)
     $ButtonGit.Size = New-Object System.Drawing.Size(20, 20)
     $ButtonGit.FlatStyle = "PopUp"
@@ -935,7 +947,7 @@ Function DrawGUI {
     #*** Button for changelog
     $ButtonChangelog = New-Object System.Windows.Forms.Button
     $ButtonChangelog.Name = "ButtonDiscord"
-    $ButtonChangelog.Anchor = "Top","Left"
+    #$ButtonChangelog.Anchor = "Top","Left"
     $ButtonChangelog.Location = New-Object System.Drawing.Point(750, 7)
     $ButtonChangelog.Size = New-Object System.Drawing.Size(25, 20)
     $ButtonChangelog.FlatStyle = "PopUp"
@@ -995,7 +1007,7 @@ Function DrawGUI {
     $LoadSpinner.Location  = New-Object System.Drawing.Point(370,140)
     $LoadSpinner.Size = New-Object System.Drawing.Size(250,100)
     $LoadSpinner.TextAlign = "MiddleCenter"
-    $LoadSpinner.Anchor = "Bottom,Right"
+    #$LoadSpinner.Anchor = "Bottom,Right"
     $LoadSpinner.BackColor = [System.Drawing.Color]::Black
     $LoadSpinner.ForeColor = [System.Drawing.Color]::White
     $LoadSpinner.BorderStyle = "Fixed3D"
@@ -1209,8 +1221,8 @@ Retail"
     #*** Addon List
     $ListViewBox = New-Object System.Windows.Forms.ListView
     $ListViewBox.Location = New-Object System.Drawing.Point(10,60)
-    $ListViewBox.Size     = New-Object System.Drawing.Size(950,410)
-    $ListViewBox.Anchor = 'Top, Bottom, Left, Right'
+    $ListViewBox.Size     = New-Object System.Drawing.Size(965,450)
+    #$ListViewBox.Anchor = 'Top, Bottom, Left, Right'
     $ListViewBox.View = 'Details'
     $ListViewBox.GridLines = $false
     $ListViewBox.HeaderStyle =  'Nonclickable'
@@ -1221,6 +1233,23 @@ Retail"
     $ListViewBox.MultiSelect = $true
     
     $ListViewContextMenu = New-Object System.Windows.Forms.ContextMenuStrip
+
+    $ContextSearch = New-Object System.Windows.Forms.ToolStripMenuItem
+    $ContextSearch.Text = "Install new addons"  
+    $ContextSearch.Image = [System.Drawing.Image]::FromFile(".\Resources\search_context.png")
+    $ContextSearch.Add_click(
+        {
+            $Search_form.Location = New-Object System.Drawing.Point(($main_form.Location.X + 242),($Main_form.Location.Y + 250))
+            $Search_form.minimumSize = New-Object System.Drawing.Size(500,105) 
+            $Search_form.maximumSize = New-Object System.Drawing.Size(500,105)
+            $Search_form.BackgroundImage = $SearchSmallWallpaper
+            $Search_form.ShowDialog()
+        }
+    )
+
+    $ListViewContextMenu.Items.Add($ContextSearch)
+
+    $ListViewContextMenu.Items.Add("-") 
 
     $ContextCurse = New-Object System.Windows.Forms.ToolStripMenuItem
     $ContextCurse.Text = "Show addon page on CurseForge"    
@@ -1324,6 +1353,28 @@ Waiting for API response"
     )
 
     $ListViewContextMenu.Items.Add($ContextTrash)
+
+    $ListViewContextMenu.Items.Add("-")
+
+
+    $ContextMode = New-Object System.Windows.Forms.ToolStripMenuItem
+    $ContextMode.Text = "Toggle display mode"  
+    $ContextMode.Image = [System.Drawing.Image]::FromFile(".\Resources\Toggle_mode.png")
+    $ContextMode.Add_click(
+        {
+            if ($Global:Addons.config.Mode -eq "Full") {
+                $Global:Addons.config.Mode = "Simple"
+                SetMode -Mode "Simple"
+            } else {
+                $Global:Addons.config.Mode = "Full"
+                SetMode -Mode "Full"
+            }
+            $Global:Addons.Save($Global:XMLPath)
+            
+        }
+    )
+
+    $ListViewContextMenu.Items.Add($ContextMode)
     
     $ListViewBox.ContextMenuStrip = $ListViewContextMenu
 
@@ -1343,10 +1394,10 @@ Waiting for API response"
 
     #*** Button Refresh
     $ButtonRefresh = New-Object System.Windows.Forms.Button
-    $ButtonRefresh.Location = New-Object System.Drawing.Size(860,480)
+    $ButtonRefresh.Location = New-Object System.Drawing.Size(875,520)
     $ButtonRefresh.Size = New-Object System.Drawing.Size(100,40)
     $ButtonRefresh.Text = "Refresh"
-    $ButtonRefresh.Anchor = "Bottom,Right"
+    #$ButtonRefresh.Anchor = "Bottom,Right"
     $ButtonRefresh.FlatStyle = "Popup"
     $ToolTipRefresh = New-Object System.Windows.Forms.ToolTip
     $ToolTipRefresh.SetToolTip($ButtonRefresh,"Refreshes the list and fetching latest version info from CurseForge. ")
@@ -1367,10 +1418,10 @@ Waiting for API response"
 
     #*** Button Update selected
     $ButtonUpdateSelected = New-Object System.Windows.Forms.Button
-    $ButtonUpdateSelected.Location = New-Object System.Drawing.Size(640,480)
+    $ButtonUpdateSelected.Location = New-Object System.Drawing.Size(655,520)
     $ButtonUpdateSelected.Size = New-Object System.Drawing.Size(100,40)
     $ButtonUpdateSelected.Text = "Update selected"
-    $ButtonUpdateSelected.Anchor = "Bottom,Right"
+    #$ButtonUpdateSelected.Anchor = "Bottom,Right"
     $ButtonUpdateSelected.FlatStyle = "Popup"
     $ToolTipUpdateSelected = New-Object System.Windows.Forms.ToolTip
     $ToolTipUpdateSelected.SetToolTip($ButtonUpdateSelected,"Update all selected addons. Select more than one by holding shift or control.")
@@ -1398,11 +1449,11 @@ Waiting for API response"
 
     #*** Button Update all
     $ButtonUpdateAll = New-Object System.Windows.Forms.Button
-    $ButtonUpdateAll.Location = New-Object System.Drawing.Size(750,480)
+    $ButtonUpdateAll.Location = New-Object System.Drawing.Size(765,520)
     $ButtonUpdateAll.Size = New-Object System.Drawing.Size(100,40)
     $ButtonUpdateAll.Text = "Update all"
     $ButtonUpdateAll.FlatStyle = "Popup"
-    $ButtonUpdateAll.Anchor = "Bottom,Right"
+    #$ButtonUpdateAll.Anchor = "Bottom,Right"
     $ToolTipUpdateAll = New-Object System.Windows.Forms.ToolTip
     $ToolTipUpdateAll.SetToolTip($ButtonUpdateAll,"Updates all addons that have a new version on CurseForge.")        
     $ButtonUpdateAll.BackColor = $StandardButtonColor
@@ -1433,10 +1484,10 @@ Waiting for API response"
 
     #*** Button Open Search
     $ButtonOpenSearch = New-Object System.Windows.Forms.Button
-    $ButtonOpenSearch.Location = New-Object System.Drawing.Size(10,480)
+    $ButtonOpenSearch.Location = New-Object System.Drawing.Size(10,520)
     $ButtonOpenSearch.Size = New-Object System.Drawing.Size(320,40)
     $ButtonOpenSearch.Text = "Install new addons"
-    $ButtonOpenSearch.Anchor = "Bottom,Left"
+    #$ButtonOpenSearch.Anchor = "Bottom,Left"
     $ButtonOpenSearch.FlatStyle = "Popup"
     $ToolTipOpenSearch = New-Object System.Windows.Forms.ToolTip
     $ToolTipOpenSearch.SetToolTip($ButtonOpenSearch,"Search and install more addons from CurseForge.")  
@@ -1444,7 +1495,7 @@ Waiting for API response"
     $ButtonOpenSearch.ForeColor = $StandardButtonTextColor
     $ButtonOpenSearch.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $ButtonOpenSearch.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\search.png")
-    $ButtonOpenSearch.BackgroundImageLayout = "Zoom"
+    #$ButtonOpenSearch.BackgroundImageLayout = "Zoom"
     $main_form.Controls.Add($ButtonOpenSearch)
 
     $ButtonOpenSearch.Add_Click({
@@ -1644,10 +1695,10 @@ Waiting for API response"
     #*** Label Version
     $LabelCreator = New-Object System.Windows.Forms.Label
     $LabelCreator.Text = "Created and maintained by Lyanda@NetherGarde-Keep EU"
-    $LabelCreator.Location  = New-Object System.Drawing.Point(10,740)
+    $LabelCreator.Location  = New-Object System.Drawing.Point(10,780)
     $LabelCreator.Size = New-Object System.Drawing.Size(320,20)
     $LabelCreator.TextAlign = "MiddleCenter"
-    $LabelCreator.Anchor = "Bottom,Left"
+    #$LabelCreator.Anchor = "Bottom,Left"
     $LabelCreator.BackColor = [System.Drawing.Color]::Transparent
     $LabelCreator.ForeColor = [System.Drawing.Color]::LightGray
     $LabelCreator.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 7, [System.Drawing.FontStyle]::Bold)
@@ -1655,11 +1706,11 @@ Waiting for API response"
 
     #*** Button Delete Addons
     $ButtonDeleteAddon = New-Object System.Windows.Forms.Button
-    $ButtonDeleteAddon.Location = New-Object System.Drawing.Size(530,480)
+    $ButtonDeleteAddon.Location = New-Object System.Drawing.Size(545,520)
     $ButtonDeleteAddon.Size = New-Object System.Drawing.Size(100,40)
     $ButtonDeleteAddon.Text = "Delete selected"
     $ButtonDeleteAddon.FlatStyle = "Popup"
-    $ButtonDeleteAddon.Anchor = "Bottom,Right"
+    #$ButtonDeleteAddon.Anchor = "Bottom,Right"
     $ToolTipDeleteAddon = New-Object System.Windows.Forms.ToolTip
     $ToolTipDeleteAddon.SetToolTip($ButtonDeleteAddon,"Delete all selected addons from the list and removing the files in your addons folder") 
     $ButtonDeleteAddon.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#a12626")
@@ -1910,7 +1961,7 @@ Waiting for API response"
     $LabelMoveweekForm.BackColor = [System.Drawing.Color]::Black
     $LabelMoveweekForm.Location = New-Object System.Drawing.Point(2, 2)
     $LabelMoveweekForm.Size = New-Object System.Drawing.Size(796, 25)
-    $LabelMoveweekForm.Anchor = "Top","Left"
+    #$LabelMoveweekForm.Anchor = "Top","Left"
     $LabelMoveweekForm.BorderStyle = "None"
     $LabelMoveweekForm.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 12, [System.Drawing.FontStyle]::Bold)
     $LabelMoveweekForm.ForeColor = [System.Drawing.Color]::White
@@ -2012,7 +2063,7 @@ Waiting for API response"
 
     $ButtonCloseweekForm = New-Object System.Windows.Forms.Button
     $ButtonCloseweekForm.Name = "ButtonCloseMainForm"
-    $ButtonCloseweekForm.Anchor = "Top","Left"
+    #$ButtonCloseweekForm.Anchor = "Top","Left"
     $ButtonCloseweekForm.Location = New-Object System.Drawing.Point(775, 5)
     $ButtonCloseweekForm.Size = New-Object System.Drawing.Size(20, 20)
     $ButtonCloseweekForm.TextAlign = "BottomCenter"
@@ -2029,7 +2080,7 @@ Waiting for API response"
 
     $ButtonMinimizeweekForm = New-Object System.Windows.Forms.Button
     $ButtonMinimizeweekForm.Name = "ButtonCloseMainForm"
-    $ButtonMinimizeweekForm.Anchor = "Top","Left"
+    #$ButtonMinimizeweekForm.Anchor = "Top","Left"
     $ButtonMinimizeweekForm.Location = New-Object System.Drawing.Point(750, 5)
     $ButtonMinimizeweekForm.Size = New-Object System.Drawing.Size(20, 20)
     $ButtonMinimizeweekForm.FlatStyle = "PopUp"
@@ -2069,11 +2120,18 @@ Waiting for API response"
     
     $SplashScreen.Dispose()
     $ListViewBox.TabIndex = 0
+    if ($Global:Addons.config.Mode -eq "Simple") {
+        SetMode -Mode "Simple"
+    }
+    if ($Global:Addons.config.Mode -eq "Full") {
+        SetMode -Mode "Full"
+    }
     if ($version -ne $Global:SmoskVersion.smosk.changelog.logentry[0].version) {
         $UpdateAvailable.ShowDialog()
     } else {
         $main_form.ShowDialog()
     }
+
     
     $main_form.Dispose()
     $Search_form.Dispose()
@@ -3231,6 +3289,86 @@ Function makeUpdateLog {
     $Changelogbox.Text = $LogText
 }
 
+Function SetMode {
+
+    Param ($Mode)
+
+    $main_form.SuspendLayout()
+
+    if ($Mode -eq "Simple") {
+
+        $main_form.minimumSize = New-Object System.Drawing.Size(985,520) 
+        $main_form.maximumSize = New-Object System.Drawing.Size(985,520) 
+        $main_form.BackgroundImage = [system.drawing.image]::FromFile(".\Resources\Wallpaper_Simple.png")
+
+        $LabelBattleground.Visible = $false
+        $LabelBattlegroundInternal.Visible = $false
+        $LabelDarkmoon.Visible = $false
+        $LabelDarkmoonInternal.Visible = $false
+        $BuffViewBox.Visible = $false
+        $LabelBuffsHeader.Visible = $false
+        $ResetViewBox.Visible = $false
+        $ButtonExpandBuffView.Visible = $false
+        
+        $ButtonOpenSearch.Visible = $false
+        $LabelElvUIBG.Visible = $false
+        $LabelElvUI.Visible = $false
+        $ElvUIViewBox.Visible = $false
+        $ButtonElvUI.Visible = $false
+        $LabelCreator.Visible = $false
+        $ButtonDeleteAddon.Visible = $false
+        $ButtonUpdateAll.Visible = $false
+        $ButtonUpdateSelected.Visible = $false
+        $ButtonRefresh.Visible = $false
+        $ButtonSchedule.Visible = $false
+        $ButtonImport.Visible = $false
+        $ButtonIfaceAddonsPath.Visible = $false
+        $LabelIfaceAddons.Visible = $false
+        
+
+
+        
+        
+        
+        
+        
+    } 
+    if ($Mode -eq "Full") {
+        $ButtonOpenSearch.Visible = $true
+        $LabelElvUIBG.Visible = $true
+        $LabelElvUI.Visible = $true
+        $ElvUIViewBox.Visible = $true
+        $ButtonElvUI.Visible = $true
+        $LabelCreator.Visible = $true
+        $ButtonDeleteAddon.Visible = $true
+        $ButtonUpdateAll.Visible = $true
+        $ButtonUpdateSelected.Visible = $true
+        $ButtonRefresh.Visible = $true
+        $ButtonSchedule.Visible = $true
+        $ButtonImport.Visible = $true
+        $ButtonIfaceAddonsPath.Visible = $true
+        $LabelIfaceAddons.Visible = $true
+        
+        if ($Global:GameVersion -eq "Classic") {
+            $LabelBattleground.Visible = $true
+            $LabelBattlegroundInternal.Visible = $true
+            $LabelDarkmoon.Visible = $true
+            $LabelDarkmoonInternal.Visible = $true
+            $BuffViewBox.Visible = $true
+            $LabelBuffsHeader.Visible = $true
+            $ResetViewBox.Visible = $true
+            $ButtonExpandBuffView.Visible = $true
+            
+        }
+
+        $main_form.minimumSize = New-Object System.Drawing.Size(985,800) 
+        $main_form.maximumSize = New-Object System.Drawing.Size(985,800) 
+        $main_form.BackgroundImage = [system.drawing.image]::FromFile($Global:Addons.config.Wallpaper)
+        
+    }
+    $main_form.ResumeLayout()
+    $Global:Addons.Save($Global:XMLPath)
+}
 Function InstallElvUI {
 
     if ($Global:GameVersion -eq "Classic") {
@@ -3289,7 +3427,7 @@ Function InstallElvUI {
 
 Function PullNewResources {
     #*** pull new resources if missing
-    $LatestVersion = "3.2.9"
+    $LatestVersion = "4.0.0"
     if ($Global:Addons.config.Version -ne $LatestVersion) {
 
         $Updater = New-Object System.Xml.XmlDocument
@@ -3314,6 +3452,7 @@ Function PullNewResources {
         #*** Cleanup
         Remove-Item -LiteralPath ".\Downloads\AddonManager\" -Force -Recurse
         Remove-Item -LiteralPath ".\Downloads\updater.zip" -Force -Recurse
+
 
 
         $Global:Addons.config.Version = $LatestVersion

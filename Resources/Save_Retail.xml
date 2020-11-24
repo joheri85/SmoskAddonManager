@@ -8,7 +8,7 @@
   <ElvUI>
     <CurrentVersion>v11.52</CurrentVersion>
     <DateUpdated>2020-09-20</DateUpdated>
-    <LatestVersion>v12.00</LatestVersion>
+    <LatestVersion>v12.13</LatestVersion>
   </ElvUI>
   <BuffplanningDefault>MirageRaceway</BuffplanningDefault>
   <HighlightFont>Georgia</HighlightFont>
@@ -20,7 +20,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3042/754/Gathering-Live-1.30.zip</DownloadLink>
     <Description>Display per-hour gathering rates of items in a clean tooltip</Description>
     <CurrentVersion>Live 1.30</CurrentVersion>
-    <LatestVersion>Live 1.31</LatestVersion>
+    <LatestVersion>Live 1.33</LatestVersion>
     <Modules>Gathering</Modules>
     <DateUpdated>2020-10-04 13:30</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/gathering</Website>
@@ -31,7 +31,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3043/594/Grid2-r979.zip</DownloadLink>
     <Description>A modular, lightweight and screen-estate saving grid of party/raid unit frames</Description>
     <CurrentVersion>r979</CurrentVersion>
-    <LatestVersion>r979</LatestVersion>
+    <LatestVersion>r990</LatestVersion>
     <Modules>Grid2Options,Grid2RaidDebuffs,Grid2RaidDebuffsOptions,Grid2LDB,Grid2</Modules>
     <DateUpdated>2020-10-04 13:30</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/grid2</Website>
@@ -42,7 +42,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3015/777/GTFO-4.56.zip</DownloadLink>
     <Description>GTFO warns you when you're standing in fire or other bad stuff.</Description>
     <CurrentVersion>4.56</CurrentVersion>
-    <LatestVersion>4.56.2</LatestVersion>
+    <LatestVersion>4.56.3</LatestVersion>
     <Modules>GTFO</Modules>
     <DateUpdated>2020-10-04 13:30</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/gtfo</Website>
@@ -53,7 +53,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3049/565/WeakAuras-2.18.4.zip</DownloadLink>
     <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
     <CurrentVersion>2.18.4</CurrentVersion>
-    <LatestVersion>3.0.1</LatestVersion>
+    <LatestVersion>3.1.2</LatestVersion>
     <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
     <DateUpdated>2020-10-04 13:30</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
@@ -64,7 +64,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3079/125/GatherMate2-1.46.0.zip</DownloadLink>
     <Description>Collects Herbs, Mines, Gas Clouds, Archaeology, Treasure and Fishing locations and adds them to the worldmap and minimap</Description>
     <CurrentVersion>1.46.0</CurrentVersion>
-    <LatestVersion>1.46.0</LatestVersion>
+    <LatestVersion>1.46.1</LatestVersion>
     <Modules>GatherMate2</Modules>
     <DateUpdated>2020-10-16 16:56</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/gathermate2</Website>
@@ -75,7 +75,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3079/473/DBM-Core-9.0.1.zip</DownloadLink>
     <Description>The ultimate encounter helper to give you fight info that's easy to process at a glance. DBM aims to focus on what's happening to you, and what YOU need to do about it.</Description>
     <CurrentVersion>9.0.1</CurrentVersion>
-    <LatestVersion>9.0.1</LatestVersion>
+    <LatestVersion>9.0.4</LatestVersion>
     <Modules>DBM-Core,DBM-Brawlers,DBM-DMF,DBM-GUI,DBM-WorldEvents,DBM-Party-BfA,DBM-Party-Shadowlands,DBM-Azeroth-BfA,DBM-Uldir,DBM-CrucibleofStorms,DBM-ZuldazarRaid,DBM-EternalPalace,DBM-Nyalotha,DBM-CastleNathria,DBM-DefaultSkin,DBM-StatusBarTimers</Modules>
     <DateUpdated>2020-10-16 16:56</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/deadly-boss-mods</Website>
@@ -86,9 +86,10 @@
     <DownloadLink>https://edge.forgecdn.net/files/3082/571/Details.v9.0.1.7908.143.zip</DownloadLink>
     <Description>Complete combat analysis, gathering damage, healing, and other importante stuff.</Description>
     <CurrentVersion>DetailsRetail.v9.0.1.7908.143</CurrentVersion>
-    <LatestVersion>DetailsRetail.v9.0.1.7908.143</LatestVersion>
+    <LatestVersion>DetailsRetail.9.0.1.7950.144</LatestVersion>
     <Modules>Details_Streamer,Details_DataStorage,Details_EncounterDetails,Details_RaidCheck,Details</Modules>
     <DateUpdated>2020-10-16 16:56</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/details</Website>
   </Addon>
+  <Mode>Simple</Mode>
 </config>
