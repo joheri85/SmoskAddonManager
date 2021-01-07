@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config>
-  <Version>3.2.9</Version>
+  <Version>4.0.0</Version>
   <IfaceAddonsFolder>E:\PS Projects\WowAddonUpdater\Interface\AddOns</IfaceAddonsFolder>
   <Splash>.\Resources\Splash.png</Splash>
   <Wallpaper>.\Resources\Wallpaper.png</Wallpaper>
@@ -97,7 +97,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3038/665/Questie-v6.0.5.zip</DownloadLink>
     <Description>The Classic Quest Helper</Description>
     <CurrentVersion>Imported, Update to display version.</CurrentVersion>
-    <LatestVersion>v6.2.2</LatestVersion>
+    <LatestVersion>v6.2.3</LatestVersion>
     <Modules>Questie</Modules>
     <DateUpdated>2020-09-22 12:00</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/questie</Website>
@@ -130,7 +130,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3054/79/DBM-Core-1.13.60-classic.zip</DownloadLink>
     <Description>The ultimate encounter helper to give you fight info that's easy to process at a glance. DBM aims to focus on what's happening to you, and what YOU need to do about it.</Description>
     <CurrentVersion>1.13.60-classic</CurrentVersion>
-    <LatestVersion>1.13.61-classic</LatestVersion>
+    <LatestVersion>1.13.63-classic</LatestVersion>
     <Modules>DBM-Core,DBM-GUI,DBM-Party-Classic,DBM-AQ20,DBM-AQ40,DBM-Azeroth,DBM-BWL,DBM-MC,DBM-Onyxia,DBM-Naxx,DBM-ZG,DBM-DefaultSkin,DBM-StatusBarTimers</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/deadly-boss-mods</Website>
@@ -185,7 +185,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3052/669/Leatrix_Maps-1.13.78.zip</DownloadLink>
     <Description>Enhancements for your maps.</Description>
     <CurrentVersion>1.13.78</CurrentVersion>
-    <LatestVersion>1.13.86</LatestVersion>
+    <LatestVersion>1.13.88</LatestVersion>
     <Modules>Leatrix_Maps</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/leatrix-maps-classic</Website>
@@ -196,7 +196,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3051/734/NeatPlates-1.13.5.12.zip</DownloadLink>
     <Description>NeatPlates is a nameplate addon that works with both the Classic and Modern version of WoW</Description>
     <CurrentVersion>1.13.5.12</CurrentVersion>
-    <LatestVersion>1.13.5.21</LatestVersion>
+    <LatestVersion>1.13.5.24</LatestVersion>
     <Modules>NeatPlatesHub,NeatPlatesWidgets,NeatPlates_Alvara,NeatPlates_BlizzardPlates,NeatPlates_ClassicPlates,NeatPlates_Graphite,NeatPlates_Grey,NeatPlates_Neon,NeatPlates_Quatre,NeatPlates_Renaitre,NeatPlates_Roth,NeatPlates_Simple,NeatPlates_Slim_Horizontal,NeatPlates_Slim_Vertical,NeatPlates</Modules>
     <DateUpdated>2020-09-22 12:01</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/neatplates</Website>
@@ -219,7 +219,7 @@
     <DownloadLink>https://edge.forgecdn.net/files/3067/533/gathermate2_data_wowhead_classic_v2020-09-28.zip</DownloadLink>
     <Description>GatherMate2 data from Wowhead</Description>
     <CurrentVersion>gathermate2_data_wowhead_classic_v2020-09-28.zip</CurrentVersion>
-    <LatestVersion>gathermate2_data_wowhead_classic_v2020-09-28.zip</LatestVersion>
+    <LatestVersion>gathermate2_data_wowhead_classic_v2020-12-03.zip</LatestVersion>
     <Modules>GatherMate2_Data</Modules>
     <DateUpdated>2020-11-23 18:42</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/gathermate2-data-wowhead-classic</Website>
@@ -230,9 +230,86 @@
     <DownloadLink>https://edge.forgecdn.net/files/3120/75/WeakAuras-3.1.2-classic.zip</DownloadLink>
     <Description>A powerful, comprehensive utilty for displaying graphics and information based on buffs, debuffs, and other triggers.</Description>
     <CurrentVersion>3.1.2-classic</CurrentVersion>
-    <LatestVersion>3.1.2-classic</LatestVersion>
+    <LatestVersion>3.1.3-classic</LatestVersion>
     <Modules>WeakAurasOptions,WeakAurasModelPaths,WeakAurasTemplates,WeakAurasArchive,WeakAuras</Modules>
     <DateUpdated>2020-11-23 18:42</DateUpdated>
     <Website>https://www.curseforge.com/wow/addons/weakauras-2</Website>
+  </Addon>
+  <Addon>
+    <ID>351754</ID>
+    <Name>AdiBags - ClassicItemLevel</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2828/972/AdiBags-ClassicItemLevel-v1.4.zip</DownloadLink>
+    <Description>Adds Classic-compatable item level text to items</Description>
+    <CurrentVersion>v1.4</CurrentVersion>
+    <LatestVersion>v1.4</LatestVersion>
+    <Modules>AdiBags-ClassicItemLevel</Modules>
+    <DateUpdated>2020-12-10 23:00</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/adibags-classicitemlevel</Website>
+  </Addon>
+  <Addon>
+    <ID>348167</ID>
+    <Name>Aimed Shot Castbar Classic</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2842/87/AimedShotCastbarClassic.zip</DownloadLink>
+    <Description>Adds Aimed Shot and Multi-Shot to the default cast bar</Description>
+    <CurrentVersion>Aimed Shot Castbar</CurrentVersion>
+    <LatestVersion>Aimed Shot Castbar</LatestVersion>
+    <Modules>AimedShotCastbarClassic</Modules>
+    <DateUpdated>2020-12-10 23:00</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/aimedshotcastbarclassic</Website>
+  </Addon>
+  <Addon>
+    <ID>363289</ID>
+    <Name>Air Warlock Classic</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2897/641/AirWarlock-v1.1.4.1.zip</DownloadLink>
+    <Description>A wow classic addon to help warlock to synchronize theire action in a raid/group</Description>
+    <CurrentVersion>v1.1.4.1</CurrentVersion>
+    <LatestVersion>v1.1.4.1</LatestVersion>
+    <Modules>AirWarlock</Modules>
+    <DateUpdated>2020-12-10 23:00</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/air-warlock-classic</Website>
+  </Addon>
+  <Addon>
+    <ID>384737</ID>
+    <Name>Altoholic-Classic</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3131/372/Altoholic-Classic-v1.13.6-057.zip</DownloadLink>
+    <Description> Provides information about your alts - Classic port by Teelo</Description>
+    <CurrentVersion>Classic-v1.13.6-057</CurrentVersion>
+    <LatestVersion>Classic-v1.13.6-057</LatestVersion>
+    <Modules>Altoholic,Altoholic_Agenda,Altoholic_Characters,Altoholic_Grids,Altoholic_Guild,Altoholic_Search,Altoholic_Summary,DataStore_Agenda,DataStore_Auctions,DataStore_Characters,DataStore_Containers,DataStore_Crafts,DataStore_Inventory,DataStore_Mails,DataStore_Quests,DataStore_Reputations,DataStore_Talents,DataStore</Modules>
+    <DateUpdated>2020-12-10 23:00</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/altoholic-classic</Website>
+  </Addon>
+  <Addon>
+    <ID>340147</ID>
+    <Name>Animor's hebChat (Classic)</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/2778/436/hebChat.zip</DownloadLink>
+    <Description>Animor's hebChat brings Hebrew to World of Warcraft chat</Description>
+    <CurrentVersion>2.20</CurrentVersion>
+    <LatestVersion>2.20</LatestVersion>
+    <Modules>hebChat</Modules>
+    <DateUpdated>2020-12-10 23:00</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/animors-hebchat-classic</Website>
+  </Addon>
+  <Addon>
+    <ID>405848</ID>
+    <Name>Arcanist Classic</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3058/412/Arcanist.1.2.0.zip</DownloadLink>
+    <Description>Helps mages manage common actions</Description>
+    <CurrentVersion>Arcanist.1.2.0.zip</CurrentVersion>
+    <LatestVersion>Arcanist.1.2.0.zip</LatestVersion>
+    <Modules>Arcanist</Modules>
+    <DateUpdated>2020-12-10 23:00</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/arcanist-classic</Website>
+  </Addon>
+  <Addon>
+    <ID>339870</ID>
+    <Name>ArcHUD3 Classic</Name>
+    <DownloadLink>https://edge.forgecdn.net/files/3082/169/ArcHUD3-classic-classic-v6.0.1.zip</DownloadLink>
+    <Description>Smooth combat HUD based on ArcHUD2</Description>
+    <CurrentVersion>classic-v6.0.1</CurrentVersion>
+    <LatestVersion>classic-v6.0.1</LatestVersion>
+    <Modules>ArcHUD3-classic</Modules>
+    <DateUpdated>2020-12-10 23:00</DateUpdated>
+    <Website>https://www.curseforge.com/wow/addons/archud3-classic</Website>
   </Addon>
 </config>

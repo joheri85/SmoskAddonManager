@@ -1,4 +1,4 @@
-﻿$Version = "4.0.0"
+﻿$Version = "4.0.3"
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName PresentationFramework
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -1004,13 +1004,13 @@ Function DrawGUI {
     $LoadSpinner = New-Object System.Windows.Forms.Label
     $LoadSpinner.Text = "Downloading and updating... 
 (Window may appear unresponsive)"
-    $LoadSpinner.Location  = New-Object System.Drawing.Point(370,140)
-    $LoadSpinner.Size = New-Object System.Drawing.Size(250,100)
+    $LoadSpinner.Location  = New-Object System.Drawing.Point(11,86)
+    $LoadSpinner.Size = New-Object System.Drawing.Size(945,423)
     $LoadSpinner.TextAlign = "MiddleCenter"
     #$LoadSpinner.Anchor = "Bottom,Right"
     $LoadSpinner.BackColor = [System.Drawing.Color]::Black
     $LoadSpinner.ForeColor = [System.Drawing.Color]::White
-    $LoadSpinner.BorderStyle = "Fixed3D"
+    $LoadSpinner.BorderStyle = "None"
     $LoadSpinner.Font = [System.Drawing.Font]::new($Global:Addons.config.HighlightFont, 10, [System.Drawing.FontStyle]::Bold)
     $main_form.Controls.Add($LoadSpinner)
     $LoadSpinner.BringToFront()
@@ -1362,12 +1362,31 @@ Waiting for API response"
     $ContextMode.Image = [System.Drawing.Image]::FromFile(".\Resources\Toggle_mode.png")
     $ContextMode.Add_click(
         {
+            # Toggle display mode
             if ($Global:Addons.config.Mode -eq "Full") {
                 $Global:Addons.config.Mode = "Simple"
                 SetMode -Mode "Simple"
+                if ($Global:GameVersion -eq "Classic") {
+                    $Global:AddonsTemp.Load(".\Resources\Save_Retail.xml")
+                    $Global:AddonsTemp.config.Mode = "Simple"
+                    $Global:AddonsTemp.Save(".\Resources\Save_Retail.xml")
+                } else {
+                    $Global:AddonsTemp.Load(".\Resources\Save.xml")
+                    $Global:AddonsTemp.config.Mode = "Simple"
+                    $Global:AddonsTemp.Save(".\Resources\Save.xml")
+                }
             } else {
                 $Global:Addons.config.Mode = "Full"
                 SetMode -Mode "Full"
+                if ($Global:GameVersion -eq "Classic") {
+                    $Global:AddonsTemp.Load(".\Resources\Save_Retail.xml")
+                    $Global:AddonsTemp.config.Mode = "Full"
+                    $Global:AddonsTemp.Save(".\Resources\Save_Retail.xml")
+                } else {
+                    $Global:AddonsTemp.Load(".\Resources\Save.xml")
+                    $Global:AddonsTemp.config.Mode = "Full"
+                    $Global:AddonsTemp.Save(".\Resources\Save.xml")
+                }
             }
             $Global:Addons.Save($Global:XMLPath)
             
@@ -2120,12 +2139,15 @@ Waiting for API response"
     
     $SplashScreen.Dispose()
     $ListViewBox.TabIndex = 0
+
+    # Set View mode
     if ($Global:Addons.config.Mode -eq "Simple") {
         SetMode -Mode "Simple"
     }
     if ($Global:Addons.config.Mode -eq "Full") {
         SetMode -Mode "Full"
     }
+    # Check for updates
     if ($version -ne $Global:SmoskVersion.smosk.changelog.logentry[0].version) {
         $UpdateAvailable.ShowDialog()
     } else {
@@ -2468,7 +2490,7 @@ and will open on
             }
         }
 
-        #****************************************************************************
+        # Update main table ****************************************************************************
         
         Foreach ($record in $response) {
             $numberDone = ([int]($i+1) + [int]$si)
@@ -2739,69 +2761,85 @@ Go to "Find More Addons" to reinstall the addon if it have been moved to another
     }
     
 
-
-
-
-    $Global:Addons.config.ElvUI.LatestVersion = $ElvUILatestVersion
-    if ($Global:Addons.config.ElvUI.CurrentVersion -eq "") {
-        $ButtonElvUI.Text = "Install"
-        $ButtonElvUI.BackColor = $StandardButtonColor
-        $ButtonElvUI.ForeColor = [System.Drawing.Color]::White
+    if($MethodError) {
+        if ($Global:GameVersion -eq "Classic") {
+            $ElvUIViewBox_Item = New-Object System.Windows.Forms.ListViewItem("ElvUI Classic")
+        } else {
+            $ElvUIViewBox_Item = New-Object System.Windows.Forms.ListViewItem("ElvUI Retail")
+        }
+        $ElvUIViewBox_Item.SubItems.Add("Error")
+        $ElvUIViewBox_Item.SubItems.Add("ElvUI Site unresponsive")
+        $ElvUIViewBox_Item.SubItems.Add($Global:Addons.config.ElvUI.DateUpdated)
+        $ElvUIViewBox_Item.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
+        $ElvUIViewBox_Item.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
+        $ElvUIViewBox.Items.AddRange($ElvUIViewBox_Item)
 
     } else {
 
-        if ($Global:Addons.config.ElvUI.CurrentVersion -ne $ElvUILatestVersion) {
-            $ButtonElvUI.Text = "Update available"
-            $ButtonElvUI.BackColor = [System.Drawing.Color]::Orange
-            $ButtonElvUI.ForeColor = [System.Drawing.Color]::Black
-        } else {
-            $ButtonElvUI.Text = "Up to date (click to reinstall)"
+
+        $Global:Addons.config.ElvUI.LatestVersion = $ElvUILatestVersion
+        if ($Global:Addons.config.ElvUI.CurrentVersion -eq "") {
+            $ButtonElvUI.Text = "Install"
             $ButtonElvUI.BackColor = $StandardButtonColor
             $ButtonElvUI.ForeColor = [System.Drawing.Color]::White
 
-        }
+        } else {
 
+            if ($Global:Addons.config.ElvUI.CurrentVersion -ne $ElvUILatestVersion) {
+                $ButtonElvUI.Text = "Update available"
+                $ButtonElvUI.BackColor = [System.Drawing.Color]::Orange
+                $ButtonElvUI.ForeColor = [System.Drawing.Color]::Black
+            } else {
+                $ButtonElvUI.Text = "Up to date (click to reinstall)"
+                $ButtonElvUI.BackColor = $StandardButtonColor
+                $ButtonElvUI.ForeColor = [System.Drawing.Color]::White
+
+            }
+
+            
+
+        }
+        if ($Global:GameVersion -eq "Classic") {
+            $ElvUIViewBox_Item = New-Object System.Windows.Forms.ListViewItem("ElvUI Classic")
+        } else {
+            $ElvUIViewBox_Item = New-Object System.Windows.Forms.ListViewItem("ElvUI Retail")
+        }
         
+        $ElvUIViewBox_Item.SubItems.Add($Global:Addons.config.ElvUI.CurrentVersion)
+        $ElvUIViewBox_Item.SubItems.Add($Global:Addons.config.ElvUI.LatestVersion)
+        $ElvUIViewBox_Item.SubItems.Add($Global:Addons.config.ElvUI.DateUpdated)
+        $ElvUIViewBox_Item.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
+        $ElvUIViewBox_Item.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
+        $ElvUIViewBox.Items.AddRange($ElvUIViewBox_Item)
+        
+        if ($null -eq $Global:Addons.config.Addon.Length) {
+            if ($si -gt 0) {
+                $LabelInstalledAddons.Text = "1 Addon installed, " + $si + "Update available"
+            } else {
+                $LabelInstalledAddons.Text = "1 Addon installed"
+            }
+        } else {
+            if ($si -gt 0) {
+                $LabelInstalledAddons.Text = $Global:Addons.config.Addon.Length.ToString() + " Addons installed, " + $si + " Updates available"
+            } else {
+                $LabelInstalledAddons.Text = $Global:Addons.config.Addon.Length.ToString() + " Addons installed"
+            }
+        }
+        
+        Try {
+            $Global:Addons.save($Global:XMLPath)
+        } catch {
+            if (Test-Path ".\Resources\error_log.txt") {
+                "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
+                $_ | Out-File ".\Resources\error_log.txt" -Append
+            } else {
+                "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
+                $_ | Out-File ".\Resources\error_log.txt" -Append
 
-    }
-    if ($Global:GameVersion -eq "Classic") {
-        $ElvUIViewBox_Item = New-Object System.Windows.Forms.ListViewItem("ElvUI Classic")
-    } else {
-        $ElvUIViewBox_Item = New-Object System.Windows.Forms.ListViewItem("ElvUI Retail")
-    }
-    
-    $ElvUIViewBox_Item.SubItems.Add($Global:Addons.config.ElvUI.CurrentVersion)
-    $ElvUIViewBox_Item.SubItems.Add($Global:Addons.config.ElvUI.LatestVersion)
-    $ElvUIViewBox_Item.SubItems.Add($Global:Addons.config.ElvUI.DateUpdated)
-    $ElvUIViewBox_Item.BackColor = [System.Drawing.ColorTranslator]::FromHtml("#000000")
-    $ElvUIViewBox_Item.ForeColor = [System.Drawing.ColorTranslator]::FromHtml("#ffffff")
-    $ElvUIViewBox.Items.AddRange($ElvUIViewBox_Item)
-    
-    if ($null -eq $Global:Addons.config.Addon.Length) {
-        if ($si -gt 0) {
-            $LabelInstalledAddons.Text = "1 Addon installed, " + $si + "Update available"
-        } else {
-            $LabelInstalledAddons.Text = "1 Addon installed"
+            }
         }
-    } else {
-        if ($si -gt 0) {
-            $LabelInstalledAddons.Text = $Global:Addons.config.Addon.Length.ToString() + " Addons installed, " + $si + " Updates available"
-        } else {
-            $LabelInstalledAddons.Text = $Global:Addons.config.Addon.Length.ToString() + " Addons installed"
-        }
-    }
-    
-    Try {
-        $Global:Addons.save($Global:XMLPath)
-    } catch {
-        if (Test-Path ".\Resources\error_log.txt") {
-            "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt" -Append
-            $_ | Out-File ".\Resources\error_log.txt" -Append
-        } else {
-            "******* " + (get-date -Format "yyyy-MM-dd hh:mm") + " | " + $Global:OSInfo.OSName + " - " + $Global:OSInfo.OSVersion + " *******" | Out-File ".\Resources\error_log.txt"
-            $_ | Out-File ".\Resources\error_log.txt" -Append
 
-        }
+
     }
         
     $ListViewBox.EndUpdate()
@@ -3372,7 +3410,7 @@ Function SetMode {
 Function InstallElvUI {
 
     if ($Global:GameVersion -eq "Classic") {
-        Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui-classic/-/archive/master/elvui-classic-master.zip" -OutFile ".\Downloads\elvui-classic-master.zip" -TimeoutSec 20 -UseBasicParsing
+        Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui-classic/-/archive/master/elvui-classic-master.zip" -OutFile ".\Downloads\elvui-classic-master.zip" -TimeoutSec 5 -UseBasicParsing
 
         if (Test-Path ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI")){
             Remove-Item -LiteralPath ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI") -Force -Recurse
@@ -3395,7 +3433,7 @@ Function InstallElvUI {
 
     } else {
 
-        Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui/-/archive/master/elvui-master.zip" -OutFile ".\Downloads\elvui-master.zip" -TimeoutSec 20 -UseBasicParsing
+        Invoke-WebRequest -uri "https://git.tukui.org/elvui/elvui/-/archive/master/elvui-master.zip" -OutFile ".\Downloads\elvui-master.zip" -TimeoutSec 5 -UseBasicParsing
 
         if (Test-Path ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI")){
             Remove-Item -LiteralPath ($Global:Addons.config.IfaceAddonsFolder + "\ElvUI") -Force -Recurse
@@ -3472,6 +3510,7 @@ try {
 
     #*** Create XML object and load addon database
     $Global:Addons = New-Object System.Xml.XmlDocument
+    $Global:AddonsTemp = New-Object System.Xml.XmlDocument
     $Global:XMLPath = ".\Resources\Save.xml"
     $Global:Addons.Load($Global:XMLPath)
 
